@@ -73,7 +73,32 @@ const create = async (req, res) => {
   }
 };
 
+const read = async (req, res) => {
+  try {
+    let funcionario = await prisma.funcionarios.findMany();
+    res.status(200).json(funcionario).end();
+  } catch (err) {
+    res.status(500).json(err).end();
+  }
+};
+
+const readById = async (req, res) => {
+  try {
+    let funcionario = await prisma.funcionarios.findUnique({
+      where: {
+        id_funcionario: Number(req.params.id_funcionario)
+      }
+    });
+    res.status(200).json(funcionario).end();
+  } catch (err) {
+    res.status(500).json(err).end();
+    console.log(err);
+  }
+};
+
 module.exports = {
   login,
   create,
+  read,
+  readById
 };
