@@ -13,7 +13,7 @@ datasource db {
 model Funcionarios {
   id_funcionario Int    @id @default(autoincrement())
   nome           String
-  email          String
+  email          String @unique
   senha          String
   role           String @default("Comum")
   telefone       String
