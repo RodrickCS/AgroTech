@@ -8,7 +8,7 @@ const login = async (req, res) => {
   try {
     if (
       req.body.email !== "" ||
-      req.body.password !== "" ||
+      req.body.senha !== "" ||
       req.body === undefined
     ) {
       var funcionario = await prisma.funcionarios.findMany({
