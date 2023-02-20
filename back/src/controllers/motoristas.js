@@ -20,7 +20,7 @@ const create = async (req, res) => {
     }
   } catch (err) {
     if (err.code === "P2002") {
-      res.status(400).json({ msg: "Motorista já existe" }).end();
+      res.status(400).json({ msg: "CPF já em uso" }).end();
     } else {
       res.status(500).json(err).end();
       console.log(err);

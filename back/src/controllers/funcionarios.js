@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 require("dotenv").config();
 
 const login = async (req, res) => {
-  console.log(req.body);
   try {
     if (
       req.body.email !== "" ||
@@ -67,7 +66,7 @@ const create = async (req, res) => {
     }
   } catch (err) {
     if (err.code === "P2002") {
-      res.status(400).json({ msg: "Email ou cpf já em uso" }).end();
+      res.status(400).json({ msg: "Email ou CPF já em uso" }).end();
     } else {
       res.status(500).json(err).end();
     }

@@ -37,6 +37,7 @@ model Manutencoes {
   data_fim      DateTime?
   valor_gasto   Float
   descricao     String
+  idVei         Veiculos  @relation(fields: [id_veiculo], references: [id_veiculo])
 }
 
 model Frota {
@@ -46,13 +47,13 @@ model Frota {
 }
 
 model Veiculos {
-  id_veiculo Int        @id @default(autoincrement())
-  modelo     String
-  placa      String
-  cor        String
-  tipo       String
-  idMotorista     Int
-  motoristas Motoristas @relation(fields: [idMotorista], references: [id_motorista])
-  frota      Frota      @relation(fields: [idFrota], references: [id_frota])
-  idFrota    Int
+  id_veiculo  Int           @id @default(autoincrement())
+  modelo      String
+  placa       String
+  cor         String
+  idMotorista Int
+  manutencoes Manutencoes[]
+  motoristas  Motoristas    @relation(fields: [idMotorista], references: [id_motorista])
+  frota       Frota         @relation(fields: [idFrota], references: [id_frota])
+  idFrota     Int
 }

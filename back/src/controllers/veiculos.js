@@ -27,6 +27,7 @@ const create = async (req, res) => {
         .end();
     } else {
       res.status(500).json(err).end();
+      console.log(err);
     }
   }
 };
@@ -39,7 +40,6 @@ const readAll = async (req, res) => {
         modelo: true,
         placa: true,
         cor: true,
-        tipo: true,
         motoristas: true,
         idFrota: true,
       },
