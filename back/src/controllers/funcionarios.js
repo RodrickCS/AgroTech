@@ -61,12 +61,13 @@ const create = async (req, res) => {
       let funcionario = await prisma.funcionarios.create({
         data: req.body,
       });
+      res.status(201).json({ msg: "Criado" }).end();
     } else {
       res.status(400).json({ msg: "Formulário inválido" }).end();
     }
   } catch (err) {
     if (err.code === "P2002") {
-      res.status(400).json({ msg: "Usuário já existe" }).end();
+      res.status(400).json({ msg: "Email ou cpf já em uso" }).end();
     } else {
       res.status(500).json(err).end();
     }
@@ -86,8 +87,8 @@ const readById = async (req, res) => {
   try {
     let funcionario = await prisma.funcionarios.findUnique({
       where: {
-        id_funcionario: Number(req.params.id_funcionario)
-      }
+        id_funcionario: Number(req.params.id_funcionario),
+      },
     });
     res.status(200).json(funcionario).end();
   } catch (err) {
@@ -100,5 +101,5 @@ module.exports = {
   login,
   create,
   read,
-  readById
+  readById,
 };

@@ -17,18 +17,17 @@ model Funcionarios {
   senha          String
   role           String @default("Comum")
   telefone       String
-  cpf            String
+  cpf            String @unique
   endereco       String
 }
 
 model Motoristas {
-  id_motorista Int      @id @default(autoincrement())
+  id_motorista Int        @id @default(autoincrement())
   nome         String
   telefone     String
-  cpf          String
+  cpf          String     @unique
   endereco     String
-  Veiculos     Veiculos @relation(fields: [idVeiculo], references: [id_veiculo])
-  idVeiculo    Int
+  veiculos     Veiculos[]
 }
 
 model Manutencoes {
@@ -40,19 +39,20 @@ model Manutencoes {
   descricao     String
 }
 
-model frota {
+model Frota {
   id_frota Int        @id @default(autoincrement())
   tipo     String
   veiculos Veiculos[]
 }
 
 model Veiculos {
-  id_veiculo Int          @id @default(autoincrement())
+  id_veiculo Int        @id @default(autoincrement())
   modelo     String
   placa      String
   cor        String
   tipo       String
-  motoristas Motoristas[]
-  frota      frota        @relation(fields: [idFrota], references: [id_frota])
+  idMotorista     Int
+  motoristas Motoristas @relation(fields: [idMotorista], references: [id_motorista])
+  frota      Frota      @relation(fields: [idFrota], references: [id_frota])
   idFrota    Int
 }
