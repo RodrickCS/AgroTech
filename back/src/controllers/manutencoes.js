@@ -5,10 +5,7 @@ require("dotenv").config();
 
 const create = async (req, res) => {
   try {
-    if (
-      Object.keys(req.body).length !== 0 &&
-      Object.keys(req.body).length <= 5
-    ) {
+    if (Object.keys(req.body).length === 5) {
       let manutencao = await prisma.manutencoes.create({
         data: req.body,
       });

@@ -42,14 +42,14 @@ model Manutencoes {
 
 model Frota {
   id_frota Int        @id @default(autoincrement())
-  tipo     String
+  tipo     String     @unique
   veiculos Veiculos[]
 }
 
 model Veiculos {
   id_veiculo  Int           @id @default(autoincrement())
   modelo      String
-  placa       String
+  placa       String        @unique
   cor         String
   idMotorista Int
   manutencoes Manutencoes[]
