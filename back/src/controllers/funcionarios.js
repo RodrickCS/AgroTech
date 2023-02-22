@@ -6,14 +6,7 @@ require("dotenv").config();
 
 const login = async (req, res) => {
   try {
-<<<<<<< HEAD
-    if (
-      Object.keys(req.body).length !== 0 &&
-      Object.keys(req.body).length <= 2
-    ) {
-=======
     if (Object.keys(req.body).length === 2) {
->>>>>>> 893b4c8c89c2dca7d1626867c4adb30a8b79001d
       var funcionario = await prisma.funcionarios.findMany({
         where: {
           email: req.body.email,

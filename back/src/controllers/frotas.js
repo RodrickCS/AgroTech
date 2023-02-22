@@ -5,13 +5,11 @@ require("dotenv").config();
 
 const create = async (req, res) => {
   try {
-    if (
-      Object.keys(req.body).length === 1
-    ) {
+    if (Object.keys(req.body).length === 1) {
       let veiculo = await prisma.frota.create({
         data: req.body,
       });
-      res.status(201).json(veiculo).end(); 
+      res.status(201).json(veiculo).end();
     } else {
       res.status(400).json({ msg: "Formulário inválido" }).end();
     }

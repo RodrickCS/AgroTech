@@ -5,14 +5,7 @@ require("dotenv").config();
 
 const create = async (req, res) => {
   try {
-<<<<<<< HEAD
-    if (
-      Object.keys(req.body).length !== 0 &&
-      Object.keys(req.body).length <= 4
-    ) {
-=======
     if (Object.keys(req.body).length === 4) {
->>>>>>> 893b4c8c89c2dca7d1626867c4adb30a8b79001d
       let motorista = await prisma.motoristas.create({
         data: req.body,
       });
