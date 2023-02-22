@@ -16,7 +16,7 @@ model Funcionarios {
   email          String @unique
   senha          String
   role           String @default("Comum")
-  telefone       String
+  telefone       String @unique
   cpf            String @unique
   endereco       String
 }
@@ -24,7 +24,7 @@ model Funcionarios {
 model Motoristas {
   id_motorista Int        @id @default(autoincrement())
   nome         String
-  telefone     String
+  telefone     String     @unique
   cpf          String     @unique
   endereco     String
   veiculos     Veiculos[]

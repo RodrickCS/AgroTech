@@ -46,23 +46,19 @@ const login = async (req, res) => {
 const create = async (req, res) => {
   try {
     if (
-      req.body.nome !== "" ||
-      req.body.email !== "" ||
-      req.body.senha !== "" ||
-      req.body.telefone !== "" ||
-      req.body.cpf !== "" ||
-      req.body.endereco !== ""
+      Object.keys(req.body).length === 7 ||
+      Object.keys(req.body).length === 6
     ) {
       let funcionario = await prisma.funcionarios.create({
         data: req.body,
       });
-      res.status(201).json({ msg: "Criado" }).end();
+      res.status(201).json({ msg: "Registrado" }).end();
     } else {
       res.status(400).json({ msg: "Formulário inválido" }).end();
     }
   } catch (err) {
     if (err.code === "P2002") {
-      res.status(400).json({ msg: "Email ou CPF já em uso" }).end();
+      res.status(400).json({ msg: "Email, telefone ou CPF já em uso" }).end();
     } else {
       res.status(500).json(err).end();
     }

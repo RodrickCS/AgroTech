@@ -10,6 +10,7 @@ CREATE TABLE `Funcionarios` (
     `endereco` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Funcionarios_email_key`(`email`),
+    UNIQUE INDEX `Funcionarios_telefone_key`(`telefone`),
     UNIQUE INDEX `Funcionarios_cpf_key`(`cpf`),
     PRIMARY KEY (`id_funcionario`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -22,6 +23,7 @@ CREATE TABLE `Motoristas` (
     `cpf` VARCHAR(191) NOT NULL,
     `endereco` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `Motoristas_telefone_key`(`telefone`),
     UNIQUE INDEX `Motoristas_cpf_key`(`cpf`),
     PRIMARY KEY (`id_motorista`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
