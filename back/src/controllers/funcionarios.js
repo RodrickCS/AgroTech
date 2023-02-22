@@ -6,10 +6,14 @@ require("dotenv").config();
 
 const login = async (req, res) => {
   try {
+<<<<<<< HEAD
     if (
       Object.keys(req.body).length !== 0 &&
       Object.keys(req.body).length <= 2
     ) {
+=======
+    if (Object.keys(req.body).length === 2) {
+>>>>>>> 893b4c8c89c2dca7d1626867c4adb30a8b79001d
       var funcionario = await prisma.funcionarios.findMany({
         where: {
           email: req.body.email,
@@ -49,23 +53,19 @@ const login = async (req, res) => {
 const create = async (req, res) => {
   try {
     if (
-      req.body.nome !== "" ||
-      req.body.email !== "" ||
-      req.body.senha !== "" ||
-      req.body.telefone !== "" ||
-      req.body.cpf !== "" ||
-      req.body.endereco !== ""
+      Object.keys(req.body).length === 7 ||
+      Object.keys(req.body).length === 6
     ) {
       let funcionario = await prisma.funcionarios.create({
         data: req.body,
       });
-      res.status(201).json({ msg: "Criado" }).end();
+      res.status(201).json({ msg: "Registrado" }).end();
     } else {
       res.status(400).json({ msg: "Formulário inválido" }).end();
     }
   } catch (err) {
     if (err.code === "P2002") {
-      res.status(400).json({ msg: "Email ou CPF já em uso" }).end();
+      res.status(400).json({ msg: "Email, telefone ou CPF já em uso" }).end();
     } else {
       res.status(500).json(err).end();
     }

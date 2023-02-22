@@ -5,10 +5,7 @@ require("dotenv").config();
 
 const create = async (req, res) => {
   try {
-    if (
-      Object.keys(req.body).length !== 0 &&
-      Object.keys(req.body).length <= 6
-    ) {
+    if (Object.keys(req.body).length === 5) {
       let veiculo = await prisma.veiculos.create({
         data: req.body,
       });
@@ -37,11 +34,11 @@ const readAll = async (req, res) => {
     let veiculo = await prisma.veiculos.findMany({
       select: {
         id_veiculo: true,
-        modelo: true,
+        idFrota: true,
+        marca: true,
         placa: true,
         cor: true,
-        motoristas: true,
-        idFrota: true,
+        manutencoes: true,
       },
     });
     res.status(200).json(veiculo).end();

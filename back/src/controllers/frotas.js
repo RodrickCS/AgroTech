@@ -6,8 +6,7 @@ require("dotenv").config();
 const create = async (req, res) => {
   try {
     if (
-      Object.keys(req.body).length !== 0 &&
-      Object.keys(req.body).length <= 1
+      Object.keys(req.body).length === 1
     ) {
       let veiculo = await prisma.frota.create({
         data: req.body,

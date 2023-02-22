@@ -10,6 +10,7 @@ CREATE TABLE `Funcionarios` (
     `endereco` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Funcionarios_email_key`(`email`),
+    UNIQUE INDEX `Funcionarios_cpf_key`(`cpf`),
     PRIMARY KEY (`id_funcionario`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -20,8 +21,8 @@ CREATE TABLE `Motoristas` (
     `telefone` VARCHAR(191) NOT NULL,
     `cpf` VARCHAR(191) NOT NULL,
     `endereco` VARCHAR(191) NOT NULL,
-    `idVeiculo` INTEGER NOT NULL,
 
+    UNIQUE INDEX `Motoristas_cpf_key`(`cpf`),
     PRIMARY KEY (`id_motorista`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -38,7 +39,7 @@ CREATE TABLE `Manutencoes` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `frota` (
+CREATE TABLE `Frota` (
     `id_frota` INTEGER NOT NULL AUTO_INCREMENT,
     `tipo` VARCHAR(191) NOT NULL,
 
@@ -51,14 +52,17 @@ CREATE TABLE `Veiculos` (
     `modelo` VARCHAR(191) NOT NULL,
     `placa` VARCHAR(191) NOT NULL,
     `cor` VARCHAR(191) NOT NULL,
-    `tipo` VARCHAR(191) NOT NULL,
+    `idMotorista` INTEGER NOT NULL,
     `idFrota` INTEGER NOT NULL,
 
     PRIMARY KEY (`id_veiculo`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Motoristas` ADD CONSTRAINT `Motoristas_idVeiculo_fkey` FOREIGN KEY (`idVeiculo`) REFERENCES `Veiculos`(`id_veiculo`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Manutencoes` ADD CONSTRAINT `Manutencoes_id_veiculo_fkey` FOREIGN KEY (`id_veiculo`) REFERENCES `Veiculos`(`id_veiculo`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Veiculos` ADD CONSTRAINT `Veiculos_idFrota_fkey` FOREIGN KEY (`idFrota`) REFERENCES `frota`(`id_frota`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Veiculos` ADD CONSTRAINT `Veiculos_idMotorista_fkey` FOREIGN KEY (`idMotorista`) REFERENCES `Motoristas`(`id_motorista`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Veiculos` ADD CONSTRAINT `Veiculos_idFrota_fkey` FOREIGN KEY (`idFrota`) REFERENCES `Frota`(`id_frota`) ON DELETE RESTRICT ON UPDATE CASCADE;

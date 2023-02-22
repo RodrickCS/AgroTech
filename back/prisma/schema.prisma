@@ -16,7 +16,7 @@ model Funcionarios {
   email          String @unique
   senha          String
   role           String @default("Comum")
-  telefone       String
+  telefone       String @unique
   cpf            String @unique
   endereco       String
 }
@@ -24,7 +24,7 @@ model Funcionarios {
 model Motoristas {
   id_motorista Int        @id @default(autoincrement())
   nome         String
-  telefone     String
+  telefone     String     @unique
   cpf          String     @unique
   endereco     String
   veiculos     Veiculos[]
@@ -42,14 +42,14 @@ model Manutencoes {
 
 model Frota {
   id_frota Int        @id @default(autoincrement())
-  tipo     String
+  tipo     String     @unique
   veiculos Veiculos[]
 }
 
 model Veiculos {
   id_veiculo  Int           @id @default(autoincrement())
-  modelo      String
-  placa       String
+  marca       String
+  placa       String        @unique
   cor         String
   idMotorista Int
   manutencoes Manutencoes[]
