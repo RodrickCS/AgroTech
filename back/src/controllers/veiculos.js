@@ -35,10 +35,10 @@ const readAll = async (req, res) => {
       select: {
         id_veiculo: true,
         idFrota: true,
-        modelo: true,
+        marca: true,
         placa: true,
         cor: true,
-        motoristas: true,
+        manutencoes: true,
       },
     });
     res.status(200).json(veiculo).end();

@@ -48,7 +48,7 @@ model Frota {
 
 model Veiculos {
   id_veiculo  Int           @id @default(autoincrement())
-  modelo      String
+  marca       String
   placa       String        @unique
   cor         String
   idMotorista Int

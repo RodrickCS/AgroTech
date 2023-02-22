@@ -37,7 +37,7 @@ const update = async (req, res) => {
       let manutencao = await prisma.manutencoes.update({
         data: req.body,
       });
-      res.status(204).json({ msg: "Criado" });
+      res.status(204).json(manutencao);
     } else {     
       res.status(400).json({ msg: "Formulário inválido" });
     }
