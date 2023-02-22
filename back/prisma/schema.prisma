@@ -11,14 +11,15 @@ datasource db {
 }
 
 model Funcionarios {
-  id_funcionario Int    @id @default(autoincrement())
+  id_funcionario Int           @id @default(autoincrement())
   nome           String
-  email          String @unique
+  email          String        @unique
   senha          String
-  role           String @default("Comum")
+  role           String        @default("Comum")
   telefone       String
-  cpf            String @unique
+  cpf            String        @unique
   endereco       String
+  Manutencoes    Manutencoes[]
 }
 
 model Motoristas {
@@ -31,13 +32,15 @@ model Motoristas {
 }
 
 model Manutencoes {
-  id_manutencao Int       @id @default(autoincrement())
-  id_veiculo    Int
-  data_inicio   DateTime
-  data_fim      DateTime?
-  valor_gasto   Float
-  descricao     String
-  idVei         Veiculos  @relation(fields: [id_veiculo], references: [id_veiculo])
+  id_manutencao  Int          @id @default(autoincrement())
+  id_veiculo     Int
+  id_funcionario Int
+  data_inicio    DateTime
+  data_fim       DateTime?
+  valor_gasto    Float
+  descricao      String
+  idFun          Funcionarios @relation(fields: [id_funcionario], references: [id_funcionario])
+  idVei          Veiculos     @relation(fields: [id_veiculo], references: [id_veiculo])
 }
 
 model Frota {

@@ -43,6 +43,7 @@ CREATE TABLE `Frota` (
     `id_frota` INTEGER NOT NULL AUTO_INCREMENT,
     `tipo` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `Frota_tipo_key`(`tipo`),
     PRIMARY KEY (`id_frota`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -55,6 +56,7 @@ CREATE TABLE `Veiculos` (
     `idMotorista` INTEGER NOT NULL,
     `idFrota` INTEGER NOT NULL,
 
+    UNIQUE INDEX `Veiculos_placa_key`(`placa`),
     PRIMARY KEY (`id_veiculo`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
