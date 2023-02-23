@@ -110,19 +110,18 @@ input {
   background: none;
   border: none;
   outline: none;
+  border-bottom: 1px solid #999999;
 }
 
 .border {
   width: 0%;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid black;
   transition: all 0.2s ease-in-out;
 }
 
-input:hover + .border {
-  width: 80%;
-}
+
 
 input:focus + .border {
   width: 80%;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid black;
 }
