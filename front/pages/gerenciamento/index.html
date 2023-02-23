@@ -13,18 +13,30 @@
     <title>AgroTech</title>
   </head>
   <body>
-    <header>
-      <nav>
-        <img width="230px" src="../../assets/agroTech-TextLogo.png " alt="Logo" />
-        <ul>
-          <li>
-            <a href="../graficos/index.html"><button class="bt">Gráficos</button></a>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <nav id="upperNavbar">
+      <img width="230px" src="../../assets/agroTech-TextLogo.png " alt="Logo" />
+      <ul>
+        <li>
+          <a href="../graficos/index.html">
+            <button class="bt">Gráficos</button>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
     <main>
-      
+      <nav id="leftNavbar">
+        <button class="bt">Frotas</button>
+        <button class="bt">Motoristas</button>
+        <button class="bt">Manutenções</button>
+      </nav>
+      <section class="frotaMain model">
+        <div id="criarFrotaCard">
+          <div class="cardHeader"></div>
+          <div class="cardBody"></div>
+          <div class="cardFooter"></div>
+        </div>
+      </section>
     </main>
   </body>
   <script src="script.js"></script>

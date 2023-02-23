@@ -56,4 +56,15 @@ model Veiculos {
   motoristas  Motoristas    @relation(fields: [idMotorista], references: [id_motorista])
   frota       Frota         @relation(fields: [idFrota], references: [id_frota])
   idFrota     Int
+  Viagens     Viagens[]
+}
+
+model Viagens {
+  id_viagem    Int       @id @default(autoincrement())
+  id_veiculo   Int
+  id_motorista Int
+  descricao    String
+  hora_saida   DateTime
+  hora_retorno DateTime?
+  idV          Veiculos  @relation(fields: [id_veiculo], references: [id_veiculo])
 }

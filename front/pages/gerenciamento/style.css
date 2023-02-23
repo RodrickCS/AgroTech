@@ -7,19 +7,36 @@
   font-family: "Poppins", sans-serif;
 }
 
+body {
+  overflow: hidden;
+}
+
 header {
   height: 12vh;
   width: 100vw;
 }
 
-nav {
+#upperNavbar {
   width: 100%;
   height: 100%;
   background-color: #43e065;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 40px;
+  padding: 20px;
+  border-bottom: 3px solid rgb(43, 174, 2);
+}
+
+#leftNavbar {
+  width: 15%;
+  height: 100vh;
+  background-color: #43e065;
+  border-right: 3px solid rgb(43, 174, 2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 50px;
 }
 
 ul li {
@@ -36,7 +53,7 @@ ul li {
   border: 2px solid #1aff00;
   color: rgb(35, 81, 0);
   font-weight: bold;
-  font-size: 20px;
+  font-size: 19px;
   transition: all 0.2s ease-in-out;
 }
 
@@ -45,4 +62,16 @@ ul li {
   color: black;
   scale: 1.1;
   cursor: pointer;
+}
+
+main {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: #e5ffe7;
+}
+
+.frotaMain {
+  width: 100%;
+  height: 100%;
 }
