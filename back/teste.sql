@@ -1,1 +1,0 @@
-insert into funcionarios values (default,"Rodrigo","Gerenciador","(19)9 9913-5676", "123-456-678-09","Rua Dois", "email@gmail.com","senha1234");
