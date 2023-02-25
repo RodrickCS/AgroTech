@@ -16,22 +16,26 @@ header {
   width: 100vw;
 }
 
+a {
+  text-decoration: none;
+}
+
 #upperNavbar {
   width: 100%;
   height: 100%;
-  background-color: #007F5F;
+  background-color: #007f5f;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  border-bottom: 3px solid #2B9348;
+  border-bottom: 3px solid #2b9348;
 }
 
-#leftNavbar {
+.leftNavbar {
   width: 15vw;
   height: 100vh;
-  background-color: #007F5F;
-  border-right: 3px solid #2B9348;
+  background-color: #007f5f;
+  border-right: 3px solid #2b9348;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,37 +47,93 @@ ul li {
   list-style: none;
 }
 
-.bt {
+.navBt {
+  color: white;
   background: none;
-  background-color: #80B918;
   border: none;
-  width: 12vw;
+  width: 200px;
   height: 50px;
   border-radius: 12px;
-  color: rgb(35, 81, 0);
   font-weight: bold;
   font-size: 19px;
   transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
-.bt:hover {
-  background-color: #AACC00;
-  color: black;
-  scale: 1.1;
+.navBt:hover {
+  box-shadow: inset 220px 1px 9px #aacc00;
+  scale: 1.02;
+  cursor: pointer;
+}
+
+.cardBt {
+  color: white;
+  background: none;
+  background-color: #80b918;
+  border: none;
+  width: 200px;
+  height: 50px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 19px;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardBt:hover {
+  background-color: #aacc00;
+  scale: 1.02;
+  cursor: pointer;
+}
+
+.btClose {
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  border: none;
+  background-color: rgb(212, 17, 17);
+  color: white;
+  font-size: 15px;
+  font-weight: bolder;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btClose:hover {
+  background-color: rgb(169, 3, 3);
+
+  scale: 1.05;
   cursor: pointer;
 }
 
 main {
   display: flex;
-  width: 100vw;
-  height: 100vh;
+  height: 90vh;
   background-color: #c1d2006a;
 }
 
 .frotaMain {
+  display: flex;
   width: 100%;
   height: 100%;
   padding: 30px;
+  position: relative;
+}
+
+.mainFrotaHeader {
+  display: flex;
+  position: absolute;
+  left: 86%;
+  top: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
 }
 
 #criarFrotaCard {
@@ -118,8 +178,6 @@ input {
   transition: all 0.2s ease-in-out;
 }
 
-
-
 input:focus + .border {
   width: 80%;
   border-bottom: 1px solid black;
@@ -130,4 +188,10 @@ input:focus + .border {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 30px;
+}
+
+.model {
+  display: none;
+  visibility: hidden;
 }

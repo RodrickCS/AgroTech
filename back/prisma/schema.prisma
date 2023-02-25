@@ -37,7 +37,7 @@ model Manutencoes {
   data_fim      DateTime?
   valor_gasto   Float
   descricao     String
-  idVei         Veiculos  @relation(fields: [id_veiculo], references: [id_veiculo])
+  veiculos      Veiculos  @relation(fields: [id_veiculo], references: [id_veiculo])
 }
 
 model Frota {
@@ -56,7 +56,7 @@ model Veiculos {
   motoristas  Motoristas    @relation(fields: [idMotorista], references: [id_motorista])
   frota       Frota         @relation(fields: [idFrota], references: [id_frota])
   idFrota     Int
-  Viagens     Viagens[]
+  viagens     Viagens[]
 }
 
 model Viagens {
@@ -66,5 +66,5 @@ model Viagens {
   descricao    String
   hora_saida   DateTime
   hora_retorno DateTime?
-  idV          Veiculos  @relation(fields: [id_veiculo], references: [id_veiculo])
+  veiculos     Veiculos  @relation(fields: [id_veiculo], references: [id_veiculo])
 }
