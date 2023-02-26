@@ -12,11 +12,11 @@ const closeFrotasEditor = () => {
 };
 
 const criarFrota = () => {
-  if (document.getElementById("tipoFrota").value !== ""){
+  if (document.getElementById("tipoFrota").value !== "") {
     let form = {
       tipo: document.getElementById("tipoFrota").value,
     };
-  
+
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -24,22 +24,34 @@ const criarFrota = () => {
     };
     try {
       fetch(uriCreateFrotas, options)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        if (data.id_frota){
-          alert("Criado")
-        } else {
-          alert("Falha")
-        }
-      });
-    }catch(err) {
-      console.log(err)
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          if (data.id_frota) {
+            alert("Criado");
+          } else {
+            alert("Falha");
+          }
+        });
+    } catch (err) {
+      console.log(err);
     }
   } else {
-    alert("Inválido")
+    alert("Inválido");
   }
-  
- 
 };
+
+const listarFrotas = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriGetFrotas, options)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      console.log(data)
+    });
+};
+listarFrotas()
