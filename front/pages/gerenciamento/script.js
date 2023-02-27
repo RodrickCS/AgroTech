@@ -5,19 +5,21 @@ const card = document.querySelector(".card");
 const cardToggle = document.querySelector(".toggle");
 
 const activeCard = (card) => {
-  card.parentNode.classList.toggle("active")
+  card.parentNode.classList.toggle("active");
 };
 
 const openFrotasEditor = () => {
   document.querySelector(".frotaMain").classList.remove("model");
   document.querySelector(".criarFrotaCard").classList.remove("model");
   document.querySelector(".leftNavbar").classList.add("model");
+  document.querySelector(".card").classList.add("model");
 };
 
 const closeFrotasEditor = () => {
   document.querySelector(".frotaMain").classList.add("model");
   document.querySelector(".criarFrotaCard").classList.add("model");
   document.querySelector(".leftNavbar").classList.remove("model");
+  document.querySelector(".clonenodeAppend").classList.add("model");
 };
 
 const viewFrotas = () => {
@@ -77,20 +79,32 @@ const listarFrotas = () => {
       Object.entries(data).forEach(([key, value]) => {
         console.log(value.veiculos);
 
-        const cloned = document.querySelector(".card").cloneNode(true);
-        cloned.setAttribute("index", Number(key) + 1);
+        const frotaInfo = document.querySelector(".card").cloneNode(true);
+        const veiculoInfo = document
+          .querySelector(".veiculoInfo")
+          .cloneNode(true);
+        frotaInfo.setAttribute("index", Number(key) + 1);
 
-        cloned.classList.remove("model");
+        frotaInfo.classList.remove("model");
 
-        cloned.querySelector("#idFrota").innerHTML += " " + value.id_frota;
-        cloned.querySelector("#setorFrota").innerHTML += " " + value.tipo;
+        frotaInfo.querySelector("#idFrota").innerHTML += " " + value.id_frota;
+        frotaInfo.querySelector("#setorFrota").innerHTML += " " + value.tipo;
 
-        cloned.querySelector("#frotaId").innerHTML += " " + value.veiculos[0].id_veiculo
-        cloned.querySelector("#motoristaId").innerHTML += " " + value.veiculos[0].idMotorista
-        cloned.querySelector("#veiculoCor").innerHTML += " " + value.veiculos[0].cor
+        veiculoInfo.classList.remove("model");
 
-        document.querySelector(".clonenodeAppend").appendChild(cloned);
+        veiculoInfo.querySelector("#veiculo").innerHTML +=
+          " " + value.veiculos[0].id_veiculo;
+        veiculoInfo.querySelector("#veiculoCor").innerHTML +=
+          " " + value.veiculos[0].cor;
+        veiculoInfo.querySelector("#veiculoMarca").innerHTML +=
+          " " + value.veiculos[0].marca;
+        veiculoInfo.querySelector("#veiculoPlaca").innerHTML +=
+          " " + value.veiculos[0].placa;
+
+        document.querySelector(".clonenodeAppend").appendChild(frotaInfo);
+        document.querySelector(".nav").appendChild(veiculoInfo);
       });
     });
 };
+
 listarFrotas();
