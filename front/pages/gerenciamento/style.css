@@ -196,3 +196,67 @@ input:focus + .border {
   display: none;
   visibility: hidden;
 }
+.card {
+  position: relative;
+  width: 350px;
+  height: 400px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  -webkit-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+  -moz-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+  box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+}
+
+.card .content  {
+  display: flex;
+  align-items: center;
+}
+
+.card .content .logo {
+  position: relative;
+  width: 75px;
+  height: 75px;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.card .content .logo img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover; 
+}
+
+.card .content  p {
+  margin-left: 15px;
+  font-size: 400;
+  color: #999;
+}
+
+.nav {
+  position: relative;
+  top: 25px;
+  border-top: 1px solid #ddd;
+  padding: 20px 0;
+}
+
+.nav li {
+  list-style: none;
+  margin: 15px 0;
+}
+
+.toggle  {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: aquamarine ;
+  border-end-end-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -36,7 +36,6 @@
           <img
             width="30px"
             src="../../assets/caminhao-de-transporte.png"
-            alt=""
           />Frotas
         </button>
         <button class="navBt">
@@ -46,14 +45,17 @@
           <img
             width="30px"
             src="../../assets/ferramenta-chave.png"
-            alt=""
           />Manutenções
         </button>
       </nav>
       <section class="frotaMain model">
         <div class="mainFrotaHeader">
-          <button onclick="viewFrotas()" class="cardBt ver">Ver todas as frotas</button>
-          <button onclick="gerenciarFrotas()" class="cardBt gerenciar model">Gerenciar frotas</button>
+          <button onclick="viewFrotas()" class="cardBt ver">
+            Ver todas as frotas
+          </button>
+          <button onclick="gerenciarFrotas()" class="cardBt gerenciar model">
+            Gerenciar frotas
+          </button>
           <button class="btClose" onclick="closeFrotasEditor()">&times;</button>
         </div>
         <div class="criarFrotaCard model">
@@ -68,13 +70,28 @@
             <button onclick="criarFrota()" class="cardBt">Criar</button>
           </div>
         </div>
-
-        <div class="showFrotaCard">
-
-
-          <div class="veiculos"></div>
+        <div class="clonenodeAppend model">
+          <div class="card model">
+            <div class="content">
+              <div class="logo">
+                <img src="../../assets/AgroTech-Logo.png" alt="" />
+              </div>
+              <p id="idFrota">id:</p>
+              <p id="setorFrota">Setor:</p>
+            </div>
+            <ul class="nav">
+              <li>idFrota</li>
+              <li>idMotorista</li>
+              <li>Cor</li>
+              <li>veiculo</li>
+              <li>marca</li>
+              <li>placa</li>
+            </ul>
+            <div class="toggle">
+              <img width="20px" src="../../assets/arrow-down-solid.svg" />
+            </div>
+          </div>
         </div>
-
       </section>
     </main>
   </body>

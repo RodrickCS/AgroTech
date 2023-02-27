@@ -1,6 +1,13 @@
 const uriCreateFrotas = "http://localhost:3000/frotas/create";
 const uriGetFrotas = "http://localhost:3000/frotas/read";
 
+const card = document.querySelector(".card");
+const cardToggle = document.querySelector(".toggle");
+
+cardToggle.addEventListener("click", () => {
+  card.classlist.toggle("active")
+});
+
 const openFrotasEditor = () => {
   document.querySelector(".frotaMain").classList.remove("model");
   document.querySelector(".criarFrotaCard").classList.remove("model");
@@ -17,13 +24,15 @@ const viewFrotas = () => {
   document.querySelector(".ver").classList.add("model");
   document.querySelector(".criarFrotaCard").classList.add("model");
   document.querySelector(".gerenciar").classList.remove("model");
-}
+  document.querySelector(".clonenodeAppend").classList.remove("model");
+};
 
 const gerenciarFrotas = () => {
   document.querySelector(".ver").classList.remove("model");
   document.querySelector(".criarFrotaCard").classList.remove("model");
   document.querySelector(".gerenciar").classList.add("model");
-}
+  document.querySelector(".clonenodeAppend").classList.add("model");
+};
 
 const criarFrota = () => {
   if (document.getElementById("tipoFrota").value !== "") {
@@ -65,8 +74,18 @@ const listarFrotas = () => {
       return res.json();
     })
     .then((data) => {
-      console.log(data)
+      Object.entries(data).forEach(([key, value]) => {
+        console.log(value);
+
+        const cloned = document.querySelector(".card").cloneNode(true);
+
+        cloned.classList.remove("model");
+
+        cloned.querySelector("#idFrota").innerHTML += " " + value.id_frota;
+        cloned.querySelector("#setorFrota").innerHTML += " " + value.tipo;
+
+        document.querySelector(".clonenodeAppend").appendChild(cloned);
+      });
     });
 };
-
-
+listarFrotas();
