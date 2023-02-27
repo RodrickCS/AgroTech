@@ -3,13 +3,27 @@ const uriGetFrotas = "http://localhost:3000/frotas/read";
 
 const openFrotasEditor = () => {
   document.querySelector(".frotaMain").classList.remove("model");
+  document.querySelector(".criarFrotaCard").classList.remove("model");
   document.querySelector(".leftNavbar").classList.add("model");
 };
 
 const closeFrotasEditor = () => {
   document.querySelector(".frotaMain").classList.add("model");
+  document.querySelector(".criarFrotaCard").classList.add("model");
   document.querySelector(".leftNavbar").classList.remove("model");
 };
+
+const viewFrotas = () => {
+  document.querySelector(".ver").classList.add("model");
+  document.querySelector(".criarFrotaCard").classList.add("model");
+  document.querySelector(".gerenciar").classList.remove("model");
+}
+
+const gerenciarFrotas = () => {
+  document.querySelector(".ver").classList.remove("model");
+  document.querySelector(".criarFrotaCard").classList.remove("model");
+  document.querySelector(".gerenciar").classList.add("model");
+}
 
 const criarFrota = () => {
   if (document.getElementById("tipoFrota").value !== "") {
@@ -54,4 +68,5 @@ const listarFrotas = () => {
       console.log(data)
     });
 };
-listarFrotas()
+
+

@@ -52,11 +52,11 @@
       </nav>
       <section class="frotaMain model">
         <div class="mainFrotaHeader">
-          <button class="cardBt">Ver todas as frotas</button>
-          <button class="cardBt model">Gerenciar Frotas</button>
+          <button onclick="viewFrotas()" class="cardBt ver">Ver todas as frotas</button>
+          <button onclick="gerenciarFrotas()" class="cardBt gerenciar model">Gerenciar frotas</button>
           <button class="btClose" onclick="closeFrotasEditor()">&times;</button>
         </div>
-        <div id="criarFrotaCard">
+        <div class="criarFrotaCard model">
           <div class="cardHeader">
             <h1>Criar uma Frota</h1>
           </div>
@@ -68,6 +68,13 @@
             <button onclick="criarFrota()" class="cardBt">Criar</button>
           </div>
         </div>
+
+        <div class="showFrotaCard">
+
+
+          <div class="veiculos"></div>
+        </div>
+
       </section>
     </main>
   </body>
