@@ -35,7 +35,27 @@ const readAll = async (req, res) => {
   }
 };
 
+const readId = async (req, res) => {
+  try {
+    let veiculo = await prisma.frota.findUnique({
+      select: {
+        id_frota: true,
+        tipo: true,
+        veiculos: true,
+      },
+      where: {
+        id_frota: Number(req.params.id_frota)
+      },
+    });
+    res.status(200).json(veiculo).end();
+  } catch (err) {
+    res.status(500).json(err).end();
+    console.log(err);
+  }
+};
+
 module.exports = {
   create,
   readAll,
+  readId
 };

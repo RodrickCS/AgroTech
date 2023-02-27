@@ -4,9 +4,9 @@ const uriGetFrotas = "http://localhost:3000/frotas/read";
 const card = document.querySelector(".card");
 const cardToggle = document.querySelector(".toggle");
 
-cardToggle.addEventListener("click", () => {
-  card.classlist.toggle("active")
-});
+const activeCard = (card) => {
+  card.parentNode.classList.toggle("active")
+};
 
 const openFrotasEditor = () => {
   document.querySelector(".frotaMain").classList.remove("model");
@@ -75,14 +75,19 @@ const listarFrotas = () => {
     })
     .then((data) => {
       Object.entries(data).forEach(([key, value]) => {
-        console.log(value);
+        console.log(value.veiculos);
 
         const cloned = document.querySelector(".card").cloneNode(true);
+        cloned.setAttribute("index", Number(key) + 1);
 
         cloned.classList.remove("model");
 
         cloned.querySelector("#idFrota").innerHTML += " " + value.id_frota;
         cloned.querySelector("#setorFrota").innerHTML += " " + value.tipo;
+
+        cloned.querySelector("#frotaId").innerHTML += " " + value.veiculos[0].id_veiculo
+        cloned.querySelector("#motoristaId").innerHTML += " " + value.veiculos[0].idMotorista
+        cloned.querySelector("#veiculoCor").innerHTML += " " + value.veiculos[0].cor
 
         document.querySelector(".clonenodeAppend").appendChild(cloned);
       });

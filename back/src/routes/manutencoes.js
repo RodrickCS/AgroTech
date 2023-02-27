@@ -7,6 +7,6 @@ const Middleware = require("../middleware/middleware");
 const manutencoes = require("../controllers/manutencoes");
 
 router.get("/read", manutencoes.read);
-router.post("/create", Middleware.validaAcesso ,manutencoes.create);
+router.post("/create", manutencoes.create);
 
 module.exports = router;

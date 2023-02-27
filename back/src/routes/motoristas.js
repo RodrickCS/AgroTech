@@ -8,6 +8,6 @@ const motoristas = require("../controllers/motoristas");
 
 router.get("/read", motoristas.readAll);
 router.get("/readById/:id_motorista", motoristas.readById);
-router.post("/create", Middleware.validaAcesso ,motoristas.create);
+router.post("/create", motoristas.create);
 
 module.exports = router;
