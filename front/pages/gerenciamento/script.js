@@ -10,6 +10,8 @@ const activeCard = (card) => {
 
 const openFrotasEditor = () => {
   document.querySelector(".frotaMain").classList.remove("model");
+  document.querySelector(".ver").classList.remove("model");
+  document.querySelector(".gerenciar").classList.add("model");
   document.querySelector(".criarFrotaCard").classList.remove("model");
   document.querySelector(".leftNavbar").classList.add("model");
   document.querySelector(".card").classList.add("model");
@@ -81,8 +83,20 @@ const listarFrotas = () => {
 
         frotaInfo.classList.remove("model");
 
-        for (let i = 0; i < key; i++) {
-          console.log(key)
+        frotaInfo.querySelector(".idFrota").innerHTML = value.id_frota;
+        frotaInfo.querySelector(".setorFrota").innerHTML = value.tipo;
+
+        if (value.veiculos.length > 0) {
+          for (var i = 0; i < value.veiculos.length; i++) {
+            frotaInfo.querySelector(".veiculo").innerHTML +=
+              " " + value.veiculos[i].id_veiculo;
+              frotaInfo.querySelector(".veiculoCor").innerHTML +=
+              " " + value.veiculos[i].cor;
+              frotaInfo.querySelector(".veiculoMarca").innerHTML +=
+              " " + value.veiculos[i].marca;
+              frotaInfo.querySelector(".veiculoPlaca").innerHTML +=
+              " " + value.veiculos[i].placa;
+          }
         }
 
         document.querySelector(".clonenodeAppend").appendChild(frotaInfo);
