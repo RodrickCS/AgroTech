@@ -200,9 +200,10 @@ input:focus + .border {
   display: none;
   visibility: hidden;
 }
+
 .card {
   position: relative;
-  width: 350px;
+  width: 390px;
   height: 120px;
   background: #007f5f;
   overflow: hidden;
@@ -297,11 +298,13 @@ input:focus + .border {
 }
 
 .veiculoInfo {
-  width: 100%;
-  height: 100px;
+  width: auto;
+  height: 20%;
   background-color: #80b918;
   display: flex;
   align-items: center;
+  padding: 20px;
+  margin: 12px 0;
   border-radius: 12px;
   gap: 30px;
 }

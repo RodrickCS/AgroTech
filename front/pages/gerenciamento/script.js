@@ -83,23 +83,22 @@ const listarFrotas = () => {
 
         frotaInfo.classList.remove("model");
 
-        frotaInfo.querySelector(".idFrota").innerHTML = value.id_frota;
+        frotaInfo.querySelector("#idFrota").innerHTML = value.id_frota;
+       
         frotaInfo.querySelector(".setorFrota").innerHTML = value.tipo;
 
         if (value.veiculos.length > 0) {
           for (var i = 0; i < value.veiculos.length; i++) {
-            frotaInfo
-              .querySelector(".idFrota")
-              .setAttribute("index", value.id_frota);
-
-            frotaInfo.querySelector(".veiculo").innerHTML +=
-              " " + value.veiculos[i].id_veiculo;
-            frotaInfo.querySelector(".veiculoCor").innerHTML +=
-              " " + value.veiculos[i].cor;
-            frotaInfo.querySelector(".veiculoMarca").innerHTML +=
-              " " + value.veiculos[i].marca;
-            frotaInfo.querySelector(".veiculoPlaca").innerHTML +=
-              " " + value.veiculos[i].placa;
+            const veiculoInfo = document.createElement("div");
+           
+            veiculoInfo.classList.add("veiculoInfo");
+            veiculoInfo.innerHTML = `
+              <p class="veiculo">${value.veiculos[i].id_veiculo}</p>
+              <p class="veiculoMarca">${value.veiculos[i].marca}</p>
+              <p class="veiculoCor">${value.veiculos[i].cor}</p>
+              <p class="veiculoPlaca">${value.veiculos[i].placa}</p>
+            `;
+            frotaInfo.querySelector(".nav").appendChild(veiculoInfo);
           }
         }
 
