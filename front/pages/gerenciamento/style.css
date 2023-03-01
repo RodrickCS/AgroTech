@@ -293,10 +293,20 @@ input:focus + .border {
 }
 
 .card.active {
-  height: 300px;
+  height: 400px;
 }
 
 .veiculoInfo {
+  width: 100%;
+  height: 100px;
+  background-color: #80b918;
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  gap: 30px;
+}
+
+.divStyleCard {
   width: 100%;
   height: 100px;
   background-color: #80b918;
@@ -310,7 +320,7 @@ input:focus + .border {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
+
   align-items: center;
 }
 

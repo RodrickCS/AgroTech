@@ -88,13 +88,17 @@ const listarFrotas = () => {
 
         if (value.veiculos.length > 0) {
           for (var i = 0; i < value.veiculos.length; i++) {
+            frotaInfo
+              .querySelector(".idFrota")
+              .setAttribute("index", value.id_frota);
+
             frotaInfo.querySelector(".veiculo").innerHTML +=
               " " + value.veiculos[i].id_veiculo;
-              frotaInfo.querySelector(".veiculoCor").innerHTML +=
+            frotaInfo.querySelector(".veiculoCor").innerHTML +=
               " " + value.veiculos[i].cor;
-              frotaInfo.querySelector(".veiculoMarca").innerHTML +=
+            frotaInfo.querySelector(".veiculoMarca").innerHTML +=
               " " + value.veiculos[i].marca;
-              frotaInfo.querySelector(".veiculoPlaca").innerHTML +=
+            frotaInfo.querySelector(".veiculoPlaca").innerHTML +=
               " " + value.veiculos[i].placa;
           }
         }
