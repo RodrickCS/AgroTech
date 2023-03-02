@@ -52,7 +52,6 @@ const criarFrota = () => {
       },
       body: JSON.stringify(form),
     };
-    console.log(localStorage.getItem("token").split('"')[1]);
 
     try {
       fetch(uriCreateFrotas, options)
