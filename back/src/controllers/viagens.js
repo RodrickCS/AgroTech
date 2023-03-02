@@ -3,13 +3,33 @@ const prisma = new PrismaClient();
 
 require("dotenv").config();
 
+const read = async (req, res) => {
+  try {
+    let viagem = await prisma.viagens.findMany({
+      select: {
+        id_viagem: true, 
+        id_veiculo: true,
+        id_motorista: true,
+        descricao: true,
+        hora_saida: true,
+        hora_retorno: true,
+        veiculos: true,
+      },
+    });
+    res.status(200).json(viagem);
+  } catch (err) {
+    res.status(500).json(err);
+    console.log(err);
+  }
+};
+
 const create = async (req, res) => {
   try {
-    if (Object.keys(req.body).length === 6) {
-      let veiculo = await prisma.veiculos.create({
+    if (Object.keys(req.body).length === 4) {
+      let viagens = await prisma.viagens.create({
         data: req.body,
       });
-      res.status(201).json(veiculo).end();
+      res.status(201).json(viagens).end();
     } else {
       res.status(400).json({ msg: "Formulário inválido" }).end();
     }
@@ -29,26 +49,4 @@ const create = async (req, res) => {
   }
 };
 
-const readAll = async (req, res) => {
-  try {
-    let veiculo = await prisma.veiculos.findMany({
-      select: {
-        id_veiculo: true,
-        idFrota: true,
-        marca: true,
-        placa: true,
-        cor: true,
-        manutencoes: true,
-      },
-    });
-    res.status(200).json(veiculo).end();
-  } catch (err) {
-    res.status(500).json(err).end();
-    console.log(err);
-  }
-};
-
-module.exports = {
-  create,
-  readAll,
-};
+module.exports = { read, create };

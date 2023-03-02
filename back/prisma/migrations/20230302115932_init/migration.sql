@@ -56,6 +56,7 @@ CREATE TABLE `Veiculos` (
     `placa` VARCHAR(191) NOT NULL,
     `cor` VARCHAR(191) NOT NULL,
     `idMotorista` INTEGER NOT NULL,
+    `disponivel` BOOLEAN NOT NULL,
     `idFrota` INTEGER NOT NULL,
 
     UNIQUE INDEX `Veiculos_placa_key`(`placa`),
