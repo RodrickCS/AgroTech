@@ -42,7 +42,7 @@ const criarFrota = () => {
   if (document.getElementById("tipoFrota").value !== "") {
     const form = {
       tipo: document.getElementById("tipoFrota").value,
-    }
+    };
 
     const options = {
       method: "POST",
@@ -52,7 +52,7 @@ const criarFrota = () => {
       },
       body: JSON.stringify(form),
     };
-    console.log(localStorage.getItem("token").split('"')[1])
+    console.log(localStorage.getItem("token").split('"')[1]);
 
     try {
       fetch(uriCreateFrotas, options)
