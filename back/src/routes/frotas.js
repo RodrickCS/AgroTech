@@ -8,6 +8,6 @@ const frotas = require("../controllers/frotas");
 
 router.get("/read", frotas.readAll);
 router.get("/read/:id_frota", frotas.readId);
-router.post("/create",frotas.create);
+router.post("/create", Middleware.validaAcesso, frotas.create);
 
-module.exports = router; 
+module.exports = router;

@@ -40,15 +40,20 @@ const gerenciarFrotas = () => {
 
 const criarFrota = () => {
   if (document.getElementById("tipoFrota").value !== "") {
-    let form = {
+    const form = {
       tipo: document.getElementById("tipoFrota").value,
-    };
+    }
 
     const options = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
+      },
       body: JSON.stringify(form),
     };
+    console.log(localStorage.getItem("token").split('"')[1])
+
     try {
       fetch(uriCreateFrotas, options)
         .then((res) => {
@@ -84,13 +89,13 @@ const listarFrotas = () => {
         frotaInfo.classList.remove("model");
 
         frotaInfo.querySelector("#idFrota").innerHTML = value.id_frota;
-       
+
         frotaInfo.querySelector(".setorFrota").innerHTML = value.tipo;
 
         if (value.veiculos.length > 0) {
           for (var i = 0; i < value.veiculos.length; i++) {
             const veiculoInfo = document.createElement("div");
-           
+
             veiculoInfo.classList.add("veiculoInfo");
             veiculoInfo.innerHTML = `
               <p class="veiculo">${value.veiculos[i].id_veiculo}</p>
@@ -108,3 +113,4 @@ const listarFrotas = () => {
 };
 
 listarFrotas();
+console.log(localStorage.getItem("token").split('"'));

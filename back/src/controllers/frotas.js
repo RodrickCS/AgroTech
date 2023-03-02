@@ -12,6 +12,7 @@ const create = async (req, res) => {
       res.status(201).json(veiculo).end();
     } else {
       res.status(400).json({ msg: "Formulário inválido" }).end();
+    
     }
   } catch (err) {
     res.status(500).json(err).end();
