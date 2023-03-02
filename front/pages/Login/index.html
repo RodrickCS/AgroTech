@@ -4,24 +4,29 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Document</title>
   </head>
   <body>
     <section id="login">
       <div id="intro">
-        <img src="../../assets/AgroTech-Logo.png" alt="Agrotech-Logo" />
+        <img
+          width="140px"
+          src="../../assets/AgroTech-Logo.png"
+          alt="Agrotech-Logo"
+        />
         <p>Bem <span class="text">vindo!</span></p>
       </div>
       <div id="form">
         <div class="header">
-            <p>Login</p>
+          <p>Login</p>
         </div>
         <div class="body">
-            <input type="email" id="inpEmail">
-            <input type="password" id="inpPasswd">
+          <input type="email" id="inpEmail" placeholder="E-mail" />
+          <input type="password" id="inpPasswd" placeholder="Senha" />
         </div>
         <div class="footer">
-            <button onclick="login()">Login</button>
+          <button id="btLogin" onclick="login()">Login</button>
         </div>
       </div>
     </section>

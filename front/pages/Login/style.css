@@ -1,5 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap");
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+#login {
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #c1d2006a;
+}
+#intro {
+  background-color: #007f5f;
+  width: 23%;
+  height: 400px;
+  padding: 50px;
+  display: flex;
+  align-items: center;
+  border-right: 2px solid #2b9348;
+  color: white;
+  font-size: 40px;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  gap: 20px;
+}
+
+#form {
+  background-color: #007f5f;
+  width: 27%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  align-items: center;
+  border-right: 2px solid #2b9348;
+  color: white;
+  font-size: 40px;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  gap: 20px;
+}
+.text {
+  color: #5ac879;
+}
+
+input {
+  transition: all 0.5s ease-in-out;
+  background: none;
+  border: none;
+  outline: none;
+  width: 200px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border-bottom: 1px solid #c1d2006a;
+}
+input:focus {
+  box-shadow: inset 220px 1px 9px #04882975;
+}
+
+::placeholder {
+  color: white;
+}
+.footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-top: 42px;
+  justify-content: center;
+}
+
+#btLogin {
+  width: 50%;
+  height: 35px;
+  color: white;
+  font-size: 20px;
+  background-color: none;
+  border: none;
+  background-color: #80b918;
+  border-radius: 9px;
+  transition: all 0.2s ease-in-out;
+}
+
+#btLogin:hover {
+  scale: 1.05;
+  cursor: pointer;
+  background-color: #AACC00;
 }
