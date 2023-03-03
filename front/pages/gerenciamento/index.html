@@ -84,8 +84,11 @@
       </section>
       <section class="viagensMain model">
         <div class="mainHeader">
-          <button onclick="viewViagens()" class="cardBt ver">
+          <button onclick="viewViagens()" class="cardBt verViagem">
             Ver todas as viagens
+          </button>
+          <button onclick="gerenciarViagens()" class="cardBt gerenciarViagem">
+            Gerenciar viagens
           </button>
           <button class="btClose" onclick="closeViagensEditor()">
             &times;
@@ -97,28 +100,38 @@
           </div>
           <div class="cardBody">
             <label for="veiculo">Veículo:</label>
-            <select id="veiculo" name="veiculoList" form="veiculoForm">
-            </select>
+            <select id="veiculo" name="veiculoList" form="veiculoForm"></select>
             <label for="motorista">motorista:</label>
-            <select id="motorista" name="motoristaList" form="motoristaForm">
-            </select>
+            <select
+              id="motorista"
+              name="motoristaList"
+              form="motoristaForm"
+            ></select>
             <input type="text" id="descricao" placeholder="Descricao" />
             <span class="border"></span>
             <input type="text" id="hora_saida" placeholder="Hora da saida" />
             <span class="border"></span>
           </div>
           <div class="cardFooter">
-            <button onclick="criarFrota()" class="cardBt">Registrar viagem</button>
+            <button onclick="criarFrota()" class="cardBt">
+              Registrar viagem
+            </button>
           </div>
         </div>
-        <div class="motoristRretornouCard">
+        <div class="motoristRretornouCard model">
           <div class="cardHeader">
             <h1>Motorista retornou</h1>
           </div>
           <div class="cardBody">
             <label for="motoristaRetorno">motorista:</label>
-            <select id="motoristaRetorno" name="motoristaRetornoList" form="motoristaRetornoForm">
-            <option value="Disponivel">Todos os motoristas estão disponíveis</option>
+            <select
+              id="motoristaRetorno"
+              name="motoristaRetornoList"
+              form="motoristaRetornoForm"
+            >
+              <option value="Disponivel">
+                Todos os motoristas estão disponíveis
+              </option>
             </select>
           </div>
           <div class="cardFooter">
@@ -127,6 +140,20 @@
             </button>
           </div>
         </div>
+
+        <table class="tableViagens model">
+          <thead>
+            <tr>
+              <th>Frota Responsável</th>
+              <th>Veiculo</th>
+              <th>Marca</th>
+              <th>Placa</th>
+              <th>Descrição</th>
+              <th>Hora Saída</th>
+            </tr>
+          </thead>
+          <tbody class="conteudoTabela"></tbody>
+        </table>
       </section>
     </main>
   </body>

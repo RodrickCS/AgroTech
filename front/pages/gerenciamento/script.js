@@ -2,6 +2,7 @@ const uriCreateFrotas = "http://localhost:3000/frotas/create";
 const uriGetFrotas = "http://localhost:3000/frotas/read";
 const uriGetVeiculos = "http://localhost:3000/veiculos/read";
 const uriGetMotoristas = "http://localhost:3000/motoristas/read";
+const uriGetViagens = "http://localhost:3000/viagens/read";
 
 const card = document.querySelector(".card");
 const cardToggle = document.querySelector(".toggle");
@@ -44,11 +45,29 @@ const openViagensEditor = () => {
   document.querySelector(".leftNavbar").classList.add("model");
   document.querySelector(".viagensMain").classList.remove("model");
   document.querySelector(".registrarViagemCard").classList.remove("model");
+  document.querySelector(".motoristRretornouCard").classList.remove("model");
+  document.querySelector(".verViagem").classList.remove("model");
+  document.querySelector(".gerenciarViagem").classList.add("model");
 };
 
 const closeViagensEditor = () => {
   document.querySelector(".viagensMain").classList.add("model");
   document.querySelector(".leftNavbar").classList.remove("model");
+};
+
+const viewViagens = () => {
+  document.querySelector(".registrarViagemCard").classList.add("model");
+  document.querySelector(".motoristRretornouCard").classList.add("model");
+  document.querySelector(".gerenciarViagem").classList.remove("model");
+  document.querySelector(".verViagem").classList.add("model");
+  document.querySelector(".tableViagens").classList.remove("model");
+};
+const gerenciarViagens = () => {
+  document.querySelector(".registrarViagemCard").classList.remove("model");
+  document.querySelector(".motoristRretornouCard").classList.remove("model");
+  document.querySelector(".gerenciarViagem").classList.add("model");
+  document.querySelector(".verViagem").classList.remove("model");
+  document.querySelector(".tableViagens").classList.add("model");
 };
 
 const criarFrota = () => {
@@ -192,7 +211,7 @@ const listarMotoristasSelectRetorno = () => {
             option.innerHTML = data[i].nome;
 
             let select = document.getElementById("motoristaRetorno");
-            select.remove(0)
+            select.remove(0);
 
             select.add(option);
           }
@@ -201,7 +220,38 @@ const listarMotoristasSelectRetorno = () => {
     });
 };
 
+const preencherTabela = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriGetViagens, options)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      for (var i = 0; i < data.length; i++) {
+        console.log(data[i]);
+
+        const tr = document.createElement("tr");
+        const tdFrota = document.createElement("td");
+        const tdVeiculo = document.createElement("td");
+        const tdMarca = document.createElement("td");
+        const tdPlaca = document.createElement("td");
+        const tdDescricao = document.createElement("td")
+
+        
+
+        document.querySelector(".conteudoTabela").appendChild(tr);
+
+
+      }
+     
+      
+    });
+};
+
 listarFrotas();
 listarVeiculosSelect();
 listarMotoristasSelect();
 listarMotoristasSelectRetorno();
+preencherTabela();
