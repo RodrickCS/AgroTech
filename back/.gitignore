@@ -146,8 +146,4 @@ dist
 .vscode/
 *.sw*
 
-#misc
-package-lock.json
-index.js
-/src/middleware
 # End of https://www.toptal.com/developers/gitignore/api/node
