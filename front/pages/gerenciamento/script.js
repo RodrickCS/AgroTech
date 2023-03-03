@@ -1,5 +1,7 @@
 const uriCreateFrotas = "http://localhost:3000/frotas/create";
 const uriGetFrotas = "http://localhost:3000/frotas/read";
+const uriGetVeiculos = "http://localhost:3000/veiculos/read";
+const uriGetMotoristas = "http://localhost:3000/motoristas/read";
 
 const card = document.querySelector(".card");
 const cardToggle = document.querySelector(".toggle");
@@ -42,7 +44,6 @@ const openViagensEditor = () => {
   document.querySelector(".leftNavbar").classList.add("model");
   document.querySelector(".viagensMain").classList.remove("model");
   document.querySelector(".registrarViagemCard").classList.remove("model");
-  
 };
 
 const closeViagensEditor = () => {
@@ -74,14 +75,14 @@ const criarFrota = () => {
           if (data.id_frota) {
             alert("Criado");
           } else {
-            alert("Falha");
+            alert("Falha, Não autorizado");
           }
         });
     } catch (err) {
       console.log(err);
     }
   } else {
-    alert("Inválido");
+    alert("Preencha o campo Tipo de frota");
   }
 };
 
@@ -123,5 +124,58 @@ const listarFrotas = () => {
     });
 };
 
+const listarVeiculosSelect = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriGetVeiculos, options)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      for (var i = 0; i < data.length; i++) {
+        var option = document.createElement("option");
+        if (data[i].disponivel !== false) {
+          option.setAttribute("value", data[i].marca);
+          option.innerHTML =
+            data[i].marca + " " + data[i].cor + " " + data[i].placa;
+
+          var select = document.getElementById("veiculo");
+
+          select.add(option);
+
+          document.getElementById("veiculo").appendChild(option);
+        }
+      }
+    });
+};
+
+const listarMotoristasSelect = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriGetMotoristas, options)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].veiculos.length !== 0) {
+          console.log(data[i].veiculos[i].disponivel);
+          if (data[i].veiculos[i].disponivel === true) {
+            var option = document.createElement("option");
+            option.value = data[i].id_motorista;
+            option.innerHTML = data[i].nome;
+
+            var select = document.getElementById("motorista");
+
+            select.add(option);
+          }
+        }
+      }
+    });
+};
+
 listarFrotas();
-console.log(localStorage.getItem("token").split('"'));
+listarVeiculosSelect();
+listarMotoristasSelect();

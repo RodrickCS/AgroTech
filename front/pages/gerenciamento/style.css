@@ -139,7 +139,7 @@ main {
   position: relative;
   gap: 20px;
 }
-.mainFrotaHeader {
+.mainHeader {
   display: flex;
   position: absolute;
   left: 86%;
@@ -151,7 +151,7 @@ main {
 }
 
 .criarFrotaCard {
-  
+  position: absolute;
   width: 40%;
   height: 40%;
   border-radius: 12px;
@@ -162,9 +162,8 @@ main {
   box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
 }
 .registrarViagemCard {
- 
   width: 40%;
-  height: 40%;
+  height: 50%;
   border-radius: 12px;
   padding: 20px;
   background-color: #d3d70063;
@@ -377,4 +376,10 @@ input:focus + .border {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+select  {
+  width: 60%;
+  margin: 9px;
+  background: none;
 }

@@ -15,7 +15,7 @@ const create = async (req, res) => {
     }
   } catch (err) {
     if (err.code === "P2002") {
-      res.status(400).json({ msg: "CPF já em uso" }).end();
+      res.status(400).json({ msg: "CPF ou telefone já em uso" }).end();
     } else {
       res.status(500).json(err).end();
       console.log(err);
@@ -32,6 +32,7 @@ const readAll = async (req, res) => {
         telefone: true,
         cpf: true,
         endereco: true,
+        veiculos: true,
       },
     });
     res.status(200).json(motorista).end();

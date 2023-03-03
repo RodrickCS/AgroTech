@@ -38,6 +38,7 @@ const readAll = async (req, res) => {
         marca: true,
         placa: true,
         cor: true,
+        disponivel: true,
         manutencoes: true,
       },
     });
