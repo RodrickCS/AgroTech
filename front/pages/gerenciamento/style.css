@@ -128,7 +128,7 @@ main {
   position: relative;
 }
 
-.viagensMain{
+.viagensMain {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -378,12 +378,34 @@ input:focus + .border {
   background: #555;
 }
 
-select  {
+select {
   width: 60%;
   margin: 9px;
   background: none;
 }
 
 table {
+  border-collapse: collapse;
+  width: 70%;
+}
 
+th, td {
+	border: 1px solid black;
+	padding: 8px;
+}
+
+thead th {
+  width: 25%;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: white;
+}
+
+tbody tr:nth-child(even) {
+  background-color: rgb(198, 198, 198);
+}
+
+table {
+  background-color: #007f5f;
 }

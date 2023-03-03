@@ -53,6 +53,7 @@ const openViagensEditor = () => {
 const closeViagensEditor = () => {
   document.querySelector(".viagensMain").classList.add("model");
   document.querySelector(".leftNavbar").classList.remove("model");
+  document.querySelector(".tableViagens").classList.add("model");
 };
 
 const viewViagens = () => {
@@ -69,6 +70,49 @@ const gerenciarViagens = () => {
   document.querySelector(".verViagem").classList.remove("model");
   document.querySelector(".tableViagens").classList.add("model");
 };
+
+
+const preencherTabela = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriGetViagens, options)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      
+      for (var i = 0; i < data.length; i++) {
+        const tr = document.createElement("tr");
+        const tdViagem = document.createElement("td");
+        const tdVeiculo = document.createElement("td");
+        const tdPlaca = document.createElement("td");
+        const tdDescricao = document.createElement("td");
+        const tdHoraSaida = document.createElement("td");
+        const tdHoraRetorno = document.createElement("td");
+        tr.setAttribute("id", i + 1);
+
+        tdViagem.innerHTML = data[i].id_viagem;
+        tdVeiculo.innerHTML = data[i].veiculos.marca;
+        tdPlaca.innerHTML = data[i].veiculos.placa;
+        tdDescricao.innerHTML = data[i].descricao;
+        tdHoraSaida.innerHTML = data[i].hora_saida.split("T")[1];
+        tdHoraRetorno.innerHTML = data[i].hora_retorno;
+
+        tr.appendChild(tdViagem);
+        tr.appendChild(tdVeiculo);
+        tr.appendChild(tdPlaca);
+        tr.appendChild(tdDescricao);
+        tr.appendChild(tdHoraSaida);
+        tr.appendChild(tdHoraRetorno);
+        
+
+        document.querySelector(".conteudoTabela").appendChild(tr);
+      }
+    });
+};
+
+
 
 const criarFrota = () => {
   if (document.getElementById("tipoFrota").value !== "") {
@@ -156,6 +200,7 @@ const listarVeiculosSelect = () => {
         let option = document.createElement("option");
         if (data[i].disponivel !== false) {
           option.setAttribute("value", data[i].marca);
+          option.setAttribute("id", data[i].id_veiculo)
           option.innerHTML =
             data[i].marca + " " + data[i].cor + " " + data[i].placa;
 
@@ -182,8 +227,9 @@ const listarMotoristasSelect = () => {
         if (data[i].veiculos.length !== 0) {
           if (data[i].veiculos[i].disponivel === true) {
             let option = document.createElement("option");
-            option.value = data[i].id_motorista;
+            option.setAttribute("id", data[i].id_motorista)
             option.innerHTML = data[i].nome;
+            
 
             let select = document.getElementById("motorista");
 
@@ -207,9 +253,10 @@ const listarMotoristasSelectRetorno = () => {
         if (data[i].veiculos.length !== 0) {
           if (data[i].veiculos[i].disponivel === false) {
             var option = document.createElement("option");
+            option.setAttribute("id", data[i].id_motorista)
             option.value = data[i].id_motorista;
             option.innerHTML = data[i].nome;
-
+            console.log(option);
             let select = document.getElementById("motoristaRetorno");
             select.remove(0);
 
@@ -220,35 +267,7 @@ const listarMotoristasSelectRetorno = () => {
     });
 };
 
-const preencherTabela = () => {
-  const options = {
-    method: "GET",
-  };
-  fetch(uriGetViagens, options)
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      for (var i = 0; i < data.length; i++) {
-        console.log(data[i]);
 
-        const tr = document.createElement("tr");
-        const tdFrota = document.createElement("td");
-        const tdVeiculo = document.createElement("td");
-        const tdMarca = document.createElement("td");
-        const tdPlaca = document.createElement("td");
-        const tdDescricao = document.createElement("td")
-
-        
-
-        document.querySelector(".conteudoTabela").appendChild(tr);
-
-
-      }
-     
-      
-    });
-};
 
 listarFrotas();
 listarVeiculosSelect();

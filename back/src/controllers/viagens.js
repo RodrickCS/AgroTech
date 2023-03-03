@@ -7,7 +7,7 @@ const read = async (req, res) => {
   try {
     let viagem = await prisma.viagens.findMany({
       select: {
-        id_viagem: true, 
+        id_viagem: true,
         id_veiculo: true,
         id_motorista: true,
         descricao: true,
@@ -16,19 +16,34 @@ const read = async (req, res) => {
         veiculos: true,
       },
     });
-    res.status(200).json(viagem);
+    res.status(200).json(viagem).end();
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err).end();
     console.log(err);
   }
 };
 
 const create = async (req, res) => {
   try {
-    if (Object.keys(req.body).length === 4) {
+    if (Object.keys(req.body).length === 3) {
       let viagens = await prisma.viagens.create({
-        data: req.body,
+        data: {
+          id_veiculo: req.body.id_veiculo,
+          id_motorista: req.body.id_motorista,
+          descricao: req.body.descricao,
+          hora_saida: new Date(),
+        },
       });
+
+      viagens = await prisma.veiculos.update({
+        where: {
+          id_veiculo: req.body.id_veiculo,
+        },
+        data: {
+          disponivel: false,
+        },
+      });
+
       res.status(201).json(viagens).end();
     } else {
       res.status(400).json({ msg: "Formulário inválido" }).end();
@@ -49,4 +64,30 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { read, create };
+const updateChegou = async (req, res) => {
+  try {
+    let viagens = await prisma.viagens.update({
+      where: {
+        id_viagem: Number(req.params.id_viagem),
+      },
+      data: {
+        hora_retorno: new Date(),
+      },
+    });
+
+     viagens = await prisma.veiculos.update({
+      where: {
+        id_veiculo: Number(viagens.id_veiculo),
+      },
+      data: {
+        disponivel: true,
+      },
+    });
+    res.status(200).json(viagens).end();
+  } catch (err) {
+    res.status(500).json(err).end();
+    console.log(err);
+  }
+};
+
+module.exports = { read, create, updateChegou };
