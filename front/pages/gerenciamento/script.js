@@ -134,13 +134,13 @@ const listarVeiculosSelect = () => {
     })
     .then((data) => {
       for (var i = 0; i < data.length; i++) {
-        var option = document.createElement("option");
+        let option = document.createElement("option");
         if (data[i].disponivel !== false) {
           option.setAttribute("value", data[i].marca);
           option.innerHTML =
             data[i].marca + " " + data[i].cor + " " + data[i].placa;
 
-          var select = document.getElementById("veiculo");
+          let select = document.getElementById("veiculo");
 
           select.add(option);
 
@@ -161,13 +161,38 @@ const listarMotoristasSelect = () => {
     .then((data) => {
       for (var i = 0; i < data.length; i++) {
         if (data[i].veiculos.length !== 0) {
-          console.log(data[i].veiculos[i].disponivel);
           if (data[i].veiculos[i].disponivel === true) {
+            let option = document.createElement("option");
+            option.value = data[i].id_motorista;
+            option.innerHTML = data[i].nome;
+
+            let select = document.getElementById("motorista");
+
+            select.add(option);
+          }
+        }
+      }
+    });
+};
+
+const listarMotoristasSelectRetorno = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriGetMotoristas, options)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].veiculos.length !== 0) {
+          if (data[i].veiculos[i].disponivel === false) {
             var option = document.createElement("option");
             option.value = data[i].id_motorista;
             option.innerHTML = data[i].nome;
 
-            var select = document.getElementById("motorista");
+            let select = document.getElementById("motoristaRetorno");
+            select.remove(0)
 
             select.add(option);
           }
@@ -179,3 +204,4 @@ const listarMotoristasSelect = () => {
 listarFrotas();
 listarVeiculosSelect();
 listarMotoristasSelect();
+listarMotoristasSelectRetorno();
