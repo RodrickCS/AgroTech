@@ -38,6 +38,18 @@ const gerenciarFrotas = () => {
   document.querySelector(".clonenodeAppend").classList.add("model");
 };
 
+const openViagensEditor = () => {
+  document.querySelector(".leftNavbar").classList.add("model");
+  document.querySelector(".viagensMain").classList.remove("model");
+  document.querySelector(".registrarViagemCard").classList.remove("model");
+  
+};
+
+const closeViagensEditor = () => {
+  document.querySelector(".viagensMain").classList.add("model");
+  document.querySelector(".leftNavbar").classList.remove("model");
+};
+
 const criarFrota = () => {
   if (document.getElementById("tipoFrota").value !== "") {
     const form = {

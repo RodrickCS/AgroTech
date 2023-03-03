@@ -128,6 +128,17 @@ main {
   position: relative;
 }
 
+.viagensMain{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  position: relative;
+  gap: 20px;
+}
 .mainFrotaHeader {
   display: flex;
   position: absolute;
@@ -140,7 +151,28 @@ main {
 }
 
 .criarFrotaCard {
-  position: absolute;
+  
+  width: 40%;
+  height: 40%;
+  border-radius: 12px;
+  padding: 20px;
+  background-color: #d3d70063;
+  -webkit-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+  -moz-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+  box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+}
+.registrarViagemCard {
+ 
+  width: 40%;
+  height: 40%;
+  border-radius: 12px;
+  padding: 20px;
+  background-color: #d3d70063;
+  -webkit-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+  -moz-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+  box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+}
+.motoristRretornouCard {
   width: 40%;
   height: 40%;
   border-radius: 12px;
@@ -186,7 +218,6 @@ input {
 
 input:focus + .border {
   width: 80%;
-  border-bottom: 1px solid black;
 }
 
 .cardFooter {
