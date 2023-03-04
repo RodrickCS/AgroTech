@@ -97,10 +97,14 @@ const preencherTabela = () => {
         tdPlaca.innerHTML = data[i].veiculos.placa;
         tdDescricao.innerHTML = data[i].descricao;
         tdHoraSaida.innerHTML = data[i].hora_saida.split("T")[1].split(".")[0];
-        if (tdHoraRetorno.innerHTML != "")
+        tdHoraRetorno.innerHTML = data[i].hora_retorno;
+        if (tdHoraRetorno.innerHTML === "") {
+          tdHoraRetorno.innerHTML = "Viajando";
+        } else {
           tdHoraRetorno.innerHTML = data[i].hora_retorno
             .split("T")[1]
             .split(".")[0];
+        }
 
         tr.appendChild(tdViagem);
         tr.appendChild(tdVeiculo);
@@ -206,7 +210,7 @@ const listarVeiculosSelect = () => {
             data[i].marca + " " + data[i].cor + " " + data[i].placa;
 
           let select = document.getElementById("veiculo");
-          select.remove(0);
+
           select.add(option);
 
           document.getElementById("veiculo").appendChild(option);
@@ -231,7 +235,7 @@ const listarMotoristasSelect = () => {
             option.setAttribute("id", "mid" + data[i].id_motorista);
             option.innerHTML = data[i].nome;
             let select = document.getElementById("motorista");
-           
+
             select.add(option);
           }
         }
@@ -252,12 +256,12 @@ const listarMotoristasSelectRetorno = () => {
         if (data[i].veiculos.length !== 0) {
           if (data[i].veiculos[0].disponivel === false) {
             let select = document.getElementById("motoristaRetorno");
-            select.remove(0);
+
             var option = document.createElement("option");
-            option.setAttribute("id", "mrid" + data[i].id_motorista);
+            option.setAttribute("id", "idvia" + data[i].viagem[0].id_viagem);
             option.innerHTML = data[i].nome;
             select.add(option);
-            console.log(select.selectedOptions[0])
+            console.log(select.selectedOptions[0]);
           }
         }
       }
@@ -304,8 +308,10 @@ const regisTrarRetorno = () => {
       authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
     },
   };
-  let id_viagem = document.getElementById("motoristaRetorno").selectedOptions[0].id;
-  fetch(uriViagemRetorno, options)
+  let select = document.getElementById("motoristaRetorno");
+  let idViagem = select.selectedOptions[0].id.split("a")[1];
+  console.log(idViagem);
+  fetch(uriViagemRetorno + idViagem, options)
     .then((res) => {
       return res.json();
     })
@@ -313,7 +319,6 @@ const regisTrarRetorno = () => {
       console.log(data);
     });
 };
-
 
 listarFrotas();
 listarVeiculosSelect();

@@ -33,6 +33,7 @@ const readAll = async (req, res) => {
         cpf: true,
         endereco: true,
         veiculos: true,
+        viagem: true,
       },
     });
     res.status(200).json(motorista).end();
