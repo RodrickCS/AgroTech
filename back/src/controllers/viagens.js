@@ -68,7 +68,7 @@ const updateChegou = async (req, res) => {
   try {
     let viagens = await prisma.viagens.update({
       where: {
-        id_viagem: Number(req.params.id_viagem),
+        id_motorista: Number(req.params.id_motorista),
       },
       data: {
         hora_retorno: new Date(),

@@ -86,3 +86,6 @@ ALTER TABLE `Veiculos` ADD CONSTRAINT `Veiculos_idFrota_fkey` FOREIGN KEY (`idFr
 
 -- AddForeignKey
 ALTER TABLE `Viagens` ADD CONSTRAINT `Viagens_id_veiculo_fkey` FOREIGN KEY (`id_veiculo`) REFERENCES `Veiculos`(`id_veiculo`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Viagens` ADD CONSTRAINT `Viagens_id_motorista_fkey` FOREIGN KEY (`id_motorista`) REFERENCES `Motoristas`(`id_motorista`) ON DELETE RESTRICT ON UPDATE CASCADE;

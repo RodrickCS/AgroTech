@@ -100,19 +100,22 @@
           </div>
           <div class="cardBody">
             <label for="veiculo">Veículo:</label>
-            <select id="veiculo" name="veiculoList" form="veiculoForm"></select>
+            <select id="veiculo" name="veiculoList" form="veiculoForm">
+              <option value="Disponivel">
+                Todos os veiculos estão indisponíveis
+              </option>
+            </select>
             <label for="motorista">motorista:</label>
-            <select
-              id="motorista"
-              name="motoristaList"
-              form="motoristaForm"
-            ></select>
+            <select id="motorista" name="motoristaList" form="motoristaForm">
+              <option value="Disponivel">
+                Todos os motoristas estão indisponíveis
+              </option>
+            </select>
             <input type="text" id="descricao" placeholder="Descricao" />
             <span class="border"></span>
-          
           </div>
           <div class="cardFooter">
-            <button onclick="criarFrota()" class="cardBt">
+            <button onclick="regisTrarViagem()" class="cardBt">
               Registrar viagem
             </button>
           </div>
@@ -129,7 +132,7 @@
               form="motoristaRetornoForm"
             >
               <option value="Disponivel">
-                Todos os motoristas estão disponíveis
+                Selecione um Motorista
               </option>
             </select>
           </div>

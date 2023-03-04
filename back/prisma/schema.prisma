@@ -28,6 +28,7 @@ model Motoristas {
   cpf          String     @unique
   endereco     String
   veiculos     Veiculos[]
+  viagem       Viagens[]
 }
 
 model Manutencoes {
@@ -61,11 +62,12 @@ model Veiculos {
 }
 
 model Viagens {
-  id_viagem    Int       @id @default(autoincrement())
+  id_viagem    Int        @id @default(autoincrement())
   id_veiculo   Int
   id_motorista Int
   descricao    String
   hora_saida   DateTime
   hora_retorno DateTime?
-  veiculos     Veiculos  @relation(fields: [id_veiculo], references: [id_veiculo])
+  veiculos     Veiculos   @relation(fields: [id_veiculo], references: [id_veiculo])
+  motorista    Motoristas @relation(fields: [id_motorista], references: [id_motorista])
 }
