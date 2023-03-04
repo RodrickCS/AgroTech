@@ -97,14 +97,10 @@ const preencherTabela = () => {
         tdPlaca.innerHTML = data[i].veiculos.placa;
         tdDescricao.innerHTML = data[i].descricao;
         tdHoraSaida.innerHTML = data[i].hora_saida.split("T")[1].split(".")[0];
-        tdHoraRetorno.innerHTML = data[i].hora_retorno;
-        if (tdHoraRetorno.innerHTML === "") {
-          tdHoraRetorno.innerHTML = "Viajando";
-        } else {
-          tdHoraRetorno.innerHTML = data[i].hora_retorno
-            .split("T")[1]
-            .split(".")[0];
-        }
+        tdHoraRetorno.innerHTML =
+          data[i].hora_retorno == null
+            ? data[i].hora_retorno
+            : data[i].hora_retorno.split("T")[1].split(".")[0];
 
         tr.appendChild(tdViagem);
         tr.appendChild(tdVeiculo);
