@@ -224,11 +224,12 @@ const listarMotoristasSelect = () => {
       return res.json();
     })
     .then((data) => {
+      
       for (var i = 0; i < data.length; i++) {
         if (data[i].veiculos.length !== 0) {
           if (data[i].veiculos[0].disponivel === true) {
             let option = document.createElement("option");
-            option.setAttribute("id", "mid" + data[i].id_motorista);
+            option.setAttribute("value", "mid" + data[i].id_motorista);
             option.innerHTML = data[i].nome;
             let select = document.getElementById("motorista");
 
@@ -252,12 +253,14 @@ const listarMotoristasSelectRetorno = () => {
         if (data[i].veiculos.length !== 0) {
           if (data[i].veiculos[0].disponivel === false) {
             let select = document.getElementById("motoristaRetorno");
-
+          
             var option = document.createElement("option");
-            option.setAttribute("id", "idvia" + data[i].viagem[0].id_viagem);
+            option.setAttribute(
+              "value",
+              data[0].viagem[data[0].viagem.length - 1].id_viagem
+            );
             option.innerHTML = data[i].nome;
             select.add(option);
-            console.log(select.selectedOptions[0]);
           }
         }
       }
@@ -271,7 +274,7 @@ const regisTrarViagem = () => {
 
   let form = {
     id_veiculo: Number(selectVeiculo.selectedOptions[0].id.split("d")[1]),
-    id_motorista: Number(selectMotorista.selectedOptions[0].id.split("d")[1]),
+    id_motorista: Number(selectMotorista.selectedOptions[0].value.split("d")[1]),
     descricao: descricao.value,
   };
   console.log(form);
@@ -304,9 +307,9 @@ const regisTrarRetorno = () => {
       authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
     },
   };
-  let select = document.getElementById("motoristaRetorno");
-  let idViagem = select.selectedOptions[0].id.split("a")[1];
-  console.log(idViagem);
+  let select = document.getElementById("motoristaRetorno")
+  let idViagem = select.selectedOptions[0].value
+  console.log(idViagem)
   fetch(uriViagemRetorno + idViagem, options)
     .then((res) => {
       return res.json();
@@ -321,3 +324,6 @@ listarVeiculosSelect();
 listarMotoristasSelect();
 listarMotoristasSelectRetorno();
 preencherTabela();
+
+
+// console.log(data[0].viagem[data[0].viagem.length - 1].id_viagem);
