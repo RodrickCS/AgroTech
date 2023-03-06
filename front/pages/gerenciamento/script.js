@@ -311,5 +311,3 @@ listarFrotas();
 listarVeiculosSelect();
 listarMotoristasSelect();
 preencherTabela();
-
-// console.log(data[0].viagem[data[0].viagem.length - 1].id_viagem);
