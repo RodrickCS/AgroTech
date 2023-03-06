@@ -242,8 +242,8 @@ const listarMotoristasSelect = () => {
     })
     .then((data) => {
       for (var i = 0; i < data.length; i++) {
-        if (data[i].veiculos.length !== 0) {
-          if (data[i].veiculos[0].disponivel === true) {
+        if (data[i].length !== 0) {
+          if (data[i].disponivel === true) {
             let option = document.createElement("option");
             option.setAttribute("value", "mid" + data[i].id_motorista);
             option.innerHTML = data[i].nome;
@@ -289,8 +289,6 @@ const regisTrarViagem = () => {
       }
     });
 };
-
-
 
 const registrarRetorno = (id) => {
   const options = {

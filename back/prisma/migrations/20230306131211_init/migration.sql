@@ -22,6 +22,7 @@ CREATE TABLE `Motoristas` (
     `telefone` VARCHAR(191) NOT NULL,
     `cpf` VARCHAR(191) NOT NULL,
     `endereco` VARCHAR(191) NOT NULL,
+    `disponivel` BOOLEAN NOT NULL DEFAULT true,
 
     UNIQUE INDEX `Motoristas_telefone_key`(`telefone`),
     UNIQUE INDEX `Motoristas_cpf_key`(`cpf`),

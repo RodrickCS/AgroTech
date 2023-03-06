@@ -29,6 +29,7 @@ const readAll = async (req, res) => {
       select: {
         id_motorista: true,
         nome: true,
+        disponivel: true,
         telefone: true,
         cpf: true,
         endereco: true,

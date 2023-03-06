@@ -27,7 +27,7 @@ model Motoristas {
   telefone     String     @unique
   cpf          String     @unique
   endereco     String
-  disponivel   Boolean
+  disponivel   Boolean    @default(true)
   veiculos     Veiculos[]
   viagem       Viagens[]
 }
