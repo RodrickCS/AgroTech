@@ -47,7 +47,6 @@ const openViagensEditor = () => {
   document.querySelector(".leftNavbar").classList.add("model");
   document.querySelector(".viagensMain").classList.remove("model");
   document.querySelector(".registrarViagemCard").classList.remove("model");
-  document.querySelector(".motoristRretornouCard").classList.remove("model");
   document.querySelector(".verViagem").classList.remove("model");
   document.querySelector(".gerenciarViagem").classList.add("model");
 };
@@ -60,14 +59,12 @@ const closeViagensEditor = () => {
 
 const viewViagens = () => {
   document.querySelector(".registrarViagemCard").classList.add("model");
-  document.querySelector(".motoristRretornouCard").classList.add("model");
   document.querySelector(".gerenciarViagem").classList.remove("model");
   document.querySelector(".verViagem").classList.add("model");
   document.querySelector(".tableViagens").classList.remove("model");
 };
 const gerenciarViagens = () => {
   document.querySelector(".registrarViagemCard").classList.remove("model");
-  document.querySelector(".motoristRretornouCard").classList.remove("model");
   document.querySelector(".gerenciarViagem").classList.add("model");
   document.querySelector(".verViagem").classList.remove("model");
   document.querySelector(".tableViagens").classList.add("model");
@@ -90,6 +87,24 @@ const preencherTabela = () => {
         const tdDescricao = document.createElement("td");
         const tdHoraSaida = document.createElement("td");
         const tdHoraRetorno = document.createElement("td");
+        const tdButton = document.createElement("td");
+        const btRetorna = document.createElement("button");
+        const imgRetorna = document.createElement("img");
+
+        imgRetorna.src = "../../assets/check.png";
+        imgRetorna.style.width = "30px";
+
+        btRetorna.style.width = "100%";
+        btRetorna.style.background = "none";
+        btRetorna.style.border = "none";
+        btRetorna.style.cursor = "pointer";
+        btRetorna.setAttribute(
+          "onclick",
+          "registrarRetorno('" + data[i].id_viagem + "')"
+        );
+
+        tdButton.appendChild(btRetorna);
+        btRetorna.appendChild(imgRetorna);
         tr.setAttribute("id", i + 1);
 
         tdViagem.innerHTML = data[i].id_viagem;
@@ -108,7 +123,9 @@ const preencherTabela = () => {
         tr.appendChild(tdDescricao);
         tr.appendChild(tdHoraSaida);
         tr.appendChild(tdHoraRetorno);
+        tr.appendChild(tdButton);
 
+        console.log(tr);
         document.querySelector(".conteudoTabela").appendChild(tr);
       }
     });
@@ -199,7 +216,7 @@ const listarVeiculosSelect = () => {
     .then((data) => {
       for (var i = 0; i < data.length; i++) {
         let option = document.createElement("option");
-        if (data[i].disponivel !== false) {
+        if (data[i].disponivel === true) {
           option.setAttribute("value", data[i].marca);
           option.setAttribute("id", "vid" + data[i].id_veiculo);
           option.innerHTML =
@@ -224,7 +241,6 @@ const listarMotoristasSelect = () => {
       return res.json();
     })
     .then((data) => {
-      
       for (var i = 0; i < data.length; i++) {
         if (data[i].veiculos.length !== 0) {
           if (data[i].veiculos[0].disponivel === true) {
@@ -240,33 +256,6 @@ const listarMotoristasSelect = () => {
     });
 };
 
-const listarMotoristasSelectRetorno = () => {
-  const options = {
-    method: "GET",
-  };
-  fetch(uriGetMotoristas, options)
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      for (var i = 0; i < data.length; i++) {
-        if (data[i].veiculos.length !== 0) {
-          if (data[i].veiculos[0].disponivel === false) {
-            let select = document.getElementById("motoristaRetorno");
-          
-            var option = document.createElement("option");
-            option.setAttribute(
-              "value",
-              data[0].viagem[data[0].viagem.length - 1].id_viagem
-            );
-            option.innerHTML = data[i].nome;
-            select.add(option);
-          }
-        }
-      }
-    });
-};
-
 const regisTrarViagem = () => {
   let selectVeiculo = document.getElementById("veiculo");
   let selectMotorista = document.getElementById("motorista");
@@ -274,7 +263,9 @@ const regisTrarViagem = () => {
 
   let form = {
     id_veiculo: Number(selectVeiculo.selectedOptions[0].id.split("d")[1]),
-    id_motorista: Number(selectMotorista.selectedOptions[0].value.split("d")[1]),
+    id_motorista: Number(
+      selectMotorista.selectedOptions[0].value.split("d")[1]
+    ),
     descricao: descricao.value,
   };
   console.log(form);
@@ -299,7 +290,9 @@ const regisTrarViagem = () => {
     });
 };
 
-const regisTrarRetorno = () => {
+
+
+const registrarRetorno = (id) => {
   const options = {
     method: "PUT",
     headers: {
@@ -307,10 +300,7 @@ const regisTrarRetorno = () => {
       authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
     },
   };
-  let select = document.getElementById("motoristaRetorno")
-  let idViagem = select.selectedOptions[0].value
-  console.log(idViagem)
-  fetch(uriViagemRetorno + idViagem, options)
+  fetch(uriViagemRetorno + id, options)
     .then((res) => {
       return res.json();
     })
@@ -322,8 +312,6 @@ const regisTrarRetorno = () => {
 listarFrotas();
 listarVeiculosSelect();
 listarMotoristasSelect();
-listarMotoristasSelectRetorno();
 preencherTabela();
-
 
 // console.log(data[0].viagem[data[0].viagem.length - 1].id_viagem);
