@@ -45,6 +45,15 @@ const create = async (req, res) => {
         },
       });
 
+      motoristas = await prisma.motoristas.update({
+        where: {
+          id_motorista: req.body.id_motorista,
+        },
+        data: {
+          disponivel: false,
+        },
+      });
+
       res.status(201).json(viagens).end();
     } else {
       res.status(400).json({ msg: "Formulário inválido" }).end();
@@ -76,9 +85,18 @@ const updateChegou = async (req, res) => {
       },
     });
 
-    viagens = await prisma.veiculos.update({
+    let veiculos = await prisma.veiculos.update({
       where: {
         id_veiculo: Number(viagens.id_veiculo),
+      },
+      data: {
+        disponivel: true,
+      },
+    });
+
+    let motoristas = await prisma.motoristas.update({
+      where: {
+        id_motorista: Number(viagens.id_motorista),
       },
       data: {
         disponivel: true,

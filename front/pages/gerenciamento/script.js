@@ -80,7 +80,6 @@ const preencherTabela = () => {
     })
     .then((data) => {
       for (var i = 0; i < data.length; i++) {
-        
         const tr = document.createElement("tr");
         const tdViagem = document.createElement("td");
         const tdVeiculo = document.createElement("td");
@@ -113,12 +112,17 @@ const preencherTabela = () => {
         tdVeiculo.innerHTML = data[i].veiculos.marca;
         tdPlaca.innerHTML = data[i].veiculos.placa;
         tdDescricao.innerHTML = data[i].descricao;
-        tdNomeMotorista.innerHTML = data[i].motorista.nome
+        tdNomeMotorista.innerHTML = data[i].motorista.nome;
         tdHoraSaida.innerHTML = data[i].hora_saida.split("T")[1].split(".")[0];
-        tdHoraRetorno.innerHTML =
-          data[i].hora_retorno == null
-            ? data[i].hora_retorno
-            : data[i].hora_retorno.split("T")[1].split(".")[0];
+
+        if ((tdHoraRetorno.innerHTML = data[i].hora_retorno == null)) {
+          tdHoraRetorno.innerHTML = data[i].hora_retorno;
+        } else {
+          tdHoraRetorno.innerHTML = data[i].hora_retorno
+            .split("T")[1]
+            .split(".")[0];
+            btRetorna.setAttribute("disabled", true);
+        }
 
         tr.appendChild(tdViagem);
         tr.appendChild(tdVeiculo);
