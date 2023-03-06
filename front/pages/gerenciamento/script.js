@@ -80,10 +80,12 @@ const preencherTabela = () => {
     })
     .then((data) => {
       for (var i = 0; i < data.length; i++) {
+        
         const tr = document.createElement("tr");
         const tdViagem = document.createElement("td");
         const tdVeiculo = document.createElement("td");
         const tdPlaca = document.createElement("td");
+        const tdNomeMotorista = document.createElement("td");
         const tdDescricao = document.createElement("td");
         const tdHoraSaida = document.createElement("td");
         const tdHoraRetorno = document.createElement("td");
@@ -111,6 +113,7 @@ const preencherTabela = () => {
         tdVeiculo.innerHTML = data[i].veiculos.marca;
         tdPlaca.innerHTML = data[i].veiculos.placa;
         tdDescricao.innerHTML = data[i].descricao;
+        tdNomeMotorista.innerHTML = data[i].motorista.nome
         tdHoraSaida.innerHTML = data[i].hora_saida.split("T")[1].split(".")[0];
         tdHoraRetorno.innerHTML =
           data[i].hora_retorno == null
@@ -120,6 +123,7 @@ const preencherTabela = () => {
         tr.appendChild(tdViagem);
         tr.appendChild(tdVeiculo);
         tr.appendChild(tdPlaca);
+        tr.appendChild(tdNomeMotorista);
         tr.appendChild(tdDescricao);
         tr.appendChild(tdHoraSaida);
         tr.appendChild(tdHoraRetorno);

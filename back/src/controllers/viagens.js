@@ -14,6 +14,7 @@ const read = async (req, res) => {
         hora_saida: true,
         hora_retorno: true,
         veiculos: true,
+        motorista: true,
       },
     });
     res.status(200).json(viagem).end();
@@ -75,7 +76,7 @@ const updateChegou = async (req, res) => {
       },
     });
 
-     viagens = await prisma.veiculos.update({
+    viagens = await prisma.veiculos.update({
       where: {
         id_veiculo: Number(viagens.id_veiculo),
       },
