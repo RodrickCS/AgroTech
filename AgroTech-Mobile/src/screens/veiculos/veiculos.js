@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,48 +6,52 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  ScrollView,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import Logo from "../../components/Logo/logo";
 
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [escondeSenha, setEscondeSenha] = useState(true);
-  const [token, setToken] = useState("");
+  const [dadosVeiculo, setDadosVeiculo] = useState([]);
 
-  const uriLogin = "http://localhost:3000/funcionarios/login";
+  useEffect(() => {
+    setInterval(() => {
+      fetchVeiculos();
+    }, 1500);
+  }, []);
 
-  function login() {
-    const form = {
-      email: email,
-      senha: password,
-    };
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    };
-    fetch(uriLogin, options)
-      .then((res) => {
-        return res.json();
+  const fetchVeiculos = () => {
+    fetch("http://localhost:3000/veiculos/read")
+      .then((response) => {
+        return response.json();
       })
       .then((data) => {
-        if (data.msg) {
-          console.log(data.msg);
-        } else {
-          console.log(data[0].token);
-          AsyncStorage.setItem("role", data[0].role);
-          AsyncStorage.setItem("token", data[0].token);
-          navigation.navigate("GerenciamentoRedirectToComponent");
-        }
+        setDadosVeiculo(data);
       });
-  }
+  };
 
-  return <View style={styles.container}></View>;
+  return (
+    <View style={styles.container}>
+      <View style={styles.veiculosContainer}>
+        <ScrollView>
+          {dadosVeiculo.map((veiculo, index) => {
+            return (
+              <View style={styles.card} key={index}>
+                <Logo/>
+                <Text>{veiculo.id_veiculo}</Text>
+                <Text>{veiculo.marca}</Text>
+                <Text>{veiculo.placa}</Text>
+                <Text>
+                  {veiculo.disponivel === true
+                    ? (veiculo.disponivel = "Disponível")
+                    : (veiculo.disponivel = "Indisponível")}
+                </Text>
+              </View>
+            );
+          })}
+        </ScrollView>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -56,5 +60,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#007f5f",
     alignItems: "center",
     gap: "40px",
+  },
+  veiculosContainer: {
+    padding: "30px",
+    borderRadius: "12px",
+    marginTop: "12px",
+    width: "95%",
+    height: "300px",
+    backgroundColor: "#80b918",
+  },
+  card: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    width: "100%",
+    height: "60px",
+    borderRadius: "12px",
+    backgroundColor: "#007f5f",
   },
 });

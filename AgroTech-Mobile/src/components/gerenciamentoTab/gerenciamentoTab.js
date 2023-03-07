@@ -2,7 +2,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Gerenciamento from "../../screens/gerenciamento/gerenciamento";
 import Veiculos from "../../screens/veiculos/veiculos";
 import Manutencoes from "../../screens/manutencoes/manutencoes";
 
@@ -18,20 +17,10 @@ export default function GerenciamentoTab() {
         tabBarActiveTintColor: "#AACC00",
         tabBarStyle: {
           backgroundColor: "#007f5f",
-          borderTop: "1px solid #AACC00"
-        }
+          borderTop: "1px solid #AACC00",
+        },
       }}
     >
-      <Tab.Screen
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" color={color} size={size} />
-          ),
-        }}
-        name="Gerenciamento"
-        component={Gerenciamento}
-      />
       <Tab.Screen
         options={{
           tabBarLabel: "Veiculos",
