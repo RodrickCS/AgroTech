@@ -12,8 +12,8 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("admin@gmail.com");
+  const [password, setPassword] = useState("senha1234");
   const [escondeSenha, setEscondeSenha] = useState(true);
   const [token, setToken] = useState("");
 
@@ -39,9 +39,9 @@ export default function Login({ navigation }) {
         if(data.msg){
           console.log(data.msg);
         } else {
-          console.log(data[0].token);
           AsyncStorage.setItem("role", data[0].role)
           AsyncStorage.setItem("token", data[0].token)
+          navigation.navigate("GerenciamentoRedirectToComponent")
         }
  
       
@@ -53,7 +53,7 @@ export default function Login({ navigation }) {
       <View>
       <Image
         style={{ width: "120px", height: "100px" }}
-        source={require("C:/Users/Desenvolvimento/Desktop/AgroTech/AgroTech-Mobile/assets/AgroTech-Logo.png")}
+        source={require("C:/Users/Rodrigo/Desktop/AgroTech/AgroTech-Mobile/assets/AgroTech-Logo.png")}
       />
       <Text style={{fontSize: "25px"}} >Bem <Text style={{color: "#5ac879"}}>vindo(a)!</Text></Text>
       </View>
@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#007f5f",
     alignItems: "center",
-    margin: 30,
     gap: "40px",
   },
   inputEmailArea: {
