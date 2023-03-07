@@ -36,19 +36,28 @@ export default function Login({ navigation }) {
         return res.json();
       })
       .then((data) => {
-       console.log(data[0].token);
-       AsyncStorage.setItem("role", data[0].role)
-       AsyncStorage.setItem("token", data[0].token)
+        if(data.msg){
+          console.log(data.msg);
+        } else {
+          console.log(data[0].token);
+          AsyncStorage.setItem("role", data[0].role)
+          AsyncStorage.setItem("token", data[0].token)
+        }
+ 
       
       });
   }
 
   return (
     <View style={styles.container}>
+      <View>
       <Image
         style={{ width: "120px", height: "100px" }}
-        source={require("C:/Users/Rodrigo/Desktop/AgroTech/AgroTech-Mobile/assets/AgroTech-Logo.png")}
+        source={require("C:/Users/Desenvolvimento/Desktop/AgroTech/AgroTech-Mobile/assets/AgroTech-Logo.png")}
       />
+      <Text style={{fontSize: "25px"}} >Bem <Text style={{color: "#5ac879"}}>vindo(a)!</Text></Text>
+      </View>
+      
       <View style={styles.inputEmailArea}>
         <TextInput
           onChangeText={(val) => {
@@ -97,13 +106,14 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#c1d2006a",
+    backgroundColor: "#007f5f",
     alignItems: "center",
     margin: 30,
     gap: "40px",
   },
   inputEmailArea: {
     flexDirection: "row",
+    
     width: "90%",
     backgroundColor: "#121212",
     borderRadius: 5,
