@@ -53,7 +53,7 @@ export default function Login({ navigation }) {
       <View>
       <Image
         style={{ width: "120px", height: "100px" }}
-        source={require("C:/Users/Rodrigo/Desktop/AgroTech/AgroTech-Mobile/assets/AgroTech-Logo.png")}
+        source={require("../../../assets/AgroTech-Logo.png")}
       />
       <Text style={{fontSize: "25px"}} >Bem <Text style={{color: "#5ac879"}}>vindo(a)!</Text></Text>
       </View>
