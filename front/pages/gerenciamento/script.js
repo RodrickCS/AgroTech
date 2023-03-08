@@ -109,6 +109,7 @@ const preencherTabelaViagens = () => {
       return res.json();
     })
     .then((data) => {
+      document.querySelector(".conteudoTabelaViagens").innerHTML = "";
       for (var i = 0; i < data.length; i++) {
         const tr = document.createElement("tr");
         const tdViagem = document.createElement("td");
@@ -184,6 +185,7 @@ const fetchTabelaVeiculos = () => {
 };
 
 const preencherTabelaVeiculos = () => {
+  document.querySelector(".conteudoTabelaVeiculos").innerHTML = "";
   for (var i = 0; i < dadosVeiculo.length; i++) {
     const tr = document.createElement("tr");
     const tdIdVeiculo = document.createElement("td");
@@ -201,7 +203,7 @@ const preencherTabelaVeiculos = () => {
     tdCor.innerHTML = dadosVeiculo[i].cor;
     tdDisponibilidade.innerHTML =
       dadosVeiculo[i].disponivel === true ? "Disponível" : "Indisponível";
-    tdMotorista.innerHTML = dadosVeiculo[i].motoristas.nome;
+    tdMotorista.innerHTML = dadosVeiculo[i].motorista.nome;
 
     tr.appendChild(tdIdVeiculo);
     tr.appendChild(tdIdFrota);
@@ -446,8 +448,8 @@ const adicionarVeiculo = () => {
       marca: inpMarca.value,
       placa: inpPlaca.value,
       cor: inpCor.value,
-      id_motorista: Number(selectMotorista.selectedOptions[0].id.split("e")[1]),
-      id_frota: Number(selectFrota.selectedOptions[0].id.split("a")[1]),
+      idMotorista: Number(selectMotorista.selectedOptions[0].id.split("e")[1]),
+      idFrota: Number(selectFrota.selectedOptions[0].id.split("a")[1]),
     };
 
     const options = {
@@ -476,8 +478,14 @@ listarVeiculosSelectViagens();
 listarMotoristasSelectViagens();
 listarMotoristasSelectVeiculo();
 listarFrotasSelectVeiculo();
-preencherTabelaViagens();
-fetchTabelaVeiculos();
+setInterval(() => {
+  preencherTabelaViagens();
+}, 2000);
+setInterval(() => {
+  fetchTabelaVeiculos();
+}, 2000);
+
+
 
 function validarPlaca(placa) {
   var resposta = "placa inválida";

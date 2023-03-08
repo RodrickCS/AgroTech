@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const create = async (req, res) => {
   try {
-    if (Object.keys(req.body).length === 4) {
+    if (Object.keys(req.body).length === 5) {
       let motorista = await prisma.motoristas.create({
         data: req.body,
       });
@@ -32,6 +32,7 @@ const readAll = async (req, res) => {
         disponivel: true,
         telefone: true,
         cpf: true,
+        cnh: true,
         endereco: true,
         veiculos: true,
         viagem: true,

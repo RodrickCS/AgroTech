@@ -21,11 +21,13 @@ CREATE TABLE `Motoristas` (
     `nome` VARCHAR(191) NOT NULL,
     `telefone` VARCHAR(191) NOT NULL,
     `cpf` VARCHAR(191) NOT NULL,
+    `cnh` VARCHAR(191) NOT NULL,
     `endereco` VARCHAR(191) NOT NULL,
     `disponivel` BOOLEAN NOT NULL DEFAULT true,
 
     UNIQUE INDEX `Motoristas_telefone_key`(`telefone`),
     UNIQUE INDEX `Motoristas_cpf_key`(`cpf`),
+    UNIQUE INDEX `Motoristas_cnh_key`(`cnh`),
     PRIMARY KEY (`id_motorista`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -57,7 +59,7 @@ CREATE TABLE `Veiculos` (
     `placa` VARCHAR(191) NOT NULL,
     `cor` VARCHAR(191) NOT NULL,
     `idMotorista` INTEGER NOT NULL,
-    `disponivel` BOOLEAN NOT NULL,
+    `disponivel` BOOLEAN NULL DEFAULT true,
     `idFrota` INTEGER NOT NULL,
 
     UNIQUE INDEX `Veiculos_placa_key`(`placa`),

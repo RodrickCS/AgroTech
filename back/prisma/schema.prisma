@@ -55,7 +55,7 @@ model Veiculos {
   placa       String        @unique
   cor         String
   idMotorista Int
-  disponivel  Boolean
+  disponivel  Boolean?      @default(true)
   manutencoes Manutencoes[]
   motorista   Motoristas    @relation(fields: [idMotorista], references: [id_motorista])
   frota       Frota         @relation(fields: [idFrota], references: [id_frota])

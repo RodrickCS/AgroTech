@@ -5,20 +5,20 @@ require("dotenv").config();
 
 const create = async (req, res) => {
   try {
-    if (Object.keys(req.body).length === 6) {
+    if (Object.keys(req.body).length === 5) {
       let veiculo = await prisma.veiculos.create({
         data: req.body,
       });
       res.status(201).json(veiculo).end();
     } else {
-      res.status(400).json({ msg: "Formulário inválido" }).end();
+      res.status(400).json({ msg: "Formulário inválido, campos faltando" }).end();
     }
   } catch (err) {
     if (err.code === "P2003") {
       res
         .status(400)
         .json([
-          { msg: "Erro no formulário cheque as informações e tente novamente" },
+          { msg: "Veículo não existe verifique o id" },
           { erro: err },
         ])
         .end();
@@ -39,7 +39,7 @@ const readAll = async (req, res) => {
         placa: true,
         cor: true,
         disponivel: true,
-        motoristas: true,
+        motorista: true,
         manutencoes: true,
       },
     });
