@@ -5,6 +5,9 @@ const uriGetVeiculos = "http://localhost:3000/veiculos/read";
 const uriGetMotoristas = "http://localhost:3000/motoristas/read";
 const uriGetViagens = "http://localhost:3000/viagens/read";
 const uriViagemRetorno = "http://localhost:3000/viagens/update/";
+const uriCreateVeiculos = "http://localhost:3000/veiculos/create";
+
+var dadosVeiculo = [];
 
 const card = document.querySelector(".card");
 const cardToggle = document.querySelector(".toggle");
@@ -70,7 +73,34 @@ const gerenciarViagens = () => {
   document.querySelector(".tableViagens").classList.add("model");
 };
 
-const preencherTabela = () => {
+const openVeiculosEditor = () => {
+  document.querySelector(".leftNavbar").classList.add("model");
+  document.querySelector(".veiculosMain").classList.remove("model");
+  document.querySelector(".registrarVeiculoCard").classList.remove("model");
+  document.querySelector(".verVeiculos").classList.remove("model");
+};
+const closeVeiculosEditor = () => {
+  document.querySelector(".leftNavbar").classList.remove("model");
+  document.querySelector(".veiculosMain").classList.add("model");
+  document.querySelector(".gerenciarVeiculos").classList.add("model");
+  document.querySelector(".registrarVeiculoCard").classList.add("model");
+  document.querySelector(".tableVeiculos").classList.add("model");
+};
+
+const viewVeiculos = () => {
+  document.querySelector(".verVeiculos").classList.add("model");
+  document.querySelector(".gerenciarVeiculos").classList.remove("model");
+  document.querySelector(".registrarVeiculoCard").classList.add("model");
+  document.querySelector(".tableVeiculos").classList.remove("model");
+};
+const gerenciarVeiculos = () => {
+  document.querySelector(".verVeiculos").classList.remove("model");
+  document.querySelector(".gerenciarVeiculos").classList.add("model");
+  document.querySelector(".tableVeiculos").classList.add("model");
+  document.querySelector(".registrarVeiculoCard").classList.remove("model");
+};
+
+const preencherTabelaViagens = () => {
   const options = {
     method: "GET",
   };
@@ -121,7 +151,8 @@ const preencherTabela = () => {
           tdHoraRetorno.innerHTML = data[i].hora_retorno
             .split("T")[1]
             .split(".")[0];
-            btRetorna.setAttribute("disabled", true);
+          btRetorna.setAttribute("disabled", true);
+          btRetorna.style.visibility = "hidden";
         }
 
         tr.appendChild(tdViagem);
@@ -133,10 +164,55 @@ const preencherTabela = () => {
         tr.appendChild(tdHoraRetorno);
         tr.appendChild(tdButton);
 
-        console.log(tr);
-        document.querySelector(".conteudoTabela").appendChild(tr);
+        document.querySelector(".conteudoTabelaViagens").appendChild(tr);
       }
     });
+};
+
+const fetchTabelaVeiculos = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriGetVeiculos, options)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      dadosVeiculo = data;
+      preencherTabelaVeiculos();
+    });
+};
+
+const preencherTabelaVeiculos = () => {
+  for (var i = 0; i < dadosVeiculo.length; i++) {
+    const tr = document.createElement("tr");
+    const tdIdVeiculo = document.createElement("td");
+    const tdIdFrota = document.createElement("td");
+    const tdMarca = document.createElement("td");
+    const tdPlaca = document.createElement("td");
+    const tdCor = document.createElement("td");
+    const tdDisponibilidade = document.createElement("td");
+    const tdMotorista = document.createElement("td");
+
+    tdIdVeiculo.innerHTML = dadosVeiculo[i].id_veiculo;
+    tdIdFrota.innerHTML = dadosVeiculo[i].idFrota;
+    tdMarca.innerHTML = dadosVeiculo[i].marca;
+    tdPlaca.innerHTML = dadosVeiculo[i].placa;
+    tdCor.innerHTML = dadosVeiculo[i].cor;
+    tdDisponibilidade.innerHTML =
+      dadosVeiculo[i].disponivel === true ? "Disponível" : "Indisponível";
+    tdMotorista.innerHTML = dadosVeiculo[i].motoristas.nome;
+
+    tr.appendChild(tdIdVeiculo);
+    tr.appendChild(tdIdFrota);
+    tr.appendChild(tdMarca);
+    tr.appendChild(tdPlaca);
+    tr.appendChild(tdCor);
+    tr.appendChild(tdDisponibilidade);
+    tr.appendChild(tdMotorista);
+
+    document.querySelector(".conteudoTabelaVeiculos").appendChild(tr);
+  }
 };
 
 const criarFrota = () => {
@@ -213,7 +289,7 @@ const listarFrotas = () => {
     });
 };
 
-const listarVeiculosSelect = () => {
+const listarVeiculosSelectViagens = () => {
   const options = {
     method: "GET",
   };
@@ -240,7 +316,49 @@ const listarVeiculosSelect = () => {
     });
 };
 
-const listarMotoristasSelect = () => {
+const listarMotoristasSelectVeiculo = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriGetMotoristas, options)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].length !== 0 && data[i].disponivel === true) {
+          let option = document.createElement("option");
+          option.setAttribute("id", "midve" + data[i].id_motorista);
+          option.innerHTML = data[i].nome;
+          let select = document.getElementById("motoristaResponsavel");
+
+          select.add(option);
+        }
+      }
+    });
+};
+
+const listarFrotasSelectVeiculo = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriGetFrotas, options)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      for (let i = 0; i < data.length; i++) {
+        let option = document.createElement("option");
+        option.setAttribute("id", "idfrota" + data[i].id_frota);
+        option.innerHTML = data[i].tipo;
+        let select = document.getElementById("frotaVeiculo");
+
+        select.add(option);
+      }
+    });
+};
+
+const listarMotoristasSelectViagens = () => {
   const options = {
     method: "GET",
   };
@@ -276,7 +394,6 @@ const regisTrarViagem = () => {
     ),
     descricao: descricao.value,
   };
-  console.log(form);
   const options = {
     method: "POST",
     headers: {
@@ -315,7 +432,66 @@ const registrarRetorno = (id) => {
     });
 };
 
+const adicionarVeiculo = () => {
+  let inpMarca = document.getElementById("inpMarca");
+  let inpPlaca = document.getElementById("inpPlaca");
+  let inpCor = document.getElementById("inpCor");
+  let selectMotorista = document.getElementById("motoristaResponsavel");
+  let selectFrota = document.getElementById("frotaVeiculo");
+
+  let placaValidada = validarPlaca(inpPlaca.value);
+
+  if (placaValidada !== "placa inválida") {
+    const form = {
+      marca: inpMarca.value,
+      placa: inpPlaca.value,
+      cor: inpCor.value,
+      id_motorista: Number(selectMotorista.selectedOptions[0].id.split("e")[1]),
+      id_frota: Number(selectFrota.selectedOptions[0].id.split("a")[1]),
+    };
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
+      },
+      body: JSON.stringify(form),
+    };
+
+    fetch(uriCreateVeiculos, options)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  } else {
+    alert("Placa inválida");
+  }
+};
+
 listarFrotas();
-listarVeiculosSelect();
-listarMotoristasSelect();
-preencherTabela();
+listarVeiculosSelectViagens();
+listarMotoristasSelectViagens();
+listarMotoristasSelectVeiculo();
+listarFrotasSelectVeiculo();
+preencherTabelaViagens();
+fetchTabelaVeiculos();
+
+function validarPlaca(placa) {
+  var resposta = "placa inválida";
+  const regexPlaca = /^[a-zA-Z]{3}[0-9]{4}$/;
+  const regexPlacaMercosulCarro = /^[a-zA-Z]{3}[0-9]{1}[a-zA-Z]{1}[0-9]{2}$/;
+  const regexPlacaMercosulMoto = /^[a-zA-Z]{3}[0-9]{2}[a-zA-Z]{1}[0-9]{1}$/;
+  if (regexPlaca.test(placa)) {
+    resposta = "Placa válida no formato atual";
+  }
+  if (regexPlacaMercosulCarro.test(placa)) {
+    resposta = "Placa válida (padrão Mercosul - carro)";
+  }
+  if (regexPlacaMercosulMoto.test(placa)) {
+    resposta = "Placa válida (padrão Mercosul - moto)";
+  }
+  return resposta;
+}

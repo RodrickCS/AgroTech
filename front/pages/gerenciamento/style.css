@@ -171,6 +171,29 @@ main {
   -moz-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
   box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
 }
+
+.registrarVeiculoCard {
+  width: 40%;
+  height: 50%;
+  border-radius: 12px;
+  padding: 20px;
+  background-color: #d3d70063;
+  -webkit-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+  -moz-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+  box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+}
+
+.veiculosMain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  position: relative;
+}
+
 .motoristRretornouCard {
   width: 40%;
   height: 40%;
@@ -196,7 +219,7 @@ main {
   justify-content: center;
   margin-top: 20px;
   width: 100%;
-  height: 60%;
+  height: 60% ;
 }
 
 input {

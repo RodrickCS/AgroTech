@@ -43,6 +43,9 @@
             src="../../assets/itinerario-de-viagem.png"
           />Viagens
         </button>
+        <button class="navBt" onclick="openVeiculosEditor()">
+          <img width="30px" src="../../assets/carro.png" />Veículos
+        </button>
       </nav>
       <section class="frotaMain model">
         <div class="mainHeader">
@@ -100,13 +103,13 @@
           </div>
           <div class="cardBody">
             <label for="veiculo">Veículo:</label>
-            <select id="veiculo" name="veiculoList" form="veiculoForm">
-              
-            </select>
+            <select id="veiculo" name="veiculoList" form="veiculoForm"></select>
             <label for="motorista">motorista:</label>
-            <select id="motorista" name="motoristaList" form="motoristaForm">
-             
-            </select>
+            <select
+              id="motorista"
+              name="motoristaList"
+              form="motoristaForm"
+            ></select>
             <input type="text" id="descricao" placeholder="Descricao" />
             <span class="border"></span>
           </div>
@@ -129,8 +132,77 @@
               <th>Hora Retorno</th>
             </tr>
           </thead>
-          <tbody class="conteudoTabela"></tbody>
+          <tbody class="conteudoTabelaViagens"></tbody>
         </table>
+      </section>
+
+      <section class="veiculosMain model">
+        <div class="mainHeader">
+          <button onclick="viewVeiculos()" class="cardBt verVeiculos model">
+            Todos os veículos
+          </button>
+          <button onclick="gerenciarVeiculos()" class="cardBt gerenciarVeiculos model">
+            Gerenciar veiculos
+          </button>
+          <button class="btClose" onclick="closeVeiculosEditor()">
+            &times;
+          </button>
+        </div>
+        <div class="registrarVeiculoCard model">
+          <div class="cardHeader">
+            <h1>Adicionar um Veículo</h1>
+          </div>
+          <div class="cardBody">
+            
+              <input type="text" id="inpMarca" placeholder="Marca..." />
+              <span class="border"></span>
+            
+            
+              <input type="text" id="inpPlaca" placeholder="Placa..." />
+              <span class="border"></span>
+            
+            
+              <input type="text" id="inpCor" placeholder="Cor..." />
+              <span class="border"></span>
+            
+            <label for="motoristaResponsavel">Motorista Responsável:</label>
+            <select
+              id="motoristaResponsavel"
+              name="motoristaResponsavel"
+              form="motoristaResponsavel"
+            ></select>
+
+            <label for="frotaVeiculo">Frota:</label>
+            <select
+              id="frotaVeiculo"
+              name="frotaVeiculo"
+              form="frotaVeiculo"
+            ></select>
+          </div>
+          <div class="cardFooter">
+            <button onclick="adicionarVeiculo()" class="cardBt">
+              Adicionar
+            </button>
+          </div>
+        </div>
+
+
+        <table class="tableVeiculos model">
+          <thead>
+            <tr>
+              <th>Id do veículo</th>
+              <th>Id da frota</th>
+              <th>Marca</th>
+              <th>Placa</th>
+              <th>Cor</th>
+              <th>Disponibilidade</th>
+              <th>Motorista</th>
+            </tr>
+          </thead>
+          <tbody class="conteudoTabelaVeiculos"></tbody>
+        </table>
+
+
       </section>
     </main>
   </body>

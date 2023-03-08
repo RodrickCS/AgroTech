@@ -26,6 +26,7 @@ model Motoristas {
   nome         String
   telefone     String     @unique
   cpf          String     @unique
+  cnh          String     @unique
   endereco     String
   disponivel   Boolean    @default(true)
   veiculos     Veiculos[]
@@ -56,7 +57,7 @@ model Veiculos {
   idMotorista Int
   disponivel  Boolean
   manutencoes Manutencoes[]
-  motoristas  Motoristas    @relation(fields: [idMotorista], references: [id_motorista])
+  motorista   Motoristas    @relation(fields: [idMotorista], references: [id_motorista])
   frota       Frota         @relation(fields: [idFrota], references: [id_frota])
   idFrota     Int
   viagens     Viagens[]
