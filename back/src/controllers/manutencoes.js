@@ -5,16 +5,21 @@ require("dotenv").config();
 
 const create = async (req, res) => {
   try {
-    if (
-      Object.keys(req.body).length === 5 ||
-      Object.keys(req.body).length === 4
-    ) {
+    if (Object.keys(req.body).length === 4) {
       let manutencao = await prisma.manutencoes.create({
         data: req.body,
       });
-      res.status(201).json({ msg: "Criado" });
-    } else {
-      res.status(400).json({ msg: "Formulário inválido" });
+
+      let veiculos = await prisma.veiculos.update({
+        where: {
+          id_veiculo: manutencao.id_veiculo,
+        },
+        data: {
+          disponivel: false,
+        },
+      });
+
+      res.status(201).json(manutencao);
     }
   } catch (err) {
     res.status(500).json(err).end();
@@ -33,14 +38,26 @@ const read = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    if (Object.keys(req.body).length > 0) {
+    
       let manutencao = await prisma.manutencoes.update({
-        data: req.body,
+        where: {
+          id_manutencao: Number(req.params.id_manutencao),
+        },
+        data: {
+          data_fim: new Date(),
+        }
       });
-      res.status(204).json(manutencao);
-    } else {
-      res.status(400).json({ msg: "Formulário inválido" });
-    }
+
+      let veiculos = await prisma.veiculos.update({
+        where: {
+          id_veiculo: manutencao.id_veiculo,
+        },
+        data: {
+          disponivel: true,
+        },
+      });
+
+      res.status(200).json(manutencao);
   } catch (err) {
     res.status(500).json(err).end();
     console.log(err);
@@ -50,4 +67,5 @@ const update = async (req, res) => {
 module.exports = {
   create,
   read,
+  update,
 };

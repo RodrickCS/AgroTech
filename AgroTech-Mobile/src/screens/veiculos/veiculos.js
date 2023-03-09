@@ -26,6 +26,7 @@ export default function Login({ navigation }) {
       })
       .then((data) => {
         setDadosVeiculo(data);
+        console.log(data)
       });
   };
 
