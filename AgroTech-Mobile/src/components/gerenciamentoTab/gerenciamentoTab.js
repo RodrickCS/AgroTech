@@ -15,6 +15,7 @@ export default function GerenciamentoTab() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: "#AACC00",
+        tabBarInactiveTintColor: "#ddd",
         tabBarStyle: {
           backgroundColor: "#007f5f",
           borderTop: "1px solid #AACC00",

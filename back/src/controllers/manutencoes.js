@@ -5,9 +5,14 @@ require("dotenv").config();
 
 const create = async (req, res) => {
   try {
-    if (Object.keys(req.body).length === 4) {
+    if (Object.keys(req.body).length === 3) {
       let manutencao = await prisma.manutencoes.create({
-        data: req.body,
+        data: {
+          id_veiculo: req.body.id_veiculo,
+          valor_gasto: req.body.valor_gasto,
+          descricao: req.body.descricao,
+          data_inicio: new Date()
+        },
       });
 
       let veiculos = await prisma.veiculos.update({
@@ -38,26 +43,25 @@ const read = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    
-      let manutencao = await prisma.manutencoes.update({
-        where: {
-          id_manutencao: Number(req.params.id_manutencao),
-        },
-        data: {
-          data_fim: new Date(),
-        }
-      });
+    let manutencao = await prisma.manutencoes.update({
+      where: {
+        id_manutencao: Number(req.params.id_manutencao),
+      },
+      data: {
+        data_fim: new Date(),
+      },
+    });
 
-      let veiculos = await prisma.veiculos.update({
-        where: {
-          id_veiculo: manutencao.id_veiculo,
-        },
-        data: {
-          disponivel: true,
-        },
-      });
+    let veiculos = await prisma.veiculos.update({
+      where: {
+        id_veiculo: manutencao.id_veiculo,
+      },
+      data: {
+        disponivel: true,
+      },
+    });
 
-      res.status(200).json(manutencao);
+    res.status(200).json(manutencao);
   } catch (err) {
     res.status(500).json(err).end();
     console.log(err);

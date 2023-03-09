@@ -14,9 +14,10 @@ export default function Login({ navigation }) {
   const [dadosVeiculo, setDadosVeiculo] = useState([]);
 
   useEffect(() => {
+    fetchVeiculos();
     setInterval(() => {
       fetchVeiculos();
-    }, 1500);
+    }, 15000);
   }, []);
 
   const fetchVeiculos = () => {
@@ -26,7 +27,6 @@ export default function Login({ navigation }) {
       })
       .then((data) => {
         setDadosVeiculo(data);
-        console.log(data)
       });
   };
 
@@ -38,10 +38,10 @@ export default function Login({ navigation }) {
             return (
               <View style={styles.card} key={index}>
                 <Logo/>
-                <Text>{veiculo.id_veiculo}</Text>
-                <Text>{veiculo.marca}</Text>
-                <Text>{veiculo.placa}</Text>
-                <Text>
+                <Text style={{color: "white"}}>{veiculo.id_veiculo}</Text>
+                <Text style={{color: "white"}}>{veiculo.marca}</Text>
+                <Text style={{color: "white"}}>{veiculo.placa}</Text>
+                <Text style={{color: "white"}}>
                   {veiculo.disponivel === true
                     ? (veiculo.disponivel = "Disponível")
                     : (veiculo.disponivel = "Indisponível")}
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     borderRadius: "12px",
     marginTop: "12px",
     width: "100%",
-    height: "300px",
+    height: "595px",
     backgroundColor: "#80b918",
   },
   card: {

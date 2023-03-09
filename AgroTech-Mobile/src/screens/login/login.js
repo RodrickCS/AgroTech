@@ -15,7 +15,6 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("admin@gmail.com");
   const [password, setPassword] = useState("senha1234");
   const [escondeSenha, setEscondeSenha] = useState(true);
-  const [token, setToken] = useState("");
 
   const uriLogin = "http://localhost:3000/funcionarios/login";
 
@@ -39,7 +38,6 @@ export default function Login({ navigation }) {
         if(data.msg){
           console.log(data.msg);
         } else {
-          AsyncStorage.setItem("role", data[0].role)
           AsyncStorage.setItem("token", data[0].token)
           navigation.navigate("GerenciamentoRedirectToComponent")
         }

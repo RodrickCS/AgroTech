@@ -14,43 +14,55 @@ export default function Login({ navigation }) {
   const [dadosVeiculo, setDadosVeiculo] = useState([]);
 
   useEffect(() => {
+    fetchManutencoes();
     setInterval(() => {
-      fetchVeiculos();
-    }, 1500);
+      fetchManutencoes();
+    }, 15000);
   }, []);
 
-  const fetchVeiculos = () => {
+  const fetchManutencoes = () => {
     fetch("http://localhost:3000/manutencoes/read")
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         setDadosVeiculo(data);
-        console.log(data)
       });
   };
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.veiculosContainer}>
+      <View style={styles.veiculosContainer}>
         <ScrollView>
           {dadosVeiculo.map((veiculo, index) => {
             return (
               <View style={styles.card} key={index}>
-                <Logo/>
-                <Text>{veiculo.id_veiculo}</Text>
-                <Text>{veiculo.marca}</Text>
-                <Text>{veiculo.placa}</Text>
-                <Text>
-                  {veiculo.disponivel === true
-                    ? (veiculo.disponivel = "Disponível")
-                    : (veiculo.disponivel = "Indisponível")}
-                </Text>
+                <View
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Logo />
+                </View>
+                <View style={styles.cardBody}>
+                  <Text style={{color: "white"}} >id veiculo: {veiculo.id_veiculo}</Text>
+                  <Text style={{color: "white"}} >Descricao: {veiculo.descricao}</Text>
+                  <Text style={{color: "white"}} >Valor gasto: R${veiculo.valor_gasto}</Text>
+                  <Text style={{color: "white"}} >Data início: {veiculo.data_inicio.split("T")[1].split(".")[0]}</Text>
+                  <Text style={{color: "white"}} >
+                    Data fim:
+                    {veiculo.data_fim === null
+                      ? (veiculo.data_fim = " Em andamento")
+                      : " " + veiculo.data_fim.split("T")[1].split(".")[0]}
+                  </Text>
+                </View>
               </View>
             );
           })}
         </ScrollView>
-      </View> */}
+      </View>
     </View>
   );
 }
@@ -67,18 +79,20 @@ const styles = StyleSheet.create({
     borderRadius: "12px",
     marginTop: "12px",
     width: "100%",
-    height: "300px",
+    height: "595px",
     backgroundColor: "#80b918",
   },
   card: {
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
+    flexDirection: "column",
     width: "100%",
-    height: "60px",
-    marginBottom:"10px",
+    height: "150px",
+    marginBottom: "10px",
     borderRadius: "12px",
     backgroundColor: "#007f5f",
+  },
+  cardBody: {
+    display: "flex",
+    alignItems: "center",
   },
 });
