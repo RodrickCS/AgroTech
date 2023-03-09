@@ -46,6 +46,18 @@
         <button class="navBt" onclick="openVeiculosEditor()">
           <img width="30px" src="../../assets/carro.png" />Veículos
         </button>
+        <button class="navBt" onclick="openMotoristasEditor()">
+          <img width="30px" src="../../assets/motorista.png" />Motoristas
+        </button>
+        <button class="navBt" onclick="openManutencoesEditor()">
+          <img
+            width="30px"
+            src="../../assets/ferramenta-chave.png"
+          />Manutenções
+        </button>
+        <div id="btLogout">
+          <button onclick="logout()" id="logoutBt">Sair</button>
+        </div>
       </nav>
       <section class="frotaMain model">
         <div class="mainHeader">
@@ -141,7 +153,10 @@
           <button onclick="viewVeiculos()" class="cardBt verVeiculos model">
             Todos os veículos
           </button>
-          <button onclick="gerenciarVeiculos()" class="cardBt gerenciarVeiculos model">
+          <button
+            onclick="gerenciarVeiculos()"
+            class="cardBt gerenciarVeiculos model"
+          >
             Gerenciar veiculos
           </button>
           <button class="btClose" onclick="closeVeiculosEditor()">
@@ -153,18 +168,15 @@
             <h1>Adicionar um Veículo</h1>
           </div>
           <div class="cardBody">
-            
-              <input type="text" id="inpMarca" placeholder="Marca..." />
-              <span class="border"></span>
-            
-            
-              <input type="text" id="inpPlaca" placeholder="Placa..." />
-              <span class="border"></span>
-            
-            
-              <input type="text" id="inpCor" placeholder="Cor..." />
-              <span class="border"></span>
-            
+            <input type="text" id="inpMarca" placeholder="Marca..." />
+            <span class="border"></span>
+
+            <input type="text" id="inpPlaca" placeholder="Placa..." />
+            <span class="border"></span>
+
+            <input type="text" id="inpCor" placeholder="Cor..." />
+            <span class="border"></span>
+
             <label for="motoristaResponsavel">Motorista Responsável:</label>
             <select
               id="motoristaResponsavel"
@@ -186,7 +198,6 @@
           </div>
         </div>
 
-
         <table class="tableVeiculos model">
           <thead>
             <tr>
@@ -201,8 +212,9 @@
           </thead>
           <tbody class="conteudoTabelaVeiculos"></tbody>
         </table>
-
-
+      </section>
+      <section class="motoristasMain model">
+        <h1>TESTE</h1>
       </section>
     </main>
   </body>

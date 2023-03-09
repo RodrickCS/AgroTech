@@ -443,49 +443,43 @@ const adicionarVeiculo = () => {
 
   let placaValidada = validarPlaca(inpPlaca.value);
 
-  if (placaValidada !== "placa inválida") {
-    const form = {
-      marca: inpMarca.value,
-      placa: inpPlaca.value,
-      cor: inpCor.value,
-      idMotorista: Number(selectMotorista.selectedOptions[0].id.split("e")[1]),
-      idFrota: Number(selectFrota.selectedOptions[0].id.split("a")[1]),
-    };
+  if (inpPlaca.value !== "" && inpMarca.value !== "" && inpCor.value !== "")
+    if (placaValidada !== "placa inválida") {
+      const form = {
+        marca: inpMarca.value,
+        placa: inpPlaca.value,
+        cor: inpCor.value,
+        idMotorista: Number(
+          selectMotorista.selectedOptions[0].id.split("e")[1]
+        ),
+        idFrota: Number(selectFrota.selectedOptions[0].id.split("a")[1]),
+      };
 
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
-      },
-      body: JSON.stringify(form),
-    };
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization:
+            "Bearer " + localStorage.getItem("token").split('"')[1],
+        },
+        body: JSON.stringify(form),
+      };
 
-    fetch(uriCreateVeiculos, options)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-      });
-  } else {
-    alert("Placa inválida");
+      fetch(uriCreateVeiculos, options)
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          viewFrotas();
+        });
+    } else {
+      alert("Placa inválida");
+    }
+  else {
+    alert("Preencha todos os campos");
   }
 };
-
-listarFrotas();
-listarVeiculosSelectViagens();
-listarMotoristasSelectViagens();
-listarMotoristasSelectVeiculo();
-listarFrotasSelectVeiculo();
-setInterval(() => {
-  preencherTabelaViagens();
-}, 2000);
-setInterval(() => {
-  fetchTabelaVeiculos();
-}, 2000);
-
-
 
 function validarPlaca(placa) {
   var resposta = "placa inválida";
@@ -503,3 +497,21 @@ function validarPlaca(placa) {
   }
   return resposta;
 }
+
+const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  window.location.href = "../Login/index.html";
+};
+
+listarFrotas();
+listarVeiculosSelectViagens();
+listarMotoristasSelectViagens();
+listarMotoristasSelectVeiculo();
+listarFrotasSelectVeiculo();
+setInterval(() => {
+  preencherTabelaViagens();
+}, 2000);
+setInterval(() => {
+  fetchTabelaVeiculos();
+}, 2000);
