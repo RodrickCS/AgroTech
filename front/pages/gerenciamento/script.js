@@ -300,6 +300,7 @@ const listarVeiculosSelectViagens = () => {
       return res.json();
     })
     .then((data) => {
+      document.getElementById("veiculo").innerHTML = "";
       for (var i = 0; i < data.length; i++) {
         let option = document.createElement("option");
         if (data[i].disponivel === true) {
@@ -311,8 +312,6 @@ const listarVeiculosSelectViagens = () => {
           let select = document.getElementById("veiculo");
 
           select.add(option);
-
-          document.getElementById("veiculo").appendChild(option);
         }
       }
     });
@@ -327,6 +326,7 @@ const listarMotoristasSelectVeiculo = () => {
       return res.json();
     })
     .then((data) => {
+      document.getElementById("motoristaResponsavel").innerHTML = "";
       for (var i = 0; i < data.length; i++) {
         if (data[i].length !== 0 && data[i].disponivel === true) {
           let option = document.createElement("option");
@@ -349,6 +349,7 @@ const listarFrotasSelectVeiculo = () => {
       return res.json();
     })
     .then((data) => {
+      document.getElementById("frotaVeiculo").innerHTML = ""
       for (let i = 0; i < data.length; i++) {
         let option = document.createElement("option");
         option.setAttribute("id", "idfrota" + data[i].id_frota);
@@ -369,6 +370,7 @@ const listarMotoristasSelectViagens = () => {
       return res.json();
     })
     .then((data) => {
+      document.getElementById("motorista").innerHTML = ""
       for (var i = 0; i < data.length; i++) {
         if (data[i].length !== 0) {
           if (data[i].disponivel === true) {
@@ -505,13 +507,21 @@ const logout = () => {
 };
 
 listarFrotas();
-listarVeiculosSelectViagens();
-listarMotoristasSelectViagens();
-listarMotoristasSelectVeiculo();
-listarFrotasSelectVeiculo();
 setInterval(() => {
   preencherTabelaViagens();
-}, 2000);
+}, 3000);
 setInterval(() => {
   fetchTabelaVeiculos();
-}, 2000);
+}, 3000);
+setInterval(() => {
+  listarFrotasSelectVeiculo();
+}, 3000);
+setInterval(() => {
+  listarMotoristasSelectVeiculo();
+}, 3000);
+setInterval(() => {
+  listarMotoristasSelectViagens();
+}, 3000);
+setInterval(() => {
+  listarVeiculosSelectViagens();
+}, 3000);
