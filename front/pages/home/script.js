@@ -6,6 +6,7 @@ const uriGetMotoristas = "http://localhost:3000/motoristas/read";
 const uriGetViagens = "http://localhost:3000/viagens/read";
 const uriViagemRetorno = "http://localhost:3000/viagens/update/";
 const uriCreateVeiculos = "http://localhost:3000/veiculos/create";
+const uriCreateMotorista = "http://localhost:3000/motoristas/create";
 
 var dadosVeiculo = [];
 
@@ -495,6 +496,49 @@ const adicionarVeiculo = () => {
   }
 };
 
+const adicionarMotorista = () => {
+  const inpNome = document.querySelector("#inpNomeMotorista");
+  const inpTelefoneMotorista = document.querySelector("#inpTelefoneMotorista");
+  const inpCpfMotorista = document.querySelector("#inpCpfMotorista");
+  const inpCnhMotorista = document.querySelector("#inpCnhMotorista");
+  const inpEnderecoMotorista = document.querySelector("#inpEnderecoMotorista");
+
+  let telefoneValidado = validarTelefone(inpTelefoneMotorista.value);
+  let cpfValidado = validarCPF(inpCpfMotorista.value);
+  let cnhValidado = validarCNH(inpCnhMotorista.value);
+
+  if (!telefoneValidado) return alert("Telefone Inválido")
+  if (!cpfValidado) return alert("CPF Inválido")
+  if (!cnhValidado) return alert("CNH Inválido")
+    let form = {
+      nome: inpNome.value,
+      telefone: inpTelefoneMotorista.value,
+      cpf: inpCpfMotorista.value,
+      cnh: inpCnhMotorista.value,
+      endereco: inpEnderecoMotorista.value,
+    };
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
+      },
+      body: JSON.stringify(form),
+    };
+
+    // fetch(uriCreateMotorista, options)
+    //   .then((resp) => {
+    //     return resp.json();
+    //   })
+    //   .then((data) => {
+    //     if(data.msg){
+    //       alert(data.msg)
+    //     } else {
+    //       console.log(data)
+    //     }
+    //   });
+  }
+
 function validarPlaca(placa) {
   var resposta = "placa inválida";
   const regexPlaca = /^[a-zA-Z]{3}[0-9]{4}$/;
@@ -508,6 +552,16 @@ function validarPlaca(placa) {
   }
   if (regexPlacaMercosulMoto.test(placa)) {
     resposta = "Placa válida (padrão Mercosul - moto)";
+  }
+  return resposta;
+}
+
+function validarTelefone(telefone) {
+  var resposta = false;
+  const regexTelefone = /^(\(\d{2}\)?\s?|\d{2}(\-|\s))?\d{2,4}(\-|\s)?\d{4,5}$/;
+
+  if (regexTelefone.test(telefone)) {
+    resposta = true;
   }
   return resposta;
 }

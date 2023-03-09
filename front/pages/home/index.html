@@ -168,13 +168,13 @@
             <h1>Adicionar um Veículo</h1>
           </div>
           <div class="cardBody">
-            <input type="text" id="inpMarca" placeholder="Marca..." />
+            <input type="text" id="inpMarca" placeholder="Marca" />
             <span class="border"></span>
 
-            <input type="text" id="inpPlaca" placeholder="Placa..." />
+            <input type="text" id="inpPlaca" placeholder="Placa" />
             <span class="border"></span>
 
-            <input type="text" id="inpCor" placeholder="Cor..." />
+            <input type="text" id="inpCor" placeholder="Cor" />
             <span class="border"></span>
 
             <label for="motoristaResponsavel">Motorista Responsável:</label>
@@ -224,10 +224,22 @@
             <h1>Adicionar um Motorista</h1>
           </div>
           <div class="cardBody">
-
+            <input type="text" id="inpNomeMotorista" placeholder="Nome" />
+            <input
+              type="text"
+              id="inpTelefoneMotorista"
+              placeholder="Telefone"
+            />
+            <input type="text" id="inpCpfMotorista" placeholder="CPF" />
+            <input type="text" id="inpCnhMotorista" placeholder="CNH" />
+            <input
+              type="text"
+              id="inpEnderecoMotorista"
+              placeholder="Endereço"
+            />
           </div>
           <div class="cardFooter">
-            <button onclick="adicionarVeiculo()" class="cardBt">
+            <button onclick="adicionarMotorista()" class="cardBt">
               Adicionar
             </button>
           </div>
