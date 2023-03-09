@@ -65,7 +65,6 @@ ul li {
   gap: 10px;
 }
 
-
 #logoutBt {
   color: white;
   background: none;
@@ -149,6 +148,16 @@ main {
   padding: 30px;
   position: relative;
 }
+.motoristaMain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  position: relative;
+}
 
 .viagensMain {
   display: flex;
@@ -204,6 +213,16 @@ main {
   -moz-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
   box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
 }
+.registrarMotoristaCard {
+  width: 40%;
+  height: 50%;
+  border-radius: 12px;
+  padding: 20px;
+  background-color: #d3d70063;
+  -webkit-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+  -moz-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+  box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.29);
+}
 
 .veiculosMain {
   display: flex;
@@ -241,7 +260,7 @@ main {
   justify-content: center;
   margin-top: 20px;
   width: 100%;
-  height: 60% ;
+  height: 60%;
 }
 
 input {
@@ -433,9 +452,10 @@ table {
   width: 90%;
 }
 
-th, td {
-	border: 1px solid black;
-	padding: 8px;
+th,
+td {
+  border: 1px solid black;
+  padding: 8px;
 }
 
 tbody tr:nth-child(odd) {
@@ -448,4 +468,7 @@ tbody tr:nth-child(even) {
 
 table {
   background-color: #007f5f;
+}
+tbody {
+  overflow: auto;
 }

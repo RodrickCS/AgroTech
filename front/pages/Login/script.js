@@ -26,7 +26,7 @@ const login = () => {
           localStorage.setItem("token", JSON.stringify(data[0].token));
           localStorage.setItem("role", JSON.stringify(data[1].role));
 
-          window.location.href = "../gerenciamento/index.html";
+          window.location.href = "../home/index.html";
         }
       });
   } else {

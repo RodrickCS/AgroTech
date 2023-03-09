@@ -46,7 +46,7 @@
         <button class="navBt" onclick="openVeiculosEditor()">
           <img width="30px" src="../../assets/carro.png" />Veículos
         </button>
-        <button class="navBt" onclick="openMotoristasEditor()">
+        <button class="navBt" onclick="openMotoristaEditor()">
           <img width="30px" src="../../assets/motorista.png" />Motoristas
         </button>
         <button class="navBt" onclick="openManutencoesEditor()">
@@ -122,7 +122,7 @@
               name="motoristaList"
               form="motoristaForm"
             ></select>
-            <input type="text" id="descricao" placeholder="Descricao" />
+            <input type="text" id="descricao" placeholder="Descrição" />
             <span class="border"></span>
           </div>
           <div class="cardFooter">
@@ -213,8 +213,25 @@
           <tbody class="conteudoTabelaVeiculos"></tbody>
         </table>
       </section>
-      <section class="motoristasMain model">
-        <h1>TESTE</h1>
+      <section class="motoristaMain model">
+        <div class="mainHeader">
+          <button class="btClose" onclick="closeMotoristaEditor()">
+            &times;
+          </button>
+        </div>
+        <div class="registrarMotoristaCard model">
+          <div class="cardHeader">
+            <h1>Adicionar um Motorista</h1>
+          </div>
+          <div class="cardBody">
+
+          </div>
+          <div class="cardFooter">
+            <button onclick="adicionarVeiculo()" class="cardBt">
+              Adicionar
+            </button>
+          </div>
+        </div>
       </section>
     </main>
   </body>

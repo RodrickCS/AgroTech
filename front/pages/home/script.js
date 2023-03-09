@@ -100,6 +100,18 @@ const gerenciarVeiculos = () => {
   document.querySelector(".registrarVeiculoCard").classList.remove("model");
 };
 
+const openMotoristaEditor = () => {
+  document.querySelector(".leftNavbar").classList.add("model");
+  document.querySelector(".motoristaMain").classList.remove("model");
+  document.querySelector(".registrarMotoristaCard").classList.remove("model");
+};
+
+const closeMotoristaEditor = () => {
+  document.querySelector(".motoristaMain").classList.add("model");
+  document.querySelector(".leftNavbar").classList.remove("model");
+  document.querySelector(".registrarMotoristaCard").classList.add("model");
+};
+
 const preencherTabelaViagens = () => {
   const options = {
     method: "GET",
@@ -349,7 +361,7 @@ const listarFrotasSelectVeiculo = () => {
       return res.json();
     })
     .then((data) => {
-      document.getElementById("frotaVeiculo").innerHTML = ""
+      document.getElementById("frotaVeiculo").innerHTML = "";
       for (let i = 0; i < data.length; i++) {
         let option = document.createElement("option");
         option.setAttribute("id", "idfrota" + data[i].id_frota);
@@ -370,7 +382,7 @@ const listarMotoristasSelectViagens = () => {
       return res.json();
     })
     .then((data) => {
-      document.getElementById("motorista").innerHTML = ""
+      document.getElementById("motorista").innerHTML = "";
       for (var i = 0; i < data.length; i++) {
         if (data[i].length !== 0) {
           if (data[i].disponivel === true) {
@@ -498,6 +510,68 @@ function validarPlaca(placa) {
     resposta = "Placa válida (padrão Mercosul - moto)";
   }
   return resposta;
+}
+
+function validarCNH(cnh) {
+  var char1 = cnh.charAt(0);
+
+  if (cnh.replace(/[^\d]/g, "").length !== 11 || char1.repeat(11) === cnh) {
+    return false;
+  }
+
+  for (var i = 0, j = 9, v = 0; i < 9; ++i, --j) {
+    v += +(cnh.charAt(i) * j);
+  }
+
+  var dsc = 0,
+    vl1 = v % 11;
+
+  if (vl1 >= 10) {
+    vl1 = 0;
+    dsc = 2;
+  }
+
+  for (i = 0, j = 1, v = 0; i < 9; ++i, ++j) {
+    v += +(cnh.charAt(i) * j);
+  }
+
+  var x = v % 11;
+  var vl2 = x >= 10 ? 0 : x - dsc;
+
+  return "" + vl1 + vl2 === cnh.substr(-2);
+}
+
+function validarCPF(cpf) {
+  cpf = cpf.replace(/[^\d]+/g, "");
+  if (cpf == "") return false;
+
+  if (
+    cpf.length != 11 ||
+    cpf == "00000000000" ||
+    cpf == "11111111111" ||
+    cpf == "22222222222" ||
+    cpf == "33333333333" ||
+    cpf == "44444444444" ||
+    cpf == "55555555555" ||
+    cpf == "66666666666" ||
+    cpf == "77777777777" ||
+    cpf == "88888888888" ||
+    cpf == "99999999999"
+  )
+    return false;
+
+  add = 0;
+  for (i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
+  rev = 11 - (add % 11);
+  if (rev == 10 || rev == 11) rev = 0;
+  if (rev != parseInt(cpf.charAt(9))) return false;
+
+  add = 0;
+  for (i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
+  rev = 11 - (add % 11);
+  if (rev == 10 || rev == 11) rev = 0;
+  if (rev != parseInt(cpf.charAt(10))) return false;
+  return true;
 }
 
 const logout = () => {
