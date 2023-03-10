@@ -9,6 +9,8 @@ const uriCreateVeiculos = "http://localhost:3000/veiculos/create";
 const uriCreateMotorista = "http://localhost:3000/motoristas/create";
 
 var dadosVeiculo = [];
+var dadosChartManutencao = [];
+var dadosChartVeiculosDisponiveis = [];
 
 const card = document.querySelector(".card");
 const cardToggle = document.querySelector(".toggle");
@@ -67,6 +69,7 @@ const viewViagens = () => {
   document.querySelector(".verViagem").classList.add("model");
   document.querySelector(".tableViagens").classList.remove("model");
 };
+
 const gerenciarViagens = () => {
   document.querySelector(".registrarViagemCard").classList.remove("model");
   document.querySelector(".gerenciarViagem").classList.add("model");
@@ -80,6 +83,7 @@ const openVeiculosEditor = () => {
   document.querySelector(".registrarVeiculoCard").classList.remove("model");
   document.querySelector(".verVeiculos").classList.remove("model");
 };
+
 const closeVeiculosEditor = () => {
   document.querySelector(".leftNavbar").classList.remove("model");
   document.querySelector(".veiculosMain").classList.add("model");
@@ -94,6 +98,7 @@ const viewVeiculos = () => {
   document.querySelector(".registrarVeiculoCard").classList.add("model");
   document.querySelector(".tableVeiculos").classList.remove("model");
 };
+
 const gerenciarVeiculos = () => {
   document.querySelector(".verVeiculos").classList.remove("model");
   document.querySelector(".gerenciarVeiculos").classList.add("model");
@@ -649,9 +654,23 @@ const chartManutencaoGetData = () => {
     });
 };
 
+const chartVeiculosDisponiveisGetData = () => {
+  const options = {
+    method: "GET",
+  };
+
+  fetch(uriGetFrotas, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      dadosChartVeiculosDisponiveis = data;
+      chartVeiculosDisponiveis();
+    });
+};
+
 const chartManutencaoVeiculo = () => {
   const ctx = document.getElementById("manutencaoVeiculoChart");
-
   var labelsChart = [];
   var dataChart = [];
 
@@ -692,8 +711,36 @@ const chartManutencaoVeiculo = () => {
   });
 };
 
+const chartVeiculosDisponiveis = () => {
+  const ctx = document.getElementById("veiculosDisponiveisChart");
+  var labelsChart = [];
+  var dataChart = [];
+
+  for (let i = 0; i < dadosChartVeiculosDisponiveis.length; i++) {
+    labelsChart.push(dadosChartVeiculosDisponiveis[i].tipo);
+    if (dadosChartVeiculosDisponiveis[i].veiculos[i].disponivel === true) {
+      dataChart.push(dadosChartVeiculosDisponiveis[i].veiculos.length);
+    }
+  }
+
+  new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: labelsChart,
+      datasets: [
+        {
+          label: "Veículos disponíveis",
+          data: [2,3,5,6,7],
+          borderWidth: 1,
+        },
+      ],
+    },
+  });
+};
+
 listarFrotas();
 chartManutencaoGetData();
+chartVeiculosDisponiveisGetData();
 setInterval(() => {
   preencherTabelaViagens();
 }, 3000);
