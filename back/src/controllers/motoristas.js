@@ -15,7 +15,7 @@ const create = async (req, res) => {
     }
   } catch (err) {
     if (err.code === "P2002") {
-      res.status(400).json({ msg: "CPF ou telefone já em uso" }).end();
+      res.status(400).json({ msg: "CPF, CNH ou telefone já em uso" }).end();
     } else {
       res.status(500).json(err).end();
       console.log(err);

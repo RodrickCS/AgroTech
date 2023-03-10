@@ -26,6 +26,7 @@ const openFrotasEditor = () => {
   document.querySelector(".criarFrotaCard").classList.remove("model");
   document.querySelector(".leftNavbar").classList.add("model");
   document.querySelector(".card").classList.add("model");
+  document.querySelector(".graficosMain").classList.add("model");
 };
 
 const closeFrotasEditor = () => {
@@ -33,6 +34,7 @@ const closeFrotasEditor = () => {
   document.querySelector(".criarFrotaCard").classList.add("model");
   document.querySelector(".leftNavbar").classList.remove("model");
   document.querySelector(".clonenodeAppend").classList.add("model");
+  document.querySelector(".graficosMain").classList.remove("model");
 };
 
 const viewFrotas = () => {
@@ -55,12 +57,14 @@ const openViagensEditor = () => {
   document.querySelector(".registrarViagemCard").classList.remove("model");
   document.querySelector(".verViagem").classList.remove("model");
   document.querySelector(".gerenciarViagem").classList.add("model");
+  document.querySelector(".graficosMain").classList.add("model");
 };
 
 const closeViagensEditor = () => {
   document.querySelector(".viagensMain").classList.add("model");
   document.querySelector(".leftNavbar").classList.remove("model");
   document.querySelector(".tableViagens").classList.add("model");
+  document.querySelector(".graficosMain").classList.remove("model");
 };
 
 const viewViagens = () => {
@@ -82,6 +86,7 @@ const openVeiculosEditor = () => {
   document.querySelector(".veiculosMain").classList.remove("model");
   document.querySelector(".registrarVeiculoCard").classList.remove("model");
   document.querySelector(".verVeiculos").classList.remove("model");
+  document.querySelector(".graficosMain").classList.add("model");
 };
 
 const closeVeiculosEditor = () => {
@@ -90,6 +95,7 @@ const closeVeiculosEditor = () => {
   document.querySelector(".gerenciarVeiculos").classList.add("model");
   document.querySelector(".registrarVeiculoCard").classList.add("model");
   document.querySelector(".tableVeiculos").classList.add("model");
+  document.querySelector(".graficosMain").classList.remove("model");
 };
 
 const viewVeiculos = () => {
@@ -110,12 +116,14 @@ const openMotoristaEditor = () => {
   document.querySelector(".leftNavbar").classList.add("model");
   document.querySelector(".motoristaMain").classList.remove("model");
   document.querySelector(".registrarMotoristaCard").classList.remove("model");
+  document.querySelector(".graficosMain").classList.add("model");
 };
 
 const closeMotoristaEditor = () => {
   document.querySelector(".motoristaMain").classList.add("model");
   document.querySelector(".leftNavbar").classList.remove("model");
   document.querySelector(".registrarMotoristaCard").classList.add("model");
+  document.querySelector(".graficosMain").classList.remove("model");
 };
 
 const preencherTabelaViagens = () => {
@@ -531,17 +539,17 @@ const adicionarMotorista = () => {
     body: JSON.stringify(form),
   };
 
-  // fetch(uriCreateMotorista, options)
-  //   .then((resp) => {
-  //     return resp.json();
-  //   })
-  //   .then((data) => {
-  //     if(data.msg){
-  //       alert(data.msg)
-  //     } else {
-  //       console.log(data)
-  //     }
-  //   });
+  fetch(uriCreateMotorista, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      if(data.msg){
+        alert(data.msg)
+      } else {
+        console.log(data)
+      }
+    });
 };
 
 function validarPlaca(placa) {
@@ -649,6 +657,7 @@ const chartManutencaoGetData = () => {
       return resp.json();
     })
     .then((data) => {
+      console.log(dadosChartManutencao);
       dadosChartManutencao = data;
       chartManutencaoVeiculo();
     });
@@ -691,7 +700,7 @@ const chartManutencaoVeiculo = () => {
       labels: labelsChart,
       datasets: [
         {
-          label: "# de manutençoes de um veículo",
+          label: "Qtd. de manutençoes de um veículo",
           data: dataChart,
           borderWidth: 1,
           backgroundColor: "#007f5f",
@@ -703,7 +712,7 @@ const chartManutencaoVeiculo = () => {
         y: {
           beginAtZero: true,
           ticks: {
-            stepSize: 1,
+            stepSize: 0,
           },
         },
       },
@@ -718,21 +727,34 @@ const chartVeiculosDisponiveis = () => {
 
   for (let i = 0; i < dadosChartVeiculosDisponiveis.length; i++) {
     labelsChart.push(dadosChartVeiculosDisponiveis[i].tipo);
-    if (dadosChartVeiculosDisponiveis[i].veiculos[i].disponivel === true) {
-      dataChart.push(dadosChartVeiculosDisponiveis[i].veiculos.length);
+    if (dadosChartVeiculosDisponiveis[i].veiculos[0].disponivel === true) {
+      dataChart.push(
+        dadosChartVeiculosDisponiveis[i].veiculos.length === undefined
+          ? "Não há veiculos"
+          : dadosChartVeiculosDisponiveis[i].veiculos.length
+      );
     }
   }
 
   new Chart(ctx, {
-    type: "doughnut",
+    type: "pie",
     data: {
       labels: labelsChart,
       datasets: [
         {
           label: "Veículos disponíveis",
-          data: [2,3,5,6,7],
+          data: dataChart,
           borderWidth: 1,
-        },
+          backgroundColor: [
+            "#007f5f",
+            "#80b918",
+            "#aacc00",
+            "#d3d70063",
+            "#379237",
+            "#54B435",
+            "#82CD47",
+          ],
+        },        
       ],
     },
   });
