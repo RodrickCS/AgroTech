@@ -507,37 +507,37 @@ const adicionarMotorista = () => {
   let cpfValidado = validarCPF(inpCpfMotorista.value);
   let cnhValidado = validarCNH(inpCnhMotorista.value);
 
-  if (!telefoneValidado) return alert("Telefone Inválido")
-  if (!cpfValidado) return alert("CPF Inválido")
-  if (!cnhValidado) return alert("CNH Inválido")
-    let form = {
-      nome: inpNome.value,
-      telefone: inpTelefoneMotorista.value,
-      cpf: inpCpfMotorista.value,
-      cnh: inpCnhMotorista.value,
-      endereco: inpEnderecoMotorista.value,
-    };
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
-      },
-      body: JSON.stringify(form),
-    };
+  if (!telefoneValidado) return alert("Telefone Inválido");
+  if (!cpfValidado) return alert("CPF Inválido");
+  if (!cnhValidado) return alert("CNH Inválido");
+  let form = {
+    nome: inpNome.value,
+    telefone: inpTelefoneMotorista.value,
+    cpf: inpCpfMotorista.value,
+    cnh: inpCnhMotorista.value,
+    endereco: inpEnderecoMotorista.value,
+  };
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
+    },
+    body: JSON.stringify(form),
+  };
 
-    // fetch(uriCreateMotorista, options)
-    //   .then((resp) => {
-    //     return resp.json();
-    //   })
-    //   .then((data) => {
-    //     if(data.msg){
-    //       alert(data.msg)
-    //     } else {
-    //       console.log(data)
-    //     }
-    //   });
-  }
+  // fetch(uriCreateMotorista, options)
+  //   .then((resp) => {
+  //     return resp.json();
+  //   })
+  //   .then((data) => {
+  //     if(data.msg){
+  //       alert(data.msg)
+  //     } else {
+  //       console.log(data)
+  //     }
+  //   });
+};
 
 function validarPlaca(placa) {
   var resposta = "placa inválida";
@@ -675,7 +675,7 @@ const chartManutencaoVeiculo = () => {
           label: "# de manutençoes de um veículo",
           data: dataChart,
           borderWidth: 1,
-          backgroundColor: '#007f5f',
+          backgroundColor: "#007f5f",
         },
       ],
     },
@@ -684,15 +684,16 @@ const chartManutencaoVeiculo = () => {
         y: {
           beginAtZero: true,
           ticks: {
-            stepSize: 1
-          }
-        }
+            stepSize: 1,
+          },
+        },
       },
     },
   });
 };
 
 listarFrotas();
+chartManutencaoGetData();
 setInterval(() => {
   preencherTabelaViagens();
 }, 3000);
