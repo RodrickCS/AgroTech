@@ -634,6 +634,64 @@ const logout = () => {
   window.location.href = "../Login/index.html";
 };
 
+const chartManutencaoGetData = () => {
+  const options = {
+    method: "GET",
+  };
+
+  fetch(uriGetVeiculos, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      dadosChartManutencao = data;
+      chartManutencaoVeiculo();
+    });
+};
+
+const chartManutencaoVeiculo = () => {
+  const ctx = document.getElementById("manutencaoVeiculoChart");
+
+  var labelsChart = [];
+  var dataChart = [];
+
+  for (let i = 0; i < dadosChartManutencao.length; i++) {
+    labelsChart.push(
+      dadosChartManutencao[i].marca + " " + dadosChartManutencao[i].placa
+    );
+    dataChart.push(
+      dadosChartManutencao[i].manutencoes.length === 0
+        ? 0
+        : dadosChartManutencao[i].manutencoes.length
+    );
+  }
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labelsChart,
+      datasets: [
+        {
+          label: "# de manutençoes de um veículo",
+          data: dataChart,
+          borderWidth: 1,
+          backgroundColor: '#007f5f',
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1
+          }
+        }
+      },
+    },
+  });
+};
+
 listarFrotas();
 setInterval(() => {
   preencherTabelaViagens();
