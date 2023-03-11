@@ -12,6 +12,10 @@ header {
   width: 100vw;
 }
 
+body {
+  overflow: hidden;
+}
+
 a {
   text-decoration: none;
 }

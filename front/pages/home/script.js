@@ -7,10 +7,12 @@ const uriGetViagens = "http://localhost:3000/viagens/read";
 const uriViagemRetorno = "http://localhost:3000/viagens/update/";
 const uriCreateVeiculos = "http://localhost:3000/veiculos/create";
 const uriCreateMotorista = "http://localhost:3000/motoristas/create";
+const uriVwGastoPorMes = "http://localhost:3000/manutencoes/readvw";
 
 var dadosVeiculo = [];
 var dadosChartManutencao = [];
 var dadosChartVeiculosDisponiveis = [];
+var dadosGastoPorMes = [];
 
 const card = document.querySelector(".card");
 const cardToggle = document.querySelector(".toggle");
@@ -552,6 +554,13 @@ const adicionarMotorista = () => {
     });
 };
 
+const getMonthName = (monthNumber) => {
+  const date = new Date();
+  date.setMonth(monthNumber - 1);
+
+  return date.toLocaleString("pt-BR", { month: "long" });
+};
+
 const validarPlaca = (placa) => {
   var resposta = "placa inválida";
   const regexPlaca = /^([A-Z]{3}\-\d{4})|([A-Z]{3}\d{4})$/;
@@ -654,9 +663,22 @@ const chartManutencaoGetData = () => {
       return resp.json();
     })
     .then((data) => {
-      console.log(dadosChartManutencao);
       dadosChartManutencao = data;
       chartManutencaoVeiculo();
+    });
+};
+
+const chartGastoPorMesGetData = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriVwGastoPorMes, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      dadosGastoPorMes = data;
+      chartTotalGastoNoMes();
     });
 };
 
@@ -701,6 +723,7 @@ const chartManutencaoVeiculo = () => {
           data: dataChart,
           borderWidth: 1,
           backgroundColor: "#007f5f",
+          borderColor: "#000"
         },
       ],
     },
@@ -709,8 +732,7 @@ const chartManutencaoVeiculo = () => {
         y: {
           beginAtZero: true,
           ticks: {
-            stepSize: 0,
-            fontColor: "red",
+            stepSize: 1,
           },
         },
       },
@@ -752,17 +774,42 @@ const chartVeiculosDisponiveis = () => {
             "#54B435",
             "#82CD47",
           ],
+          borderColor: "#000"
         },
       ],
     },
   });
 };
 
-const totalGastoNoMês = () => {};
+const chartTotalGastoNoMes = () => {
+  const ctx = document.getElementById("gastoPorMes");
+  var labelsChart = [];
+  var dataChart = [];
+
+  for (let i = 0; i < dadosGastoPorMes.length; i++) {
+    labelsChart.push(getMonthName(dadosGastoPorMes[i].mes));
+    dataChart.push(dadosGastoPorMes[i].total);
+  }
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: labelsChart,
+      datasets: [
+        {
+          label: "Total gasto com manutenção no mês em R$",
+          data: dataChart,
+          borderWidth: 1,
+          borderColor: "#000"
+        },
+      ],
+    },
+  });
+};
 
 listarFrotas();
 chartManutencaoGetData();
 chartVeiculosDisponiveisGetData();
+chartGastoPorMesGetData();
 setInterval(() => {
   preencherTabelaViagens();
 }, 3000);
