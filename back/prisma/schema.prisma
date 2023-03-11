@@ -35,12 +35,12 @@ model Motoristas {
 
 model Manutencoes {
   id_manutencao Int       @id @default(autoincrement())
-  id_veiculo    Int
+  id_veiculo    Int?
   data_inicio   DateTime
   data_fim      DateTime?
   valor_gasto   Float
   descricao     String
-  veiculos      Veiculos  @relation(fields: [id_veiculo], references: [id_veiculo])
+  veiculos      Veiculos? @relation(fields: [id_veiculo], references: [id_veiculo], onDelete: SetNull)
 }
 
 model Frota {
@@ -57,19 +57,19 @@ model Veiculos {
   idMotorista Int
   disponivel  Boolean?      @default(true)
   manutencoes Manutencoes[]
-  motorista   Motoristas    @relation(fields: [idMotorista], references: [id_motorista])
-  frota       Frota         @relation(fields: [idFrota], references: [id_frota])
+  motorista   Motoristas?   @relation(fields: [idMotorista], references: [id_motorista])
+  frota       Frota?        @relation(fields: [idFrota], references: [id_frota])
   idFrota     Int
   viagens     Viagens[]
 }
 
 model Viagens {
   id_viagem    Int        @id @default(autoincrement())
-  id_veiculo   Int
-  id_motorista Int
+  id_veiculo   Int?
+  id_motorista Int?
   descricao    String
   hora_saida   DateTime
   hora_retorno DateTime?
-  veiculos     Veiculos   @relation(fields: [id_veiculo], references: [id_veiculo])
-  motorista    Motoristas @relation(fields: [id_motorista], references: [id_motorista])
+  veiculos     Veiculos?   @relation(fields: [id_veiculo], references: [id_veiculo], onDelete: SetNull)
+  motorista    Motoristas? @relation(fields: [id_motorista], references: [id_motorista], onDelete: SetNull)
 }

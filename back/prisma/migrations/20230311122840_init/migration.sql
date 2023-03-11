@@ -34,7 +34,7 @@ CREATE TABLE `Motoristas` (
 -- CreateTable
 CREATE TABLE `Manutencoes` (
     `id_manutencao` INTEGER NOT NULL AUTO_INCREMENT,
-    `id_veiculo` INTEGER NOT NULL,
+    `id_veiculo` INTEGER NULL,
     `data_inicio` DATETIME(3) NOT NULL,
     `data_fim` DATETIME(3) NULL,
     `valor_gasto` DOUBLE NOT NULL,
@@ -69,8 +69,8 @@ CREATE TABLE `Veiculos` (
 -- CreateTable
 CREATE TABLE `Viagens` (
     `id_viagem` INTEGER NOT NULL AUTO_INCREMENT,
-    `id_veiculo` INTEGER NOT NULL,
-    `id_motorista` INTEGER NOT NULL,
+    `id_veiculo` INTEGER NULL,
+    `id_motorista` INTEGER NULL,
     `descricao` VARCHAR(191) NOT NULL,
     `hora_saida` DATETIME(3) NOT NULL,
     `hora_retorno` DATETIME(3) NULL,
@@ -79,7 +79,7 @@ CREATE TABLE `Viagens` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Manutencoes` ADD CONSTRAINT `Manutencoes_id_veiculo_fkey` FOREIGN KEY (`id_veiculo`) REFERENCES `Veiculos`(`id_veiculo`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Manutencoes` ADD CONSTRAINT `Manutencoes_id_veiculo_fkey` FOREIGN KEY (`id_veiculo`) REFERENCES `Veiculos`(`id_veiculo`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Veiculos` ADD CONSTRAINT `Veiculos_idMotorista_fkey` FOREIGN KEY (`idMotorista`) REFERENCES `Motoristas`(`id_motorista`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -88,7 +88,7 @@ ALTER TABLE `Veiculos` ADD CONSTRAINT `Veiculos_idMotorista_fkey` FOREIGN KEY (`
 ALTER TABLE `Veiculos` ADD CONSTRAINT `Veiculos_idFrota_fkey` FOREIGN KEY (`idFrota`) REFERENCES `Frota`(`id_frota`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Viagens` ADD CONSTRAINT `Viagens_id_veiculo_fkey` FOREIGN KEY (`id_veiculo`) REFERENCES `Veiculos`(`id_veiculo`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Viagens` ADD CONSTRAINT `Viagens_id_veiculo_fkey` FOREIGN KEY (`id_veiculo`) REFERENCES `Veiculos`(`id_veiculo`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Viagens` ADD CONSTRAINT `Viagens_id_motorista_fkey` FOREIGN KEY (`id_motorista`) REFERENCES `Motoristas`(`id_motorista`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Viagens` ADD CONSTRAINT `Viagens_id_motorista_fkey` FOREIGN KEY (`id_motorista`) REFERENCES `Motoristas`(`id_motorista`) ON DELETE SET NULL ON UPDATE CASCADE;
