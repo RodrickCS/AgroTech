@@ -50,7 +50,25 @@ const readAll = async (req, res) => {
   }
 };
 
+const excluir = async (req, res) => {
+  try {
+    let veiculo = await prisma.veiculos.delete({
+      where: {
+        id_veiculo: Number(req.params.id_veiculo)
+      }
+    });
+    res.status(204).json({ msg: "excluido" }).end();
+  } catch (err) {
+    if (err.code === "P2025") {
+      res.status(404).json({ msg: "Veículo não encontrado" }).end();
+    } else {
+      res.status(500).json(err).end();
+    }
+  }
+};
+
 module.exports = {
   create,
   readAll,
+  excluir
 };

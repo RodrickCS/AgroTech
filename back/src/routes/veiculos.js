@@ -8,5 +8,10 @@ const veiculos = require("../controllers/veiculos");
 
 router.get("/read", veiculos.readAll);
 router.post("/create", Middleware.validaAcesso, veiculos.create);
+router.delete(
+  "/excluir/:id_veiculo",
+  Middleware.validaAcesso,
+  veiculos.excluir
+);
 
 module.exports = router;

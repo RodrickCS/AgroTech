@@ -12,7 +12,6 @@ const create = async (req, res) => {
       res.status(201).json(veiculo).end();
     } else {
       res.status(400).json({ msg: "Formulário inválido" }).end();
-    
     }
   } catch (err) {
     res.status(500).json(err).end();
@@ -45,7 +44,7 @@ const readId = async (req, res) => {
         veiculos: true,
       },
       where: {
-        id_frota: Number(req.params.id_frota)
+        id_frota: Number(req.params.id_frota),
       },
     });
     res.status(200).json(veiculo).end();
@@ -58,5 +57,5 @@ const readId = async (req, res) => {
 module.exports = {
   create,
   readAll,
-  readId
+  readId,
 };

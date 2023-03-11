@@ -554,24 +554,22 @@ const adicionarMotorista = () => {
 
 function validarPlaca(placa) {
   var resposta = "placa inválida";
-  const regexPlaca = /^[a-zA-Z]{3}[0-9]{4}$/;
-  const regexPlacaMercosulCarro = /^[a-zA-Z]{3}[0-9]{1}[a-zA-Z]{1}[0-9]{2}$/;
-  const regexPlacaMercosulMoto = /^[a-zA-Z]{3}[0-9]{2}[a-zA-Z]{1}[0-9]{1}$/;
+  const regexPlaca = /^([A-Z]{3}\-\d{4})|([A-Z]{3}\d{4})$/;
+  const regexPlacaMercosul = /^([A-Z]{3}\-\d{1}[A-Z]{1}\d{2})|([A-Z]{3}\d{1}[A-Z]{1}\d{2})|([A-Z]{3}\d{2}[A-Z]{1})$/
+  ;
   if (regexPlaca.test(placa)) {
     resposta = "Placa válida no formato atual";
   }
-  if (regexPlacaMercosulCarro.test(placa)) {
-    resposta = "Placa válida (padrão Mercosul - carro)";
-  }
-  if (regexPlacaMercosulMoto.test(placa)) {
-    resposta = "Placa válida (padrão Mercosul - moto)";
+  if (regexPlacaMercosul.test(placa)) {
+    resposta = "Placa válida padrão Mercosul";
   }
   return resposta;
 }
 
 function validarTelefone(telefone) {
   var resposta = false;
-  const regexTelefone = /^(\(\d{2}\)?\s?|\d{2}(\-|\s))?\d{2,4}(\-|\s)?\d{4,5}$/;
+  const regexTelefone = /^(\+55)?\s?\(?([1-9]{2})\)?\s?(9[6-9][0-9]{3}\-[0-9]{4})$/
+  ;
 
   if (regexTelefone.test(telefone)) {
     resposta = true;
@@ -713,6 +711,7 @@ const chartManutencaoVeiculo = () => {
           beginAtZero: true,
           ticks: {
             stepSize: 0,
+            fontColor: 'red'
           },
         },
       },

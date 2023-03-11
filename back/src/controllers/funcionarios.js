@@ -88,9 +88,27 @@ const readById = async (req, res) => {
   }
 };
 
+const excluir = async (req, res) => {
+  try {
+    let funcionario = await prisma.funcionarios.delete({
+      where: {
+        id_funcionario: Number(req.params.id_funcionario),
+      },
+    });
+    res.status(204).json({ msg: "excluido" }).end();
+  } catch (err) {
+    if (err.code === "P2025") {
+      res.status(404).json({ msg: "Funcionário não encontrado" }).end();
+    } else {
+      res.status(500).json(err).end();
+    }
+  }
+};
+
 module.exports = {
   login,
   create,
   read,
   readById,
+  excluir,
 };
