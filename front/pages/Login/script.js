@@ -21,8 +21,7 @@ const login = () => {
         return res.json();
       })
       .then((data) => {
-        if (data.length == 2) {
-          alert("redirecting...");
+        if (data.length == 2) {  
           localStorage.setItem("token", JSON.stringify(data[0].token));
           localStorage.setItem("role", JSON.stringify(data[1].role));
 

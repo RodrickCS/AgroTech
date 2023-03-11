@@ -106,3 +106,9 @@ input:focus {
   cursor: pointer;
   background-color: #aacc00;
 }
+
+.graficosMain {
+  display: flex;
+  flex-direction: column;
+  
+}

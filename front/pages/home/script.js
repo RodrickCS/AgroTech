@@ -544,19 +544,19 @@ const adicionarMotorista = () => {
       return resp.json();
     })
     .then((data) => {
-      if(data.msg){
-        alert(data.msg)
+      if (data.msg) {
+        alert(data.msg);
       } else {
-        console.log(data)
+        console.log(data);
       }
     });
 };
 
-function validarPlaca(placa) {
+const validarPlaca = (placa) => {
   var resposta = "placa inválida";
   const regexPlaca = /^([A-Z]{3}\-\d{4})|([A-Z]{3}\d{4})$/;
-  const regexPlacaMercosul = /^([A-Z]{3}\-\d{1}[A-Z]{1}\d{2})|([A-Z]{3}\d{1}[A-Z]{1}\d{2})|([A-Z]{3}\d{2}[A-Z]{1})$/
-  ;
+  const regexPlacaMercosul =
+    /^([A-Z]{3}\-\d{1}[A-Z]{1}\d{2})|([A-Z]{3}\d{1}[A-Z]{1}\d{2})|([A-Z]{3}\d{2}[A-Z]{1})$/;
   if (regexPlaca.test(placa)) {
     resposta = "Placa válida no formato atual";
   }
@@ -564,20 +564,19 @@ function validarPlaca(placa) {
     resposta = "Placa válida padrão Mercosul";
   }
   return resposta;
-}
+};
 
-function validarTelefone(telefone) {
+const validarTelefone = (telefone) => {
   var resposta = false;
-  const regexTelefone = /^(\+55)?\s?\(?([1-9]{2})\)?\s?(9[6-9][0-9]{3}\-[0-9]{4})$/
-  ;
-
+  const regexTelefone =
+    /^(\+55)?\s?\(?([1-9]{2})\)?\s?(9[6-9][0-9]{3}\-[0-9]{4})$/;
   if (regexTelefone.test(telefone)) {
     resposta = true;
   }
   return resposta;
-}
+};
 
-function validarCNH(cnh) {
+const validarCNH = (cnh) => {
   var char1 = cnh.charAt(0);
 
   if (cnh.replace(/[^\d]/g, "").length !== 11 || char1.repeat(11) === cnh) {
@@ -604,9 +603,9 @@ function validarCNH(cnh) {
   var vl2 = x >= 10 ? 0 : x - dsc;
 
   return "" + vl1 + vl2 === cnh.substr(-2);
-}
+};
 
-function validarCPF(cpf) {
+const validarCPF = (cpf) => {
   cpf = cpf.replace(/[^\d]+/g, "");
   if (cpf == "") return false;
 
@@ -637,7 +636,7 @@ function validarCPF(cpf) {
   if (rev == 10 || rev == 11) rev = 0;
   if (rev != parseInt(cpf.charAt(10))) return false;
   return true;
-}
+};
 
 const logout = () => {
   localStorage.removeItem("token");
@@ -711,7 +710,7 @@ const chartManutencaoVeiculo = () => {
           beginAtZero: true,
           ticks: {
             stepSize: 0,
-            fontColor: 'red'
+            fontColor: "red",
           },
         },
       },
@@ -753,11 +752,13 @@ const chartVeiculosDisponiveis = () => {
             "#54B435",
             "#82CD47",
           ],
-        },        
+        },
       ],
     },
   });
 };
+
+const totalGastoNoMês = () => {};
 
 listarFrotas();
 chartManutencaoGetData();
