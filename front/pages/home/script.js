@@ -8,11 +8,13 @@ const uriViagemRetorno = "http://localhost:3000/viagens/update/";
 const uriCreateVeiculos = "http://localhost:3000/veiculos/create";
 const uriCreateMotorista = "http://localhost:3000/motoristas/create";
 const uriVwGastoPorMes = "http://localhost:3000/manutencoes/readvw";
+const uriExcluirMotorista = "http://localhost:3000/motoristas/excluir/";
 
 var dadosVeiculo = [];
 var dadosChartManutencao = [];
 var dadosChartVeiculosDisponiveis = [];
 var dadosGastoPorMes = [];
+var dadosMotorista = [];
 
 const card = document.querySelector(".card");
 const cardToggle = document.querySelector(".toggle");
@@ -119,6 +121,8 @@ const openMotoristaEditor = () => {
   document.querySelector(".motoristaMain").classList.remove("model");
   document.querySelector(".registrarMotoristaCard").classList.remove("model");
   document.querySelector(".graficosMain").classList.add("model");
+  document.querySelector(".viewMotorista").classList.remove("model");
+  document.querySelector(".gerenciarMotorista").classList.add("model");
 };
 
 const closeMotoristaEditor = () => {
@@ -126,6 +130,21 @@ const closeMotoristaEditor = () => {
   document.querySelector(".leftNavbar").classList.remove("model");
   document.querySelector(".registrarMotoristaCard").classList.add("model");
   document.querySelector(".graficosMain").classList.remove("model");
+  document.querySelector(".tableMotoristas").classList.add("model");
+};
+
+const viewMotorista = () => {
+  document.querySelector(".tableMotoristas").classList.remove("model");
+  document.querySelector(".registrarMotoristaCard").classList.add("model");
+  document.querySelector(".viewMotorista").classList.add("model");
+  document.querySelector(".gerenciarMotorista").classList.remove("model");
+};
+
+const gerenciarMotorista = () => {
+  document.querySelector(".tableMotoristas").classList.add("model");
+  document.querySelector(".registrarMotoristaCard").classList.remove("model");
+  document.querySelector(".viewMotorista").classList.remove("model");
+  document.querySelector(".gerenciarMotorista").classList.add("model");
 };
 
 const preencherTabelaViagens = () => {
@@ -243,6 +262,85 @@ const preencherTabelaVeiculos = () => {
 
     document.querySelector(".conteudoTabelaVeiculos").appendChild(tr);
   }
+};
+const fetchTabelaMotorista = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriGetMotoristas, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      dadosMotorista = data;
+      preencherTabelaMotoristas();
+    });
+};
+
+const preencherTabelaMotoristas = () => {
+  document.querySelector(".conteudoTabelaMotoristas").innerHTML = "";
+  for (var i = 0; i < dadosMotorista.length; i++) {
+    const tr = document.createElement("tr");
+    const tdIdMotorista = document.createElement("td");
+    const tdNome = document.createElement("td");
+    const tdDisponivel = document.createElement("td");
+    const tdTelefone = document.createElement("td");
+    const tdCpf = document.createElement("td");
+    const tdCnh = document.createElement("td");
+    const tdEndereco = document.createElement("td");
+    const tdButton = document.createElement("td");
+    const button = document.createElement("button");
+    const imageExclui = document.createElement("img");
+
+    tdIdMotorista.innerHTML = dadosMotorista[i].id_motorista;
+    tdNome.innerHTML = dadosMotorista[i].nome;
+    tdCpf.innerHTML = dadosMotorista[i].cpf;
+    tdCnh.innerHTML = dadosMotorista[i].cnh;
+    tdTelefone.innerHTML = dadosMotorista[i].telefone;
+    tdEndereco.innerHTML = dadosMotorista[i].endereco;
+    tdDisponivel.innerHTML =
+      dadosMotorista[i].disponivel === true ? "Disponível" : "Indisponível";
+    imageExclui.src = "../../assets/excluirBt.png";
+    imageExclui.style.width = "40px";
+    button.style.width = "100%";
+    button.style.background = "none";
+    button.style.border = "none";
+    button.style.cursor = "pointer";
+    button.setAttribute(
+      "onclick",
+      "excluirMotorista('" + dadosMotorista[i].id_motorista + "')"
+    );
+
+    tdButton.appendChild(button);
+    button.appendChild(imageExclui);
+    tr.appendChild(tdIdMotorista);
+    tr.appendChild(tdNome);
+    tr.appendChild(tdDisponivel);
+    tr.appendChild(tdTelefone);
+    tr.appendChild(tdCpf);
+    tr.appendChild(tdCnh);
+    tr.appendChild(tdEndereco);
+    tr.appendChild(tdButton);
+
+    document.querySelector(".conteudoTabelaMotoristas").appendChild(tr);
+  }
+};
+
+const excluirMotorista = (id) => {
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
+    },
+  };
+  fetch(uriExcluirMotorista + id, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      console.log(data);
+    });
 };
 
 const criarFrota = () => {
@@ -723,7 +821,7 @@ const chartManutencaoVeiculo = () => {
           data: dataChart,
           borderWidth: 1,
           backgroundColor: "#007f5f",
-          borderColor: "#000"
+          borderColor: "#000",
         },
       ],
     },
@@ -774,7 +872,7 @@ const chartVeiculosDisponiveis = () => {
             "#54B435",
             "#82CD47",
           ],
-          borderColor: "#000"
+          borderColor: "#000",
         },
       ],
     },
@@ -799,7 +897,7 @@ const chartTotalGastoNoMes = () => {
           label: "Total gasto com manutenção no mês em R$",
           data: dataChart,
           borderWidth: 1,
-          borderColor: "#000"
+          borderColor: "#000",
         },
       ],
     },
@@ -810,11 +908,21 @@ listarFrotas();
 chartManutencaoGetData();
 chartVeiculosDisponiveisGetData();
 chartGastoPorMesGetData();
+preencherTabelaViagens();
+fetchTabelaVeiculos();
+fetchTabelaMotorista();
+listarFrotasSelectVeiculo();
+listarMotoristasSelectVeiculo();
+listarMotoristasSelectViagens();
+listarVeiculosSelectViagens();
 setInterval(() => {
   preencherTabelaViagens();
 }, 3000);
 setInterval(() => {
   fetchTabelaVeiculos();
+}, 3000);
+setInterval(() => {
+  fetchTabelaMotorista();
 }, 3000);
 setInterval(() => {
   listarFrotasSelectVeiculo();

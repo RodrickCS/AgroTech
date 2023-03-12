@@ -63,7 +63,7 @@
       <section class="frotaMain model">
         <div class="mainHeader">
           <button onclick="viewFrotas()" class="cardBt ver">
-            Ver todas as frotas
+            Todas as frotas
           </button>
           <button onclick="gerenciarFrotas()" class="cardBt gerenciar model">
             Gerenciar frotas
@@ -101,7 +101,7 @@
       <section class="viagensMain model">
         <div class="mainHeader">
           <button onclick="viewViagens()" class="cardBt verViagem">
-            Ver todas as viagens
+            Todas as viagens
           </button>
           <button onclick="gerenciarViagens()" class="cardBt gerenciarViagem">
             Gerenciar viagens
@@ -216,6 +216,12 @@
       </section>
       <section class="motoristaMain model">
         <div class="mainHeader">
+          <button onclick="viewMotorista()" class="cardBt viewMotorista">
+        Todos os motoristas
+          </button>
+          <button onclick="gerenciarMotorista()" class="cardBt gerenciarMotorista">
+            Gerenciar motoristas
+          </button>
           <button class="btClose" onclick="closeMotoristaEditor()">
             &times;
           </button>
@@ -245,10 +251,25 @@
             </button>
           </div>
         </div>
+
+        <table class="tableMotoristas model">
+          <thead>
+            <tr>
+              <th>Id motorista</th>
+              <th>Nome</th>
+              <th>Disponibilidade</th>
+              <th>Telefone</th>
+              <th>CPF</th>
+              <th>CNH</th>
+              <th>Endereço</th>
+            </tr>
+          </thead>
+          <tbody class="conteudoTabelaMotoristas"></tbody>
+        </table>
       </section>
       <section class="graficosMain">
         <div style="display: flex">
-          <div style="width: 800px">
+          <div style="width: 800px; margin-left: 50px">
             <canvas id="manutencaoVeiculoChart"></canvas>
           </div>
 

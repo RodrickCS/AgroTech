@@ -28,7 +28,7 @@ model Motoristas {
   cpf          String     @unique
   cnh          String     @unique
   endereco     String
-  disponivel   Boolean    @default(true)
+  disponivel   Boolean?    @default(true)
   veiculos     Veiculos[]
   viagem       Viagens[]
 }
