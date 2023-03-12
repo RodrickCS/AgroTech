@@ -73,6 +73,15 @@ const vw_gastoNoMes = async (req, res) => {
     let manutencao =
       await prisma.$queryRaw`SELECT MONTH(data_inicio) AS mes, SUM(valor_gasto) AS total FROM Manutencoes WHERE YEAR(data_inicio) = YEAR(curdate()) GROUP BY mes ORDER BY mes ASC`;
 
+    res.status(200).json(manutencao);
+  } catch (err) {
+    res.status(500).json(err).end();
+  }
+};
+const vw_tableManutencao = async (req, res) => {
+  try {
+    let manutencao =
+      await prisma.$queryRaw`select m.id_manutencao, v.id_veiculo, v.marca, v.placa,m.data_inicio, m.data_fim, m.valor_gasto, m.descricao from Manutencoes m inner join Veiculos v on m.id_veiculo = v.id_veiculo;`;
 
     res.status(200).json(manutencao);
   } catch (err) {
@@ -85,4 +94,5 @@ module.exports = {
   read,
   update,
   vw_gastoNoMes,
+  vw_tableManutencao
 };

@@ -277,6 +277,12 @@
 
       <section class="manutencaoMain model">
         <div class="mainHeader">
+          <button onclick="viewManutencao()" class="cardBt viewManutencao">
+            Todas as manutenções
+          </button>
+          <button onclick="gerenciarManutencao()" class="cardBt gerenciarManutencao">
+            gerenciar manutenção
+          </button>
           <button class="btClose" onclick="closeManutencaoEditor()">
             &times;
           </button>
@@ -306,6 +312,23 @@
             </button>
           </div>
         </div>
+
+        <table class="tableManutencao model">
+          <thead>
+            <tr>
+              <th>Id manutenção</th>
+              <th>Id veículo</th>
+              <th>Marca</th>
+              <th>Placa</th>
+              <th>Hora início</th>
+              <th>Hora fim</th>
+              <th>Valor gasto</th>
+              <th>descrição</th>
+            </tr>
+          </thead>
+          <tbody class="conteudoTabelaManutencao"></tbody>
+        </table>
+
       </section>
 
       <section class="graficosMain">

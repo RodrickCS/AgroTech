@@ -9,12 +9,17 @@ const uriCreateVeiculos = "http://localhost:3000/veiculos/create";
 const uriCreateMotorista = "http://localhost:3000/motoristas/create";
 const uriVwGastoPorMes = "http://localhost:3000/manutencoes/readvw";
 const uriExcluirMotorista = "http://localhost:3000/motoristas/excluir/";
+const uriCreateManutencao = "http://localhost:3000/manutencoes/create";
+const uriUpdateManutencao = "http://localhost:3000/manutencoes/update/";
+const uriVwTabelaManutencao =
+  "http://localhost:3000/manutencoes/readvwManutencao";
 
 var dadosVeiculo = [];
 var dadosChartManutencao = [];
 var dadosChartVeiculosDisponiveis = [];
 var dadosGastoPorMes = [];
 var dadosMotorista = [];
+var dadosTableManutencao = [];
 
 const card = document.querySelector(".card");
 const cardToggle = document.querySelector(".toggle");
@@ -151,13 +156,29 @@ const openManutencaoEditor = () => {
   document.querySelector(".graficosMain").classList.add("model");
   document.querySelector(".manutencaoMain").classList.remove("model");
   document.querySelector(".leftNavbar").classList.add("model");
+  document.querySelector(".viewManutencao").classList.remove("model");
   document.querySelector(".registrarManutencaoCard").classList.remove("model");
+  document.querySelector(".gerenciarManutencao").classList.add("model");
+  document.querySelector(".tableManutencao").classList.add("model");
 };
 
 const closeManutencaoEditor = () => {
   document.querySelector(".graficosMain").classList.remove("model");
   document.querySelector(".manutencaoMain").classList.add("model");
   document.querySelector(".leftNavbar").classList.remove("model");
+};
+
+const viewManutencao = () => {
+  document.querySelector(".registrarManutencaoCard").classList.add("model");
+  document.querySelector(".viewManutencao").classList.add("model");
+  document.querySelector(".gerenciarManutencao").classList.remove("model");
+  document.querySelector(".tableManutencao").classList.remove("model");
+};
+const gerenciarManutencao = () => {
+  document.querySelector(".gerenciarManutencao").classList.add("model");
+  document.querySelector(".registrarManutencaoCard").classList.remove("model");
+  document.querySelector(".viewManutencao").classList.remove("model");
+  document.querySelector(".tableManutencao").classList.add("model");
 };
 
 const preencherTabelaViagens = () => {
@@ -337,6 +358,103 @@ const preencherTabelaMotoristas = () => {
 
     document.querySelector(".conteudoTabelaMotoristas").appendChild(tr);
   }
+};
+const fetchTabelaManutencao = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriVwTabelaManutencao, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      dadosTableManutencao = data;
+      preencherTabelaManutencao();
+      console.log(dadosTableManutencao);
+    });
+};
+
+const preencherTabelaManutencao = () => {
+  document.querySelector(".conteudoTabelaManutencao").innerHTML = "";
+  for (var i = 0; i < dadosTableManutencao.length; i++) {
+    const tr = document.createElement("tr");
+    const tdIdManutencao = document.createElement("td");
+    const tdIdVeiculo = document.createElement("td");
+    const tdMarca = document.createElement("td");
+    const tdPlaca = document.createElement("td");
+    const tdDataInicio = document.createElement("td");
+    const tdDataFim = document.createElement("td");
+    const tdValorGasto = document.createElement("td");
+    const tdDescricao = document.createElement("td");
+    const tdButton = document.createElement("td");
+    const button = document.createElement("button");
+    const imageButton = document.createElement("img");
+
+    imageButton.src = "../../assets/check.png";
+    imageButton.style.width = "30px";
+
+    tdIdManutencao.innerHTML = dadosTableManutencao[i].id_manutencao;
+    tdIdVeiculo.innerHTML = dadosTableManutencao[i].id_veiculo;
+    tdMarca.innerHTML = dadosTableManutencao[i].marca;
+    tdPlaca.innerHTML = dadosTableManutencao[i].placa;
+    tdDataInicio.innerHTML = dadosTableManutencao[i].data_inicio
+      .split("T")[1]
+      .split(".")[0];
+    tdDataFim.innerHTML = dadosTableManutencao[i].data_fim;
+    tdValorGasto.innerHTML = "R$" + dadosTableManutencao[i].valor_gasto;
+    tdDescricao.innerHTML = dadosTableManutencao[i].descricao;
+
+    if ((tdDataFim.innerHTML = dadosTableManutencao[i].data_fim == null)) {
+      tdDataFim.innerHTML = dadosTableManutencao[i].data_fim;
+    } else {
+      tdDataFim.innerHTML = dadosTableManutencao[i].data_fim
+        .split("T")[1]
+        .split(".")[0];
+      button.setAttribute("disabled", true);
+      button.style.visibility = "hidden";
+    }
+
+    tdButton.appendChild(button);
+    button.appendChild(imageButton);
+    tr.appendChild(tdIdManutencao);
+    tr.appendChild(tdIdVeiculo);
+    tr.appendChild(tdMarca);
+    tr.appendChild(tdPlaca);
+    tr.appendChild(tdDataInicio);
+    tr.appendChild(tdDataFim);
+    tr.appendChild(tdValorGasto);
+    tr.appendChild(tdDescricao);
+    tr.appendChild(tdButton);
+
+    button.style.width = "100%";
+    button.style.background = "none";
+    button.style.border = "none";
+    button.style.cursor = "pointer";
+    button.setAttribute(
+      "onclick",
+      `updateManutencao('${dadosTableManutencao[i].id_manutencao}')`
+    );
+
+    document.querySelector(".conteudoTabelaManutencao").appendChild(tr);
+  }
+};
+
+const updateManutencao = (id) => {
+  console.log(id)
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
+    },
+  };
+  fetch(uriUpdateManutencao + id, options)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      console.log(data);
+    });
 };
 
 const excluirMotorista = (id) => {
@@ -692,15 +810,16 @@ const adicionarMotorista = () => {
 };
 
 const adicionarManutencao = () => {
-  let selectVeiculo = document.querySelector("#manutencaoVeiculo")
-  let inpValorGasto = document.querySelector("#inpValorGastoManutencao")
-  let inpDescricao = document.querySelector("#inpDescricaoManutencao")
+  let selectVeiculo = document.querySelector("#manutencaoVeiculo");
+  let inpValorGasto = document.querySelector("#inpValorGastoManutencao");
+  let inpDescricao = document.querySelector("#inpDescricaoManutencao");
 
-console.log(selectVeiculo)
-
-let form = {
-  id_veiculo: Number(selectVeiculo.selectdedOptions[0].id.split("m")[1])
-}
+  let form = {
+    id_veiculo: Number(selectVeiculo.selectedOptions[0].id.split("m")[1]),
+    valor_gasto: Number(inpValorGasto.value),
+    descricao: inpDescricao.value,
+  };
+  console.log(form);
   const options = {
     method: "POST",
     headers: {
@@ -709,6 +828,13 @@ let form = {
     },
     body: JSON.stringify(form),
   };
+  fetch(uriCreateManutencao, options)
+    .then((resp) => {
+      return resp.status;
+    })
+    .then((data) => {
+      console.log(data);
+    });
 };
 
 const getMonthName = (monthNumber) => {
@@ -973,6 +1099,7 @@ chartGastoPorMesGetData();
 preencherTabelaViagens();
 fetchTabelaVeiculos();
 fetchTabelaMotorista();
+fetchTabelaManutencao();
 listarFrotasSelectVeiculo();
 listarMotoristasSelectVeiculo();
 listarMotoristasSelectViagens();
@@ -986,6 +1113,9 @@ setInterval(() => {
 }, 3000);
 setInterval(() => {
   fetchTabelaMotorista();
+}, 3000);
+setInterval(() => {
+  fetchTabelaManutencao();
 }, 3000);
 setInterval(() => {
   listarFrotasSelectVeiculo();
