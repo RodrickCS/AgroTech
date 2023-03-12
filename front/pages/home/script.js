@@ -147,6 +147,19 @@ const gerenciarMotorista = () => {
   document.querySelector(".gerenciarMotorista").classList.add("model");
 };
 
+const openManutencaoEditor = () => {
+  document.querySelector(".graficosMain").classList.add("model");
+  document.querySelector(".manutencaoMain").classList.remove("model");
+  document.querySelector(".leftNavbar").classList.add("model");
+  document.querySelector(".registrarManutencaoCard").classList.remove("model");
+};
+
+const closeManutencaoEditor = () => {
+  document.querySelector(".graficosMain").classList.remove("model");
+  document.querySelector(".manutencaoMain").classList.add("model");
+  document.querySelector(".leftNavbar").classList.remove("model");
+};
+
 const preencherTabelaViagens = () => {
   const options = {
     method: "GET",
@@ -512,6 +525,32 @@ const listarMotoristasSelectViagens = () => {
     });
 };
 
+const listarVeiculosSelectManutencao = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriGetVeiculos, options)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      document.getElementById("manutencaoVeiculo").innerHTML = "";
+      for (var i = 0; i < data.length; i++) {
+        let option = document.createElement("option");
+        if (data[i].disponivel === true) {
+          option.setAttribute("value", data[i].marca);
+          option.setAttribute("id", "vidm" + data[i].id_veiculo);
+          option.innerHTML =
+            data[i].marca + " " + data[i].cor + " " + data[i].placa;
+
+          let select = document.getElementById("manutencaoVeiculo");
+
+          select.add(option);
+        }
+      }
+    });
+};
+
 const regisTrarViagem = () => {
   let selectVeiculo = document.getElementById("veiculo");
   let selectMotorista = document.getElementById("motorista");
@@ -610,11 +649,11 @@ const adicionarVeiculo = () => {
 };
 
 const adicionarMotorista = () => {
-  const inpNome = document.querySelector("#inpNomeMotorista");
-  const inpTelefoneMotorista = document.querySelector("#inpTelefoneMotorista");
-  const inpCpfMotorista = document.querySelector("#inpCpfMotorista");
-  const inpCnhMotorista = document.querySelector("#inpCnhMotorista");
-  const inpEnderecoMotorista = document.querySelector("#inpEnderecoMotorista");
+  let inpNome = document.querySelector("#inpNomeMotorista");
+  let inpTelefoneMotorista = document.querySelector("#inpTelefoneMotorista");
+  let inpCpfMotorista = document.querySelector("#inpCpfMotorista");
+  let inpCnhMotorista = document.querySelector("#inpCnhMotorista");
+  let inpEnderecoMotorista = document.querySelector("#inpEnderecoMotorista");
 
   let telefoneValidado = validarTelefone(inpTelefoneMotorista.value);
   let cpfValidado = validarCPF(inpCpfMotorista.value);
@@ -652,6 +691,26 @@ const adicionarMotorista = () => {
     });
 };
 
+const adicionarManutencao = () => {
+  let selectVeiculo = document.querySelector("#manutencaoVeiculo")
+  let inpValorGasto = document.querySelector("#inpValorGastoManutencao")
+  let inpDescricao = document.querySelector("#inpDescricaoManutencao")
+
+console.log(selectVeiculo)
+
+let form = {
+  id_veiculo: Number(selectVeiculo.selectdedOptions[0].id.split("m")[1])
+}
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
+    },
+    body: JSON.stringify(form),
+  };
+};
+
 const getMonthName = (monthNumber) => {
   const date = new Date();
   date.setMonth(monthNumber - 1);
@@ -676,7 +735,7 @@ const validarPlaca = (placa) => {
 const validarTelefone = (telefone) => {
   var resposta = false;
   const regexTelefone =
-    /^(\+55)?\s?\(?([1-9]{2})\)?\s?(9[6-9][0-9]{3}\-[0-9]{4})$/;
+    /^(\+55)?\s?(?:\(?(?:0?[1-9][1-9]|[1-9][0-9])\)?\s?)?(?:9[1-9][0-9]{3}\-?[0-9]{4})$/;
   if (regexTelefone.test(telefone)) {
     resposta = true;
   }
@@ -898,6 +957,9 @@ const chartTotalGastoNoMes = () => {
           data: dataChart,
           borderWidth: 1,
           borderColor: "#000",
+          ticks: {
+            stepSize: 1,
+          },
         },
       ],
     },
@@ -915,6 +977,7 @@ listarFrotasSelectVeiculo();
 listarMotoristasSelectVeiculo();
 listarMotoristasSelectViagens();
 listarVeiculosSelectViagens();
+listarVeiculosSelectManutencao();
 setInterval(() => {
   preencherTabelaViagens();
 }, 3000);
@@ -935,4 +998,7 @@ setInterval(() => {
 }, 3000);
 setInterval(() => {
   listarVeiculosSelectViagens();
+}, 3000);
+setInterval(() => {
+  listarVeiculosSelectManutencao;
 }, 3000);

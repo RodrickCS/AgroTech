@@ -47,14 +47,18 @@
         <button class="navBt" onclick="openVeiculosEditor()">
           <img width="30px" src="../../assets/carro.png" />Veículos
         </button>
-        <button class="navBt" onclick="openMotoristaEditor()">
-          <img width="30px" src="../../assets/motorista.png" />Motoristas
-        </button>
-        <button class="navBt" onclick="openManutencoesEditor()">
+        <button class="navBt" onclick="openManutencaoEditor()">
           <img
             width="30px"
             src="../../assets/ferramenta-chave.png"
           />Manutenções
+        </button>
+        <button class="navBt" onclick="openMotoristaEditor()">
+          <img width="30px" src="../../assets/motorista.png" />Motoristas
+        </button>
+
+        <button class="navBt" onclick="openManutencoesEditor()">
+          <img width="30px" src="../../assets/funcionarios.png" />Funcionários
         </button>
         <div id="btLogout">
           <button onclick="logout()" id="logoutBt">Sair</button>
@@ -217,9 +221,12 @@
       <section class="motoristaMain model">
         <div class="mainHeader">
           <button onclick="viewMotorista()" class="cardBt viewMotorista">
-        Todos os motoristas
+            Todos os motoristas
           </button>
-          <button onclick="gerenciarMotorista()" class="cardBt gerenciarMotorista">
+          <button
+            onclick="gerenciarMotorista()"
+            class="cardBt gerenciarMotorista"
+          >
             Gerenciar motoristas
           </button>
           <button class="btClose" onclick="closeMotoristaEditor()">
@@ -267,6 +274,40 @@
           <tbody class="conteudoTabelaMotoristas"></tbody>
         </table>
       </section>
+
+      <section class="manutencaoMain model">
+        <div class="mainHeader">
+          <button class="btClose" onclick="closeManutencaoEditor()">
+            &times;
+          </button>
+        </div>
+        <div class="registrarManutencaoCard model">
+          <div class="cardHeader">
+            <h1>Registrar Manutenção</h1>
+          </div>
+          <div class="cardBody">
+            
+            <label for="manutencaoVeiculo">Veiculo:</label>
+            <select
+              id="manutencaoVeiculo"
+              name="manutencaoVeiculo"
+              form="manutencaoVeiculo"
+            ></select>
+
+            <input type="text" placeholder="Valor" id="inpValorGastoManutencao">
+            <span class="border"></span>
+
+            <input type="text" placeholder="Descrição" id="inpDescricaoManutencao">
+            <span class="border"></span>
+          </div>
+          <div class="cardFooter">
+            <button onclick="adicionarManutencao()" class="cardBt">
+              Adicionar
+            </button>
+          </div>
+        </div>
+      </section>
+
       <section class="graficosMain">
         <div style="display: flex">
           <div style="width: 800px; margin-left: 50px">
