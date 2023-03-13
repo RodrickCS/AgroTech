@@ -45,8 +45,11 @@ a {
   padding-bottom: 90px;
 }
 
-ul li {
+ul {
   list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .navBt {
@@ -80,6 +83,28 @@ ul li {
   justify-content: center;
   gap: 10px;
 }
+
+.btLogoutTop {
+  color: white;
+  background: none;
+  border: none;
+  width: 100px;
+  height: 40px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 23px;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btLogoutTop:hover {
+  box-shadow: inset 220px 1px 9px #cc6600;
+  cursor: pointer;
+}
+
 #logoutBt:hover {
   box-shadow: inset 220px 1px 9px #cc6600;
   cursor: pointer;

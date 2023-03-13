@@ -370,7 +370,7 @@ const fetchTabelaManutencao = () => {
     .then((data) => {
       dadosTableManutencao = data;
       preencherTabelaManutencao();
-      console.log(dadosTableManutencao);
+     
     });
 };
 
@@ -440,7 +440,6 @@ const preencherTabelaManutencao = () => {
 };
 
 const updateManutencao = (id) => {
-  console.log(id)
   const options = {
     method: "PUT",
     headers: {
@@ -819,7 +818,7 @@ const adicionarManutencao = () => {
     valor_gasto: Number(inpValorGasto.value),
     descricao: inpDescricao.value,
   };
-  console.log(form);
+  
   const options = {
     method: "POST",
     headers: {
@@ -837,11 +836,36 @@ const adicionarManutencao = () => {
     });
 };
 
+const checkUser = () => {
+  document.querySelector("#nomeUser").innerHTML = localStorage.getItem("nome").split('"')[1];
+  document.querySelector("#nomeUser").style.color = "white"
+  document.querySelector("#nomeUser").style.fontSize = "30px"
+  let role = localStorage.getItem("role")
+  if (role === '"Comum"') {
+    console.log(localStorage.getItem("nome"))
+    document.querySelector(".leftNavbar").classList.add("model");
+    document.querySelector(".btLogoutTop").classList.remove("model");
+    
+  } else {
+    alert(`Role ${role}`);
+  }
+};
+
 const getMonthName = (monthNumber) => {
   const date = new Date();
   date.setMonth(monthNumber - 1);
 
   return date.toLocaleString("pt-BR", { month: "long" });
+};
+
+const validarEmail = (email) => {
+  regexEmail =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(.*))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (regexEmail.test(email)) {
+    console.log("Válido");
+  } else {
+    console.log("Inválido");
+  }
 };
 
 const validarPlaca = (placa) => {
@@ -1130,5 +1154,5 @@ setInterval(() => {
   listarVeiculosSelectViagens();
 }, 3000);
 setInterval(() => {
-  listarVeiculosSelectManutencao;
+  listarVeiculosSelectManutencao();
 }, 3000);

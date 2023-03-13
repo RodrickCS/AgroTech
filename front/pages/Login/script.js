@@ -9,6 +9,10 @@ const login = () => {
       senha: inpPasswd.value,
     };
 
+    let emailValidado = validarEmail(inpEmail.value)
+
+    console.log(emailValidado)
+
     options = {
       method: "POST",
       headers: {
@@ -24,6 +28,7 @@ const login = () => {
         if (data.length == 2) {  
           localStorage.setItem("token", JSON.stringify(data[0].token));
           localStorage.setItem("role", JSON.stringify(data[1].role));
+          localStorage.setItem("nome", JSON.stringify(data[1].nome));
 
           window.location.href = "../home/index.html";
         }
@@ -32,4 +37,14 @@ const login = () => {
     alert("Preencha todos os campos!");
 
   }
+};
+
+const validarEmail = (email) => {
+  regexEmail =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(.*))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(regexEmail.test(email)) {
+      console.log("Válido")
+    } else {
+      console.log("Inválido")
+    }
 };

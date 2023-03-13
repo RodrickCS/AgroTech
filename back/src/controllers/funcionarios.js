@@ -26,7 +26,10 @@ const login = async (req, res) => {
             funcionario["token"] = token;
             res
               .status(200)
-              .json([{ token: token }, { role: funcionario[0].role }])
+              .json([
+                { token: token },
+                { role: funcionario[0].role, nome: funcionario[0].nome },
+              ])
               .end();
           } else {
             res.status(400).json(err).end();

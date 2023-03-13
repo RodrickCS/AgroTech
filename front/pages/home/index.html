@@ -13,19 +13,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AgroTech</title>
   </head>
-  <body>
+  <body onload="checkUser()">
     <nav id="upperNavbar">
       <img width="230px" src="../../assets/agroTech-TextLogo.png " alt="Logo" />
       <ul>
         <li>
-          <a href="../graficos/index.html">
-            <!-- <button class="navBt">
-              Gráficos<img
-                width="40px"
-                src="../../assets/grafico-de-linha.png"
-              />
-            </button> -->
-          </a>
+          <p id="nomeUser"></p>
+        </li>
+        <li>
+          <button onclick="logout()" class="btLogoutTop model">Sair</button>
         </li>
       </ul>
     </nav>
@@ -280,7 +276,10 @@
           <button onclick="viewManutencao()" class="cardBt viewManutencao">
             Todas as manutenções
           </button>
-          <button onclick="gerenciarManutencao()" class="cardBt gerenciarManutencao">
+          <button
+            onclick="gerenciarManutencao()"
+            class="cardBt gerenciarManutencao"
+          >
             gerenciar manutenção
           </button>
           <button class="btClose" onclick="closeManutencaoEditor()">
@@ -292,7 +291,6 @@
             <h1>Registrar Manutenção</h1>
           </div>
           <div class="cardBody">
-            
             <label for="manutencaoVeiculo">Veiculo:</label>
             <select
               id="manutencaoVeiculo"
@@ -300,10 +298,18 @@
               form="manutencaoVeiculo"
             ></select>
 
-            <input type="text" placeholder="Valor" id="inpValorGastoManutencao">
+            <input
+              type="text"
+              placeholder="Valor"
+              id="inpValorGastoManutencao"
+            />
             <span class="border"></span>
 
-            <input type="text" placeholder="Descrição" id="inpDescricaoManutencao">
+            <input
+              type="text"
+              placeholder="Descrição"
+              id="inpDescricaoManutencao"
+            />
             <span class="border"></span>
           </div>
           <div class="cardFooter">
@@ -328,7 +334,6 @@
           </thead>
           <tbody class="conteudoTabelaManutencao"></tbody>
         </table>
-
       </section>
 
       <section class="graficosMain">
