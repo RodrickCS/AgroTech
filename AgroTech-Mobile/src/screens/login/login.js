@@ -35,27 +35,27 @@ export default function Login({ navigation }) {
         return res.json();
       })
       .then((data) => {
-        if(data.msg){
+        if (data.msg) {
           console.log(data.msg);
         } else {
-          AsyncStorage.setItem("token", data[0].token)
-          navigation.navigate("GerenciamentoRedirectToComponent")
+          AsyncStorage.setItem("token", data[0].token);
+          navigation.navigate("GerenciamentoRedirectToComponent");
         }
- 
-      
       });
   }
 
   return (
     <View style={styles.container}>
       <View>
-      <Image
-        style={{ width: "120px", height: "100px" }}
-        source={require("../../../assets/AgroTech-Logo.png")}
-      />
-      <Text style={{fontSize: "25px"}} >Bem <Text style={{color: "#5ac879"}}>vindo(a)!</Text></Text>
+        <Image
+          style={{ width: "120px", height: "100px" }}
+          source={require("../../../assets/AgroTech-Logo.png")}
+        />
+        <Text style={{ fontSize: "25px" }}>
+          Bem <Text style={{ color: "#5ac879" }}>vindo(a)!</Text>
+        </Text>
       </View>
-      
+
       <View style={styles.inputEmailArea}>
         <TextInput
           onChangeText={(val) => {
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   inputEmailArea: {
     flexDirection: "row",
-    
+
     width: "90%",
     backgroundColor: "#121212",
     borderRadius: 5,
