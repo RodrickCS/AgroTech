@@ -11,6 +11,7 @@ const uriVwGastoPorMes = "http://localhost:3000/manutencoes/readvw";
 const uriExcluirMotorista = "http://localhost:3000/motoristas/excluir/";
 const uriCreateManutencao = "http://localhost:3000/manutencoes/create";
 const uriUpdateManutencao = "http://localhost:3000/manutencoes/update/";
+const uriCreateFuncionario = "http://localhost:3000/funcionarios/registrar";
 const uriVwTabelaManutencao =
   "http://localhost:3000/manutencoes/readvwManutencao";
 
@@ -180,6 +181,22 @@ const gerenciarManutencao = () => {
   document.querySelector(".viewManutencao").classList.remove("model");
   document.querySelector(".tableManutencao").classList.add("model");
 };
+
+const openFuncionariosEditor = () => {
+  document.querySelector(".funcionarioMain").classList.remove("model");
+  document.querySelector(".graficosMain").classList.add("model");
+  document.querySelector(".registrarFuncionarioCard").classList.remove("model");
+  document.querySelector(".leftNavbar").classList.add("model");
+  document.querySelector(".gerenciarFuncionario").classList.add("model");
+};
+
+const closeFuncionariosEditor = () => {
+  document.querySelector(".funcionarioMain").classList.add("model");
+  document.querySelector(".graficosMain").classList.remove("model");
+  document.querySelector(".registrarFuncionarioCard").classList.add("model");
+  document.querySelector(".leftNavbar").classList.remove("model");
+  document.querySelector(".gerenciarFuncionario").classList.add("model");
+}
 
 const preencherTabelaViagens = () => {
   const options = {
@@ -370,7 +387,6 @@ const fetchTabelaManutencao = () => {
     .then((data) => {
       dadosTableManutencao = data;
       preencherTabelaManutencao();
-     
     });
 };
 
@@ -818,7 +834,7 @@ const adicionarManutencao = () => {
     valor_gasto: Number(inpValorGasto.value),
     descricao: inpDescricao.value,
   };
-  
+
   const options = {
     method: "POST",
     headers: {
@@ -836,18 +852,86 @@ const adicionarManutencao = () => {
     });
 };
 
+const adicionarFuncionario = () => {
+  let inpFuncNome = document.querySelector("#inpFuncNome");
+  let inpFuncEmail = document.querySelector("#inpFuncEmail");
+  let inpFuncSenha = document.querySelector("#inpFuncSenha");
+  let inpFuncTelefone = document.querySelector("#inpFuncTelefone");
+  let inpFuncCpf = document.querySelector("#inpFuncCpf");
+  let inpFuncEndereco = document.querySelector("#inpFuncEndereco");
+  let form = {
+    nome: inpFuncNome.value,
+    email: inpFuncEmail.value,
+    senha: inpFuncSenha.value,
+    telefone: inpFuncTelefone.value,
+    cpf: inpFuncCpf.value,
+    endereco: inpFuncEndereco.value,
+  };
+  console.log(form);
+  if (validarCPF(inpFuncCpf.value) === false) return alert("CPF inválido");
+  if (validarEmail(inpFuncEmail.value) === "Inválido")
+    return alert("E-mail inválido");
+  if (validarTelefone(inpFuncTelefone.value) === false)
+    return alert("Telefone inválido");
+  if (document.getElementById("checkboxGerenciador").checked) {
+    form.role = "Gerenciador";
+  }
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
+    },
+    body: JSON.stringify(form),
+  };
+  fetch(uriCreateFuncionario, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      if (data.msg === "Registrado") {
+        alert(data.msg);
+      } else {
+        alert(data.msg);
+      }
+    });
+};
+
 const checkUser = () => {
-  document.querySelector("#nomeUser").innerHTML = localStorage.getItem("nome").split('"')[1];
-  document.querySelector("#nomeUser").style.color = "white"
-  document.querySelector("#nomeUser").style.fontSize = "30px"
-  let role = localStorage.getItem("role")
+  document.querySelector("#nomeUser").innerHTML = localStorage
+    .getItem("nome")
+    .split('"')[1];
+  document.querySelector("#nomeUser").style.color = "white";
+  document.querySelector("#nomeUser").style.fontSize = "30px";
+
+  let role = localStorage.getItem("role");
+
   if (role === '"Comum"') {
-    console.log(localStorage.getItem("nome"))
+    console.log(localStorage.getItem("nome"));
+
     document.querySelector(".leftNavbar").classList.add("model");
     document.querySelector(".btLogoutTop").classList.remove("model");
-    
+  }
+  if (localStorage.getItem("token") !== null) {
+    const tokenJWT = localStorage.getItem("token").split('"')[1];
+
+    try {
+      const payload = JSON.parse(atob(tokenJWT.split(".")[1]));
+      const expiracao = payload.exp;
+      const agora = Math.floor(Date.now() / 1000);
+
+      if (agora >= expiracao) {
+        logout();
+        return false;
+      }
+
+      return true;
+    } catch (err) {
+      logout();
+      return false;
+    }
   } else {
-    alert(`Role ${role}`);
+    window.location.href = "../login/index.html";
   }
 };
 

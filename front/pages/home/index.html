@@ -53,7 +53,7 @@
           <img width="30px" src="../../assets/motorista.png" />Motoristas
         </button>
 
-        <button class="navBt" onclick="openManutencoesEditor()">
+        <button class="navBt" onclick="openFuncionariosEditor()">
           <img width="30px" src="../../assets/funcionarios.png" />Funcionários
         </button>
         <div id="btLogout">
@@ -334,6 +334,64 @@
           </thead>
           <tbody class="conteudoTabelaManutencao"></tbody>
         </table>
+      </section>
+
+      <section class="funcionarioMain model">
+        <div class="mainHeader">
+          <button onclick="viewManutencao()" class="cardBt viewFuncionario">
+            Todas os funcionários
+          </button>
+          <button
+            onclick="gerenciarManutencao()"
+            class="cardBt gerenciarFuncionario"
+          >
+            gerenciar funcionário
+          </button>
+          <button class="btClose" onclick="closeFuncionariosEditor()">
+            &times;
+          </button>
+        </div>
+
+        <div class="registrarFuncionarioCard model">
+          <div class="cardHeader">
+            <h1>Registrar Funcionário</h1>
+          </div>
+          <div class="cardBody">
+            <input id="inpFuncNome" type="text" placeholder="Nome" />
+            <span class="border"></span>
+
+            <input type="text" id="inpFuncEmail" placeholder="email" />
+            <span class="border"></span>
+
+            <input type="text" id="inpFuncSenha" placeholder="Senha" />
+            <span class="border"></span>
+
+            <input type="text" id="inpFuncTelefone" placeholder="Telefone" />
+            <span class="border"></span>
+
+            <input type="text" id="inpFuncCpf" placeholder="CPF" />
+            <span class="border"></span>
+
+            <input type="text" id="inpFuncEndereco" placeholder="Endereco" />
+            <span class="border"></span>
+
+            <div style="display: flex; gap: 10px">
+              <label for="checkboxGerenciador"> Gerenciador</label>
+              <input
+                type="checkbox"
+                id="checkboxGerenciador"
+                name="checkboxGerenciador"
+                value="Gerenciador"
+              />
+            </div>
+            
+          </div>
+          <div class="cardFooter">
+            <button onclick="adicionarFuncionario()" class="cardBt">
+              Registrar
+            </button>
+          </div>
+        </div>
       </section>
 
       <section class="graficosMain">
