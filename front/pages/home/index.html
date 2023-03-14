@@ -338,11 +338,11 @@
 
       <section class="funcionarioMain model">
         <div class="mainHeader">
-          <button onclick="viewManutencao()" class="cardBt viewFuncionario">
+          <button onclick="viewFuncionarios()" class="cardBt viewFuncionario">
             Todas os funcionários
           </button>
           <button
-            onclick="gerenciarManutencao()"
+            onclick="gerenciarFuncionarios()"
             class="cardBt gerenciarFuncionario"
           >
             gerenciar funcionário
@@ -392,6 +392,20 @@
             </button>
           </div>
         </div>
+
+        <table class="tableFuncionarios model">
+          <thead>
+            <tr>
+              <th>Id funcionário</th>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>CPF</th>
+              <th>Endereço</th>
+            </tr>
+          </thead>
+          <tbody class="conteudoTabelaFuncionario"></tbody>
+        </table>
+
       </section>
 
       <section class="graficosMain">

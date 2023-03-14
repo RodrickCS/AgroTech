@@ -20,7 +20,7 @@ const login = async (req, res) => {
       jwt.sign(
         { ...funcionario },
         process.env.KEY,
-        { expiresIn: "40m" },
+        { expiresIn: "10m" },
         function (err, token) {
           if (err == null) {
             funcionario["token"] = token;

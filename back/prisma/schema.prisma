@@ -28,7 +28,7 @@ model Motoristas {
   cpf          String     @unique
   cnh          String     @unique
   endereco     String
-  disponivel   Boolean?    @default(true)
+  disponivel   Boolean?   @default(true)
   veiculos     Veiculos[]
   viagem       Viagens[]
 }
@@ -54,17 +54,17 @@ model Veiculos {
   marca       String
   placa       String        @unique
   cor         String
-  idMotorista Int
+  idMotorista Int?
   disponivel  Boolean?      @default(true)
   manutencoes Manutencoes[]
-  motorista   Motoristas?   @relation(fields: [idMotorista], references: [id_motorista])
-  frota       Frota?        @relation(fields: [idFrota], references: [id_frota])
-  idFrota     Int
+  motorista   Motoristas?   @relation(fields: [idMotorista], references: [id_motorista], onDelete: SetNull)
+  frota       Frota?        @relation(fields: [idFrota], references: [id_frota], onDelete: SetNull)
+  idFrota     Int?
   viagens     Viagens[]
 }
 
 model Viagens {
-  id_viagem    Int        @id @default(autoincrement())
+  id_viagem    Int         @id @default(autoincrement())
   id_veiculo   Int?
   id_motorista Int?
   descricao    String

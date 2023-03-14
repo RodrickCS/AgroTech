@@ -12,6 +12,9 @@ const uriExcluirMotorista = "http://localhost:3000/motoristas/excluir/";
 const uriCreateManutencao = "http://localhost:3000/manutencoes/create";
 const uriUpdateManutencao = "http://localhost:3000/manutencoes/update/";
 const uriCreateFuncionario = "http://localhost:3000/funcionarios/registrar";
+const uriGetFuncionarios = "http://localhost:3000/funcionarios/read";
+const uriExcluirFuncionario = "http://localhost:3000/funcionarios/excluir/";
+const uriExcluirVeiculo = "http://localhost:3000/veiculos/excluir/";
 const uriVwTabelaManutencao =
   "http://localhost:3000/manutencoes/readvwManutencao";
 
@@ -21,6 +24,7 @@ var dadosChartVeiculosDisponiveis = [];
 var dadosGastoPorMes = [];
 var dadosMotorista = [];
 var dadosTableManutencao = [];
+var dadosTabelaFuncionarios = [];
 
 const card = document.querySelector(".card");
 const cardToggle = document.querySelector(".toggle");
@@ -196,7 +200,23 @@ const closeFuncionariosEditor = () => {
   document.querySelector(".registrarFuncionarioCard").classList.add("model");
   document.querySelector(".leftNavbar").classList.remove("model");
   document.querySelector(".gerenciarFuncionario").classList.add("model");
-}
+  document.querySelector(".tableFuncionarios").classList.add("model");
+  document.querySelector(".viewFuncionario").classList.remove("model");
+};
+
+const viewFuncionarios = () => {
+  document.querySelector(".registrarFuncionarioCard").classList.add("model");
+  document.querySelector(".tableFuncionarios").classList.remove("model");
+  document.querySelector(".viewFuncionario").classList.add("model");
+  document.querySelector(".gerenciarFuncionario").classList.remove("model");
+};
+
+const gerenciarFuncionarios = () => {
+  document.querySelector(".registrarFuncionarioCard").classList.remove("model");
+  document.querySelector(".tableFuncionarios").classList.add("model");
+  document.querySelector(".viewFuncionario").classList.remove("model");
+  document.querySelector(".gerenciarFuncionario").classList.add("model");
+};
 
 const preencherTabelaViagens = () => {
   const options = {
@@ -293,6 +313,21 @@ const preencherTabelaVeiculos = () => {
     const tdCor = document.createElement("td");
     const tdDisponibilidade = document.createElement("td");
     const tdMotorista = document.createElement("td");
+    const tdButton = document.createElement("td");
+    const button = document.createElement("button");
+    const imageButton = document.createElement("img");
+
+    imageButton.src = "../../assets/excluirBt.png";
+    imageButton.style.width = "30px";
+
+    button.style.width = "100%";
+    button.style.background = "none";
+    button.style.border = "none";
+    button.style.cursor = "pointer";
+    button.setAttribute(
+      "onclick",
+      `excluirVeiculo('${dadosVeiculo[i].id_veiculo}')`
+    );
 
     tdIdVeiculo.innerHTML = dadosVeiculo[i].id_veiculo;
     tdIdFrota.innerHTML = dadosVeiculo[i].idFrota;
@@ -310,6 +345,9 @@ const preencherTabelaVeiculos = () => {
     tr.appendChild(tdCor);
     tr.appendChild(tdDisponibilidade);
     tr.appendChild(tdMotorista);
+    tr.appendChild(tdButton);
+    tdButton.appendChild(button);
+    button.appendChild(imageButton);
 
     document.querySelector(".conteudoTabelaVeiculos").appendChild(tr);
   }
@@ -453,6 +491,98 @@ const preencherTabelaManutencao = () => {
 
     document.querySelector(".conteudoTabelaManutencao").appendChild(tr);
   }
+};
+
+const fetchTabelaFuncionaios = () => {
+  const options = {
+    methot: "GET",
+  };
+  fetch(uriGetFuncionarios, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      dadosTabelaFuncionarios = data;
+      preencherTabelaFuncionarios();
+    });
+};
+
+const preencherTabelaFuncionarios = () => {
+  document.querySelector(".conteudoTabelaFuncionario").innerHTML = "";
+  for (var i = 0; i < dadosTabelaFuncionarios.length; i++) {
+    const tr = document.createElement("tr");
+    const tdIdFuncionario = document.createElement("td");
+    const tdNomeFunc = document.createElement("td");
+    const tdTelefoneFunc = document.createElement("td");
+    const tdCpfFunc = document.createElement("td");
+    const tdEnderecoFunc = document.createElement("td");
+    const tdButton = document.createElement("td");
+    const button = document.createElement("button");
+    const imageButton = document.createElement("img");
+
+    imageButton.src = "../../assets/excluirBt.png";
+    imageButton.style.width = "30px";
+
+    button.style.width = "100%";
+    button.style.background = "none";
+    button.style.border = "none";
+    button.style.cursor = "pointer";
+    button.setAttribute(
+      "onclick",
+      `excluirFunc('${dadosTabelaFuncionarios[i].id_funcionario}')`
+    );
+
+    tdIdFuncionario.innerHTML = dadosTabelaFuncionarios[i].id_funcionario;
+    tdNomeFunc.innerHTML = dadosTabelaFuncionarios[i].nome;
+    tdTelefoneFunc.innerHTML = dadosTabelaFuncionarios[i].telefone;
+    tdCpfFunc.innerHTML = dadosTabelaFuncionarios[i].cpf;
+    tdEnderecoFunc.innerHTML = dadosTabelaFuncionarios[i].endereco;
+
+    tr.appendChild(tdIdFuncionario);
+    tr.appendChild(tdNomeFunc);
+    tr.appendChild(tdTelefoneFunc);
+    tr.appendChild(tdCpfFunc);
+    tr.appendChild(tdEnderecoFunc);
+    tr.appendChild(tdButton);
+    tdButton.appendChild(button);
+    button.appendChild(imageButton);
+
+    document.querySelector(".conteudoTabelaFuncionario").appendChild(tr);
+  }
+};
+
+const excluirVeiculo = (id) => {
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
+    },
+  };
+  fetch(uriExcluirVeiculo + id, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      console.log(data);
+    });
+};
+
+const excluirFunc = (id) => {
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
+    },
+  };
+  fetch(uriExcluirFuncionario + id, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      console.log(data);
+    });
 };
 
 const updateManutencao = (id) => {
@@ -1110,7 +1240,7 @@ const chartManutencaoVeiculo = () => {
       labels: labelsChart,
       datasets: [
         {
-          label: "Qtd. de manutençoes de um veículo",
+          label: "Qtd.",
           data: dataChart,
           borderWidth: 1,
           backgroundColor: "#007f5f",
@@ -1127,6 +1257,12 @@ const chartManutencaoVeiculo = () => {
           },
         },
       },
+      plugins: {
+        title: {
+          display: true,
+          text: "Quantidade de manutençoes de um veículo",
+        },
+      },
     },
   });
 };
@@ -1138,13 +1274,7 @@ const chartVeiculosDisponiveis = () => {
 
   for (let i = 0; i < dadosChartVeiculosDisponiveis.length; i++) {
     labelsChart.push(dadosChartVeiculosDisponiveis[i].tipo);
-    if (dadosChartVeiculosDisponiveis[i].veiculos[0].disponivel === true) {
-      dataChart.push(
-        dadosChartVeiculosDisponiveis[i].veiculos.length === undefined
-          ? "Não há veiculos"
-          : dadosChartVeiculosDisponiveis[i].veiculos.length
-      );
-    }
+    dataChart.push(dadosChartVeiculosDisponiveis[i].veiculos.length);
   }
 
   new Chart(ctx, {
@@ -1153,7 +1283,7 @@ const chartVeiculosDisponiveis = () => {
       labels: labelsChart,
       datasets: [
         {
-          label: "Veículos disponíveis",
+          label: "Total",
           data: dataChart,
           borderWidth: 1,
           backgroundColor: [
@@ -1168,6 +1298,14 @@ const chartVeiculosDisponiveis = () => {
           borderColor: "#000",
         },
       ],
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: "Total de veículos na frota",
+        },
+      },
     },
   });
 };
@@ -1187,7 +1325,7 @@ const chartTotalGastoNoMes = () => {
       labels: labelsChart,
       datasets: [
         {
-          label: "Total gasto com manutenção no mês em R$",
+          label: "Total",
           data: dataChart,
           borderWidth: 1,
           borderColor: "#000",
@@ -1196,6 +1334,14 @@ const chartTotalGastoNoMes = () => {
           },
         },
       ],
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: "Total gasto com manutenção no mês em R$",
+        },
+      },
     },
   });
 };
@@ -1208,6 +1354,7 @@ preencherTabelaViagens();
 fetchTabelaVeiculos();
 fetchTabelaMotorista();
 fetchTabelaManutencao();
+fetchTabelaFuncionaios();
 listarFrotasSelectVeiculo();
 listarMotoristasSelectVeiculo();
 listarMotoristasSelectViagens();
@@ -1221,6 +1368,9 @@ setInterval(() => {
 }, 3000);
 setInterval(() => {
   fetchTabelaMotorista();
+}, 3000);
+setInterval(() => {
+  fetchTabelaFuncionaios();
 }, 3000);
 setInterval(() => {
   fetchTabelaManutencao();
@@ -1240,3 +1390,6 @@ setInterval(() => {
 setInterval(() => {
   listarVeiculosSelectManutencao();
 }, 3000);
+setInterval(() => {
+  checkUser();
+}, 10000);
