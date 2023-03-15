@@ -11,7 +11,7 @@ const login = () => {
 
     let emailValidado = validarEmail(inpEmail.value)
 
-    console.log(emailValidado)
+    if(!emailValidado) return alert("Email inválido!")
 
     options = {
       method: "POST",
