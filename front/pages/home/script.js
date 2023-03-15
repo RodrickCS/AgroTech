@@ -14,6 +14,7 @@ const uriUpdateManutencao = "http://localhost:3000/manutencoes/update/";
 const uriCreateFuncionario = "http://localhost:3000/funcionarios/registrar";
 const uriGetFuncionarios = "http://localhost:3000/funcionarios/read";
 const uriExcluirFuncionario = "http://localhost:3000/funcionarios/excluir/";
+const uriExcluirViagem = "http://localhost:3000/viagens/excluir/";
 const uriExcluirVeiculo = "http://localhost:3000/veiculos/excluir/";
 const uriVwTabelaManutencao =
   "http://localhost:3000/manutencoes/readvwManutencao";
@@ -218,6 +219,15 @@ const gerenciarFuncionarios = () => {
   document.querySelector(".gerenciarFuncionario").classList.add("model");
 };
 
+const openModalResult = () => {
+  document.querySelector(".modalBlock").classList.remove("model");
+  document.querySelector(".modalResult").classList.remove("model");
+};
+const closeModalResult = () => {
+  document.querySelector(".modalResult").classList.add("model");
+  document.querySelector(".modalBlock").classList.add("model");
+};
+
 const preencherTabelaViagens = () => {
   const options = {
     method: "GET",
@@ -237,9 +247,12 @@ const preencherTabelaViagens = () => {
         const tdDescricao = document.createElement("td");
         const tdHoraSaida = document.createElement("td");
         const tdHoraRetorno = document.createElement("td");
-        const tdButton = document.createElement("td");
+        const tdButtonRetorna = document.createElement("td");
         const btRetorna = document.createElement("button");
         const imgRetorna = document.createElement("img");
+        const tdButtonExcluir = document.createElement("td");
+        const imgExclui = document.createElement("img");
+        const btExclui = document.createElement("button");
 
         imgRetorna.src = "../../assets/check.png";
         imgRetorna.style.width = "30px";
@@ -253,16 +266,56 @@ const preencherTabelaViagens = () => {
           "registrarRetorno('" + data[i].id_viagem + "')"
         );
 
-        tdButton.appendChild(btRetorna);
+        if (data[i].hora_retorno === null) {
+          imgExclui.src = "../../assets/excluirBt.png";
+          imgExclui.style.width = "30px";
+          btExclui.style.width = "100%";
+          btExclui.style.background = "none";
+          btExclui.style.border = "none";
+          btExclui.style.cursor = "pointer";
+          document.querySelector(".textResult").innerHTML =
+            "Motorista ainda não retornou!";
+          btExclui.setAttribute("onclick", "openModalResult()");
+          setTimeout(() => {
+            closeModalResult();
+          }, 2000);
+        } else {
+          imgExclui.src = "../../assets/excluirBt.png";
+          imgExclui.style.width = "30px";
+          btExclui.style.width = "100%";
+          btExclui.style.background = "none";
+          btExclui.style.border = "none";
+          btExclui.style.cursor = "pointer";
+          btExclui.setAttribute(
+            "onclick",
+            "excluirViagem('" + data[i].id_viagem + "')"
+          );
+        }
+
+        tdButtonRetorna.appendChild(btRetorna);
         btRetorna.appendChild(imgRetorna);
+
+        tdButtonExcluir.appendChild(btExclui);
+        btExclui.appendChild(imgExclui);
+
         tr.setAttribute("id", i + 1);
 
         tdViagem.innerHTML = data[i].id_viagem;
-        tdVeiculo.innerHTML = data[i].veiculos.marca;
-        tdPlaca.innerHTML = data[i].veiculos.placa;
         tdDescricao.innerHTML = data[i].descricao;
-        tdNomeMotorista.innerHTML = data[i].motorista.nome;
-        tdHoraSaida.innerHTML = data[i].hora_saida.split("T")[1].split(".")[0];
+
+        if (data[i].veiculos !== null) {
+          tdVeiculo.innerHTML = data[i].veiculos.marca;
+          tdPlaca.innerHTML = data[i].veiculos.placa;
+        } else {
+          tr.innerHTML = "";
+        }
+
+        if (data[i].motorista !== null) {
+          tdNomeMotorista.innerHTML = data[i].motorista.nome;
+          tdHoraSaida.innerHTML = data[i].hora_saida
+            .split("T")[1]
+            .split(".")[0];
+        }
 
         if ((tdHoraRetorno.innerHTML = data[i].hora_retorno == null)) {
           tdHoraRetorno.innerHTML = data[i].hora_retorno;
@@ -281,9 +334,39 @@ const preencherTabelaViagens = () => {
         tr.appendChild(tdDescricao);
         tr.appendChild(tdHoraSaida);
         tr.appendChild(tdHoraRetorno);
-        tr.appendChild(tdButton);
+        tr.appendChild(tdButtonRetorna);
+        tr.appendChild(tdButtonExcluir);
 
         document.querySelector(".conteudoTabelaViagens").appendChild(tr);
+      }
+    });
+};
+
+const excluirViagem = (id) => {
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
+    },
+  };
+  fetch(uriExcluirViagem + id, options)
+    .then((resp) => {
+      return resp.status;
+    })
+    .then((data) => {
+      if (data === 204) {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Viagem excluída!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
+      } else {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Ocorreu um erro!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
       }
     });
 };
@@ -336,7 +419,9 @@ const preencherTabelaVeiculos = () => {
     tdCor.innerHTML = dadosVeiculo[i].cor;
     tdDisponibilidade.innerHTML =
       dadosVeiculo[i].disponivel === true ? "Disponível" : "Indisponível";
-    tdMotorista.innerHTML = dadosVeiculo[i].motorista.nome;
+    if (dadosVeiculo[i].motorista !== null) {
+      tdMotorista.innerHTML = dadosVeiculo[i].motorista.nome;
+    }
 
     tr.appendChild(tdIdVeiculo);
     tr.appendChild(tdIdFrota);
@@ -561,10 +646,22 @@ const excluirVeiculo = (id) => {
   };
   fetch(uriExcluirVeiculo + id, options)
     .then((resp) => {
-      return resp.json();
+      return resp.status;
     })
     .then((data) => {
-      console.log(data);
+      if (data == 204) {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Veículo excluído!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
+      } else {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Ocorreu um erro!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
+      }
     });
 };
 
@@ -578,10 +675,23 @@ const excluirFunc = (id) => {
   };
   fetch(uriExcluirFuncionario + id, options)
     .then((resp) => {
-      return resp.json();
+      return resp.status;
     })
     .then((data) => {
-      console.log(data);
+      if (data == 204) {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML =
+          "Funcionário excluído!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
+      } else {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Ocorreu um erro!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
+      }
     });
 };
 
@@ -595,10 +705,23 @@ const updateManutencao = (id) => {
   };
   fetch(uriUpdateManutencao + id, options)
     .then((res) => {
-      return res.json();
+      return res.status;
     })
     .then((data) => {
-      console.log(data);
+      if (data == 200) {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML =
+          "Manutenção finalizada!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
+      } else {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Ocorreu um erro!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
+      }
     });
 };
 
@@ -612,10 +735,22 @@ const excluirMotorista = (id) => {
   };
   fetch(uriExcluirMotorista + id, options)
     .then((resp) => {
-      return resp.json();
+      return resp.status;
     })
     .then((data) => {
-      console.log(data);
+      if (data == 204) {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Motorista excluído!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
+      } else {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Ocorreu um erro!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
+      }
     });
 };
 
@@ -634,24 +769,25 @@ const criarFrota = () => {
       body: JSON.stringify(form),
     };
 
-    try {
-      fetch(uriCreateFrotas, options)
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          if (data.id_frota) {
-            alert("Criado");
-            window.location.reload();
-          } else {
-            alert("Falha, Não autorizado");
-          }
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  } else {
-    alert("Preencha o campo Tipo de frota");
+    fetch(uriCreateFrotas, options)
+      .then((res) => {
+        return res.status;
+      })
+      .then((data) => {
+        if (data == 201) {
+          openModalResult();
+          document.querySelector(".textResult").innerHTML = "Frota criada!";
+          setTimeout(() => {
+            closeModalResult();
+          }, 2000);
+        } else {
+          openModalResult();
+          document.querySelector(".textResult").innerHTML = "Ocorreu um erro!";
+          setTimeout(() => {
+            closeModalResult();
+          }, 2000);
+        }
+      });
   }
 };
 
@@ -836,13 +972,21 @@ const regisTrarViagem = () => {
   };
   fetch(uriCreateViagem, options)
     .then((res) => {
-      return res.json();
+      return res.status;
     })
     .then((data) => {
-      if (data.code === "P2009") {
-        alert("Erro dados faltando");
+      if (data == 201) {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Viagem registrada!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
       } else {
-        alert("Registrado");
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Ocorreu um erro!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
       }
     });
 };
@@ -857,10 +1001,22 @@ const registrarRetorno = (id) => {
   };
   fetch(uriViagemRetorno + id, options)
     .then((res) => {
-      return res.json();
+      return res.status;
     })
     .then((data) => {
-      console.log(data);
+      if (data == 200) {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Motorista retornou!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
+      } else {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Ocorreu um erro!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
+      }
     });
 };
 
@@ -897,14 +1053,31 @@ const adicionarVeiculo = () => {
 
       fetch(uriCreateVeiculos, options)
         .then((res) => {
-          return res.json();
+          return res.status;
         })
         .then((data) => {
-          console.log(data);
-          viewFrotas();
+          if (data == 201) {
+            openModalResult();
+            document.querySelector(".textResult").innerHTML =
+              "Veículo registrado!";
+            setTimeout(() => {
+              closeModalResult();
+            }, 2000);
+          } else {
+            openModalResult();
+            document.querySelector(".textResult").innerHTML =
+              "Ocorreu um erro!";
+            setTimeout(() => {
+              closeModalResult();
+            }, 2000);
+          }
         });
     } else {
-      alert("Placa inválida");
+      openModalResult();
+      document.querySelector(".textResult").innerHTML = "Placa inválida!";
+      setTimeout(() => {
+        closeModalResult();
+      }, 2000);
     }
   else {
     alert("Preencha todos os campos");
@@ -917,41 +1090,82 @@ const adicionarMotorista = () => {
   let inpCpfMotorista = document.querySelector("#inpCpfMotorista");
   let inpCnhMotorista = document.querySelector("#inpCnhMotorista");
   let inpEnderecoMotorista = document.querySelector("#inpEnderecoMotorista");
+  if (
+    inpNome.value !== "" &&
+    inpTelefoneMotorista.value !== "" &&
+    inpCnhMotorista.value !== "" &&
+    inpCpfMotorista.value !== "" &&
+    inpEnderecoMotorista.value !== ""
+  ) {
+    let telefoneValidado = validarTelefone(inpTelefoneMotorista.value);
+    let cpfValidado = validarCPF(inpCpfMotorista.value);
+    let cnhValidado = validarCNH(inpCnhMotorista.value);
 
-  let telefoneValidado = validarTelefone(inpTelefoneMotorista.value);
-  let cpfValidado = validarCPF(inpCpfMotorista.value);
-  let cnhValidado = validarCNH(inpCnhMotorista.value);
+    if (telefoneValidado === false) {
+      openModalResult();
+      document.querySelector(".textResult").innerHTML = "Telefone inválido!";
+      setTimeout(() => {
+        closeModalResult();
+      }, 2000);
+    }
+    if (cpfValidado === false) {
+      openModalResult();
+      document.querySelector(".textResult").innerHTML = "CPF inválido!";
+      setTimeout(() => {
+        closeModalResult();
+      }, 2000);
+    }
+    if (cnhValidado === false) {
+      openModalResult();
+      document.querySelector(".textResult").innerHTML = "CNH inválido!";
+      setTimeout(() => {
+        closeModalResult();
+      }, 2000);
+    }
+    let form = {
+      nome: inpNome.value,
+      telefone: inpTelefoneMotorista.value,
+      cpf: inpCpfMotorista.value,
+      cnh: inpCnhMotorista.value,
+      endereco: inpEnderecoMotorista.value,
+    };
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
+      },
+      body: JSON.stringify(form),
+    };
 
-  if (!telefoneValidado) return alert("Telefone Inválido");
-  if (!cpfValidado) return alert("CPF Inválido");
-  if (!cnhValidado) return alert("CNH Inválido");
-  let form = {
-    nome: inpNome.value,
-    telefone: inpTelefoneMotorista.value,
-    cpf: inpCpfMotorista.value,
-    cnh: inpCnhMotorista.value,
-    endereco: inpEnderecoMotorista.value,
-  };
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: "Bearer " + localStorage.getItem("token").split('"')[1],
-    },
-    body: JSON.stringify(form),
-  };
-
-  fetch(uriCreateMotorista, options)
-    .then((resp) => {
-      return resp.json();
-    })
-    .then((data) => {
-      if (data.msg) {
-        alert(data.msg);
-      } else {
-        console.log(data);
-      }
-    });
+    fetch(uriCreateMotorista, options)
+      .then((resp) => {
+        return resp.status;
+      })
+      .then((data) => {
+        if (data == 201) {
+          openModalResult();
+          document.querySelector(".textResult").innerHTML =
+            "Motorista registrado!";
+          setTimeout(() => {
+            closeModalResult();
+          }, 2000);
+        } else {
+          openModalResult();
+          document.querySelector(".textResult").innerHTML = "Ocorreu um erro!";
+          setTimeout(() => {
+            closeModalResult();
+          }, 2000);
+        }
+      });
+  } else {
+    openModalResult();
+    document.querySelector(".textResult").innerHTML =
+      "Preencha todos os campos!";
+    setTimeout(() => {
+      closeModalResult();
+    }, 2000);
+  }
 };
 
 const adicionarManutencao = () => {
@@ -978,7 +1192,20 @@ const adicionarManutencao = () => {
       return resp.status;
     })
     .then((data) => {
-      console.log(data);
+      if (data == 201) {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML =
+          "Manutenção registrada!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
+      } else {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Ocorreu um erro!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
+      }
     });
 };
 
@@ -998,11 +1225,22 @@ const adicionarFuncionario = () => {
     endereco: inpFuncEndereco.value,
   };
   console.log(form);
-  if (validarCPF(inpFuncCpf.value) === false) return alert("CPF inválido");
-  if (validarEmail(inpFuncEmail.value) === "Inválido")
-    return alert("E-mail inválido");
+  if (validarCPF(inpFuncCpf.value) === false) return openModalResult();
+  document.querySelector(".textResult").innerHTML = "CPF inválido!";
+  setTimeout(() => {
+    closeModalResult();
+  }, 2000);
+  if (validarEmail(inpFuncEmail.value) === "Inválido") return openModalResult();
+  document.querySelector(".textResult").innerHTML = "Email inválido!";
+  setTimeout(() => {
+    closeModalResult();
+  }, 2000);
   if (validarTelefone(inpFuncTelefone.value) === false)
-    return alert("Telefone inválido");
+    return openModalResult();
+  document.querySelector(".textResult").innerHTML = "Telefone inválido!";
+  setTimeout(() => {
+    closeModalResult();
+  }, 2000);
   if (document.getElementById("checkboxGerenciador").checked) {
     form.role = "Gerenciador";
   }
@@ -1016,13 +1254,22 @@ const adicionarFuncionario = () => {
   };
   fetch(uriCreateFuncionario, options)
     .then((resp) => {
-      return resp.json();
+      return resp.status;
     })
     .then((data) => {
-      if (data.msg === "Registrado") {
-        alert(data.msg);
+      if (data == 201) {
+        openModalResult();
+        document.querySelector(".textResult").innerHTML =
+          "Funcionário(a) registrado(a)!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
       } else {
-        alert(data.msg);
+        openModalResult();
+        document.querySelector(".textResult").innerHTML = "Ocorreu um erro!";
+        setTimeout(() => {
+          closeModalResult();
+        }, 2000);
       }
     });
 };

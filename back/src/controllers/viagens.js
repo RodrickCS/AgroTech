@@ -109,4 +109,21 @@ const updateChegou = async (req, res) => {
   }
 };
 
-module.exports = { read, create, updateChegou };
+const excluir = async (req, res) => {
+  try {
+    let veiculo = await prisma.viagens.delete({
+      where: {
+        id_viagem: Number(req.params.id_viagem),
+      },
+    });
+    res.status(204).json({ msg: "excluído" }).end();
+  } catch (err) {
+    if (err.code === "P2025") {
+      res.status(404).json({ msg: "Viagem não encontrado" }).end();
+    } else {
+      res.status(500).json(err).end();
+    }
+  }
+};
+
+module.exports = { read, create, updateChegou, excluir };

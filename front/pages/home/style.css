@@ -543,3 +543,27 @@ tbody {
   border: 10px solid #f8ffa6;
   background-color: #eef78b;
 }
+
+.modalResult {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  width: 30%;
+  height: 30%;
+  background-color: #007f5f;
+}
+
+.modalBlock{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #0000005b;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
