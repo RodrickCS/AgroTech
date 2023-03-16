@@ -11,16 +11,16 @@ const create = async (req, res) => {
       });
       res.status(201).json(veiculo).end();
     } else {
-      res.status(400).json({ msg: "Formulário inválido, campos faltando" }).end();
+      res
+        .status(400)
+        .json({ msg: "Formulário inválido, campos faltando" })
+        .end();
     }
   } catch (err) {
     if (err.code === "P2003") {
       res
         .status(400)
-        .json([
-          { msg: "Veículo não existe verifique o id" },
-          { erro: err },
-        ])
+        .json([{ msg: "Veículo não existe verifique o id" }, { erro: err }])
         .end();
     } else {
       res.status(500).json(err).end();
@@ -54,8 +54,8 @@ const excluir = async (req, res) => {
   try {
     let veiculo = await prisma.veiculos.delete({
       where: {
-        id_veiculo: Number(req.params.id_veiculo)
-      }
+        id_veiculo: Number(req.params.id_veiculo),
+      },
     });
     res.status(204).json({ msg: "excluido" }).end();
   } catch (err) {
@@ -67,8 +67,20 @@ const excluir = async (req, res) => {
   }
 };
 
+const vw_viagensMobile = async (req, res) => {
+  try {
+    let veiculo =
+      await prisma.$queryRaw`SELECT ve.marca, ve.placa, mo.nome, vi.descricao, vi.hora_saida, vi.hora_retorno FROM Viagens vi INNER JOIN Veiculos ve ON vi.id_veiculo = ve.id_veiculo INNER JOIN Motoristas mo ON vi.id_motorista = mo.id_motorista WHERE vi.hora_retorno IS NULL`;
+
+    res.status(200).json(veiculo);
+  } catch (err) {
+    res.status(500).json(err).end();
+  }
+};
+
 module.exports = {
   create,
   readAll,
-  excluir
+  excluir,
+  vw_viagensMobile,
 };

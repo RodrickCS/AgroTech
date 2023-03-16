@@ -7,7 +7,7 @@ const uriGetViagens = "http://localhost:3000/viagens/read";
 const uriViagemRetorno = "http://localhost:3000/viagens/update/";
 const uriCreateVeiculos = "http://localhost:3000/veiculos/create";
 const uriCreateMotorista = "http://localhost:3000/motoristas/create";
-const uriVwGastoPorMes = "http://localhost:3000/manutencoes/readvw";
+const uriVwGastoPorMes = "http://localhost:3000/manutencoes/readvwg";
 const uriExcluirMotorista = "http://localhost:3000/motoristas/excluir/";
 const uriCreateManutencao = "http://localhost:3000/manutencoes/create";
 const uriUpdateManutencao = "http://localhost:3000/manutencoes/update/";
@@ -17,7 +17,7 @@ const uriExcluirFuncionario = "http://localhost:3000/funcionarios/excluir/";
 const uriExcluirViagem = "http://localhost:3000/viagens/excluir/";
 const uriExcluirVeiculo = "http://localhost:3000/veiculos/excluir/";
 const uriVwTabelaManutencao =
-  "http://localhost:3000/manutencoes/readvwManutencao";
+  "http://localhost:3000/manutencoes/readvwm";
 
 var dadosVeiculo = [];
 var dadosChartManutencao = [];
@@ -31,385 +31,6 @@ const FECHAR_MODAL_TIMEOUT = 2000;
 
 const card = document.querySelector(".card");
 const cardToggle = document.querySelector(".toggle");
-
-listarFrotas();
-chartManutencaoGetData();
-chartVeiculosDisponiveisGetData();
-chartGastoPorMesGetData();
-preencherTabelaViagens();
-fetchTabelaVeiculos();
-fetchTabelaMotorista();
-fetchTabelaManutencao();
-fetchTabelaFuncionaios();
-listarFrotasSelectVeiculo();
-listarMotoristasSelectVeiculo();
-listarMotoristasSelectViagens();
-listarVeiculosSelectViagens();
-listarVeiculosSelectManutencao();
-setInterval(() => {
-  preencherTabelaViagens();
-}, 3000);
-setInterval(() => {
-  fetchTabelaVeiculos();
-}, 3000);
-setInterval(() => {
-  fetchTabelaMotorista();
-}, 3000);
-setInterval(() => {
-  fetchTabelaFuncionaios();
-}, 3000);
-setInterval(() => {
-  fetchTabelaManutencao();
-}, 3000);
-setInterval(() => {
-  listarFrotasSelectVeiculo();
-}, 3000);
-setInterval(() => {
-  listarMotoristasSelectVeiculo();
-}, 3000);
-setInterval(() => {
-  listarMotoristasSelectViagens();
-}, 3000);
-setInterval(() => {
-  listarVeiculosSelectViagens();
-}, 3000);
-setInterval(() => {
-  listarVeiculosSelectManutencao();
-}, 3000);
-setInterval(() => {
-  checkUser();
-}, 10000);
-
-const activeCard = (card) => {
-  card.parentNode.classList.toggle("active");
-};
-
-const checkUser = () => {
-  document.querySelector("#nomeUser").innerHTML = localStorage
-    .getItem("nome")
-    .split('"')[1];
-  document.querySelector("#nomeUser").style.color = "white";
-  document.querySelector("#nomeUser").style.fontSize = "30px";
-
-  let role = localStorage.getItem("role");
-
-  if (role === '"Comum"') {
-    console.log(localStorage.getItem("nome"));
-
-    document.querySelector(".leftNavbar").classList.add("model");
-    document.querySelector(".btLogoutTop").classList.remove("model");
-  }
-  if (localStorage.getItem("token") !== null) {
-    const tokenJWT = localStorage.getItem("token").split('"')[1];
-
-    try {
-      const payload = JSON.parse(atob(tokenJWT.split(".")[1]));
-      const expiracao = payload.exp;
-      const agora = Math.floor(Date.now() / 1000);
-
-      if (agora >= expiracao) {
-        logout();
-        return false;
-      }
-
-      return true;
-    } catch (err) {
-      logout();
-      return false;
-    }
-  } else {
-    window.location.href = "../login/index.html";
-  }
-};
-
-const getMonthName = (monthNumber) => {
-  const date = new Date();
-  date.setMonth(monthNumber - 1);
-
-  return date.toLocaleString("pt-BR", { month: "long" });
-};
-
-const validarEmail = (email) => {
-  regexEmail =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(.*))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if (regexEmail.test(email)) {
-    console.log("Válido");
-  } else {
-    console.log("Inválido");
-  }
-};
-
-const validarPlaca = (placa) => {
-  var resposta = "placa inválida";
-  const regexPlaca = /^([A-Z]{3}\-\d{4})|([A-Z]{3}\d{4})$/;
-  const regexPlacaMercosul =
-    /^([A-Z]{3}\-\d{1}[A-Z]{1}\d{2})|([A-Z]{3}\d{1}[A-Z]{1}\d{2})|([A-Z]{3}\d{2}[A-Z]{1})$/;
-  if (regexPlaca.test(placa)) {
-    resposta = "Placa válida no formato atual";
-  }
-  if (regexPlacaMercosul.test(placa)) {
-    resposta = "Placa válida padrão Mercosul";
-  }
-  return resposta;
-};
-
-const validarTelefone = (telefone) => {
-  var resposta = false;
-  const regexTelefone =
-    /^(\+55)?\s?(?:\(?(?:0?[1-9][1-9]|[1-9][0-9])\)?\s?)?(?:9[1-9][0-9]{3}\-?[0-9]{4})$/;
-  if (regexTelefone.test(telefone)) {
-    resposta = true;
-  }
-  return resposta;
-};
-
-const validarCNH = (cnh) => {
-  var char1 = cnh.charAt(0);
-
-  if (cnh.replace(/[^\d]/g, "").length !== 11 || char1.repeat(11) === cnh) {
-    return false;
-  }
-
-  for (var i = 0, j = 9, v = 0; i < 9; ++i, --j) {
-    v += +(cnh.charAt(i) * j);
-  }
-
-  var dsc = 0,
-    vl1 = v % 11;
-
-  if (vl1 >= 10) {
-    vl1 = 0;
-    dsc = 2;
-  }
-
-  for (i = 0, j = 1, v = 0; i < 9; ++i, ++j) {
-    v += +(cnh.charAt(i) * j);
-  }
-
-  var x = v % 11;
-  var vl2 = x >= 10 ? 0 : x - dsc;
-
-  return "" + vl1 + vl2 === cnh.substr(-2);
-};
-
-const validarCPF = (cpf) => {
-  cpf = cpf.replace(/[^\d]+/g, "");
-  if (cpf == "") return false;
-
-  if (
-    cpf.length != 11 ||
-    cpf == "00000000000" ||
-    cpf == "11111111111" ||
-    cpf == "22222222222" ||
-    cpf == "33333333333" ||
-    cpf == "44444444444" ||
-    cpf == "55555555555" ||
-    cpf == "66666666666" ||
-    cpf == "77777777777" ||
-    cpf == "88888888888" ||
-    cpf == "99999999999"
-  )
-    return false;
-
-  add = 0;
-  for (i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
-  rev = 11 - (add % 11);
-  if (rev == 10 || rev == 11) rev = 0;
-  if (rev != parseInt(cpf.charAt(9))) return false;
-
-  add = 0;
-  for (i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
-  rev = 11 - (add % 11);
-  if (rev == 10 || rev == 11) rev = 0;
-  if (rev != parseInt(cpf.charAt(10))) return false;
-  return true;
-};
-
-const logout = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("role");
-  window.location.href = "../Login/index.html";
-};
-
-const chartManutencaoGetData = () => {
-  const options = {
-    method: "GET",
-  };
-
-  fetch(uriGetVeiculos, options)
-    .then((resp) => {
-      return resp.json();
-    })
-    .then((data) => {
-      dadosChartManutencao = data;
-      chartManutencaoVeiculo();
-    });
-};
-
-const chartGastoPorMesGetData = () => {
-  const options = {
-    method: "GET",
-  };
-  fetch(uriVwGastoPorMes, options)
-    .then((resp) => {
-      return resp.json();
-    })
-    .then((data) => {
-      dadosGastoPorMes = data;
-      chartTotalGastoNoMes();
-    });
-};
-
-const chartVeiculosDisponiveisGetData = () => {
-  const options = {
-    method: "GET",
-  };
-
-  fetch(uriGetFrotas, options)
-    .then((resp) => {
-      return resp.json();
-    })
-    .then((data) => {
-      dadosChartVeiculosDisponiveis = data;
-      chartVeiculosDisponiveis();
-    });
-};
-
-const chartManutencaoVeiculo = () => {
-  const ctx = document.getElementById("manutencaoVeiculoChart");
-  var labelsChart = [];
-  var dataChart = [];
-
-  for (let i = 0; i < dadosChartManutencao.length; i++) {
-    labelsChart.push(
-      dadosChartManutencao[i].marca + " " + dadosChartManutencao[i].placa
-    );
-    dataChart.push(
-      dadosChartManutencao[i].manutencoes.length === 0
-        ? 0
-        : dadosChartManutencao[i].manutencoes.length
-    );
-  }
-
-  new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: labelsChart,
-      datasets: [
-        {
-          label: "Qtd.",
-          data: dataChart,
-          borderWidth: 1,
-          backgroundColor: "#007f5f",
-          borderColor: "#000",
-        },
-      ],
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            stepSize: 1,
-          },
-        },
-      },
-      plugins: {
-        title: {
-          display: true,
-          text: "Quantidade de manutençoes de um veículo",
-        },
-      },
-    },
-  });
-};
-
-const chartVeiculosDisponiveis = () => {
-  const ctx = document.getElementById("veiculosDisponiveisChart");
-  var labelsChart = [];
-  var dataChart = [];
-
-  for (let i = 0; i < dadosChartVeiculosDisponiveis.length; i++) {
-    labelsChart.push(dadosChartVeiculosDisponiveis[i].tipo);
-    dataChart.push(dadosChartVeiculosDisponiveis[i].veiculos.length);
-  }
-
-  new Chart(ctx, {
-    type: "pie",
-    data: {
-      labels: labelsChart,
-      datasets: [
-        {
-          label: "Total",
-          data: dataChart,
-          borderWidth: 1,
-          backgroundColor: [
-            "#007f5f",
-            "#80b918",
-            "#aacc00",
-            "#d3d70063",
-            "#379237",
-            "#54B435",
-            "#82CD47",
-          ],
-          borderColor: "#000",
-        },
-      ],
-    },
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: "Total de veículos na frota",
-        },
-      },
-    },
-  });
-};
-
-const chartTotalGastoNoMes = () => {
-  const ctx = document.getElementById("gastoPorMes");
-  var labelsChart = [];
-  var dataChart = [];
-
-  for (let i = 0; i < dadosGastoPorMes.length; i++) {
-    labelsChart.push(getMonthName(dadosGastoPorMes[i].mes));
-    dataChart.push(dadosGastoPorMes[i].total);
-  }
-  new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: labelsChart,
-      datasets: [
-        {
-          label: "Total",
-          data: dataChart,
-          borderWidth: 1,
-          borderColor: "#000",
-          ticks: {
-            stepSize: 1,
-          },
-        },
-      ],
-    },
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: "Total gasto com manutenção no mês em R$",
-        },
-      },
-    },
-  });
-};
-
-const exibirMensagem = (mensagem) => {
-  openModalResult();
-  document.querySelector(".textResult").innerHTML = mensagem;
-  setTimeout(() => {
-    closeModalResult();
-  }, FECHAR_MODAL_TIMEOUT);
-};
 
 const openFrotasEditor = () => {
   document.querySelector(".frotaMain").classList.remove("model");
@@ -1392,8 +1013,8 @@ const validarCamposDeEntradaMoto = (form) => {
     return false;
   }
 
-  if (!validarCNH(form.email)) {
-    exibirMensagem("Email inválido!");
+  if (!validarCNH(form.cnh)) {
+    exibirMensagem("CNH inválido!");
     return false;
   }
 
@@ -1544,3 +1165,382 @@ const adicionarFuncionario = () => {
       });
   }
 };
+
+const activeCard = (card) => {
+  card.parentNode.classList.toggle("active");
+};
+
+const checkUser = () => {
+  document.querySelector("#nomeUser").innerHTML = localStorage
+    .getItem("nome")
+    .split('"')[1];
+  document.querySelector("#nomeUser").style.color = "white";
+  document.querySelector("#nomeUser").style.fontSize = "30px";
+
+  let role = localStorage.getItem("role");
+
+  if (role === '"Comum"') {
+    console.log(localStorage.getItem("nome"));
+
+    document.querySelector(".leftNavbar").classList.add("model");
+    document.querySelector(".btLogoutTop").classList.remove("model");
+  }
+  if (localStorage.getItem("token") !== null) {
+    const tokenJWT = localStorage.getItem("token").split('"')[1];
+
+    try {
+      const payload = JSON.parse(atob(tokenJWT.split(".")[1]));
+      const expiracao = payload.exp;
+      const agora = Math.floor(Date.now() / 1000);
+
+      if (agora >= expiracao) {
+        logout();
+        return false;
+      }
+
+      return true;
+    } catch (err) {
+      logout();
+      return false;
+    }
+  } else {
+    window.location.href = "../login/index.html";
+  }
+};
+
+const getMonthName = (monthNumber) => {
+  const date = new Date();
+  date.setMonth(monthNumber - 1);
+
+  return date.toLocaleString("pt-BR", { month: "long" });
+};
+
+const validarEmail = (email) => {
+  regexEmail =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(.*))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (regexEmail.test(email)) {
+    console.log("Válido");
+  } else {
+    console.log("Inválido");
+  }
+};
+
+const validarPlaca = (placa) => {
+  var resposta = "placa inválida";
+  const regexPlaca = /^([A-Z]{3}\-\d{4})|([A-Z]{3}\d{4})$/;
+  const regexPlacaMercosul =
+    /^([A-Z]{3}\-\d{1}[A-Z]{1}\d{2})|([A-Z]{3}\d{1}[A-Z]{1}\d{2})|([A-Z]{3}\d{2}[A-Z]{1})$/;
+  if (regexPlaca.test(placa)) {
+    resposta = "Placa válida no formato atual";
+  }
+  if (regexPlacaMercosul.test(placa)) {
+    resposta = "Placa válida padrão Mercosul";
+  }
+  return resposta;
+};
+
+const validarTelefone = (telefone) => {
+  var resposta = false;
+  const regexTelefone =
+    /^(\+55)?\s?(?:\(?(?:0?[1-9][1-9]|[1-9][0-9])\)?\s?)?(?:9[1-9][0-9]{3}\-?[0-9]{4})$/;
+  if (regexTelefone.test(telefone)) {
+    resposta = true;
+  }
+  return resposta;
+};
+
+const validarCNH = (cnh) => {
+  var char1 = cnh.charAt(0);
+
+  if (cnh.replace(/[^\d]/g, "").length !== 11 || char1.repeat(11) === cnh) {
+    return false;
+  }
+
+  for (var i = 0, j = 9, v = 0; i < 9; ++i, --j) {
+    v += +(cnh.charAt(i) * j);
+  }
+
+  var dsc = 0,
+    vl1 = v % 11;
+
+  if (vl1 >= 10) {
+    vl1 = 0;
+    dsc = 2;
+  }
+
+  for (i = 0, j = 1, v = 0; i < 9; ++i, ++j) {
+    v += +(cnh.charAt(i) * j);
+  }
+
+  var x = v % 11;
+  var vl2 = x >= 10 ? 0 : x - dsc;
+
+  return "" + vl1 + vl2 === cnh.substr(-2);
+};
+
+const validarCPF = (cpf) => {
+  cpf = cpf.replace(/[^\d]+/g, "");
+  if (cpf == "") return false;
+
+  if (
+    cpf.length != 11 ||
+    cpf == "00000000000" ||
+    cpf == "11111111111" ||
+    cpf == "22222222222" ||
+    cpf == "33333333333" ||
+    cpf == "44444444444" ||
+    cpf == "55555555555" ||
+    cpf == "66666666666" ||
+    cpf == "77777777777" ||
+    cpf == "88888888888" ||
+    cpf == "99999999999"
+  )
+    return false;
+
+  add = 0;
+  for (i = 0; i < 9; i++) add += parseInt(cpf.charAt(i)) * (10 - i);
+  rev = 11 - (add % 11);
+  if (rev == 10 || rev == 11) rev = 0;
+  if (rev != parseInt(cpf.charAt(9))) return false;
+
+  add = 0;
+  for (i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i);
+  rev = 11 - (add % 11);
+  if (rev == 10 || rev == 11) rev = 0;
+  if (rev != parseInt(cpf.charAt(10))) return false;
+  return true;
+};
+
+const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  window.location.href = "../Login/index.html";
+};
+
+const chartManutencaoGetData = () => {
+  const options = {
+    method: "GET",
+  };
+
+  fetch(uriGetVeiculos, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      dadosChartManutencao = data;
+      chartManutencaoVeiculo();
+    });
+};
+
+const chartGastoPorMesGetData = () => {
+  const options = {
+    method: "GET",
+  };
+  fetch(uriVwGastoPorMes, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      dadosGastoPorMes = data;
+      chartTotalGastoNoMes();
+    });
+};
+
+const chartVeiculosDisponiveisGetData = () => {
+  const options = {
+    method: "GET",
+  };
+
+  fetch(uriGetFrotas, options)
+    .then((resp) => {
+      return resp.json();
+    })
+    .then((data) => {
+      dadosChartVeiculosDisponiveis = data;
+      chartVeiculosDisponiveis();
+    });
+};
+
+const chartManutencaoVeiculo = () => {
+  const ctx = document.getElementById("manutencaoVeiculoChart");
+  var labelsChart = [];
+  var dataChart = [];
+
+  for (let i = 0; i < dadosChartManutencao.length; i++) {
+    labelsChart.push(
+      dadosChartManutencao[i].marca + " " + dadosChartManutencao[i].placa
+    );
+    dataChart.push(
+      dadosChartManutencao[i].manutencoes.length === 0
+        ? 0
+        : dadosChartManutencao[i].manutencoes.length
+    );
+  }
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labelsChart,
+      datasets: [
+        {
+          label: "Qtd.",
+          data: dataChart,
+          borderWidth: 1,
+          backgroundColor: "#007f5f",
+          borderColor: "#000",
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1,
+          },
+        },
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: "Quantidade de manutençoes de um veículo",
+        },
+      },
+    },
+  });
+};
+
+const chartVeiculosDisponiveis = () => {
+  const ctx = document.getElementById("veiculosDisponiveisChart");
+  var labelsChart = [];
+  var dataChart = [];
+
+  for (let i = 0; i < dadosChartVeiculosDisponiveis.length; i++) {
+    labelsChart.push(dadosChartVeiculosDisponiveis[i].tipo);
+    dataChart.push(dadosChartVeiculosDisponiveis[i].veiculos.length);
+  }
+
+  new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: labelsChart,
+      datasets: [
+        {
+          label: "Total",
+          data: dataChart,
+          borderWidth: 1,
+          backgroundColor: [
+            "#007f5f",
+            "#80b918",
+            "#aacc00",
+            "#d3d70063",
+            "#379237",
+            "#54B435",
+            "#82CD47",
+          ],
+          borderColor: "#000",
+        },
+      ],
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: "Total de veículos na frota",
+        },
+      },
+    },
+  });
+};
+
+const chartTotalGastoNoMes = () => {
+  const ctx = document.getElementById("gastoPorMes");
+  var labelsChart = [];
+  var dataChart = [];
+
+  for (let i = 0; i < dadosGastoPorMes.length; i++) {
+    labelsChart.push(getMonthName(dadosGastoPorMes[i].mes));
+    dataChart.push(dadosGastoPorMes[i].total);
+  }
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: labelsChart,
+      datasets: [
+        {
+          label: "Total",
+          data: dataChart,
+          borderWidth: 1,
+          borderColor: "#000",
+          ticks: {
+            stepSize: 1,
+          },
+        },
+      ],
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: "Total gasto com manutenção no mês em R$",
+        },
+      },
+    },
+  });
+};
+
+const exibirMensagem = (mensagem) => {
+  openModalResult();
+  document.querySelector(".textResult").innerHTML = mensagem;
+  setTimeout(() => {
+    closeModalResult();
+  }, FECHAR_MODAL_TIMEOUT);
+};
+
+listarFrotas();
+chartManutencaoGetData();
+chartVeiculosDisponiveisGetData();
+chartGastoPorMesGetData();
+preencherTabelaViagens();
+fetchTabelaVeiculos();
+fetchTabelaMotorista();
+fetchTabelaManutencao();
+fetchTabelaFuncionaios();
+listarFrotasSelectVeiculo();
+listarMotoristasSelectVeiculo();
+listarMotoristasSelectViagens();
+listarVeiculosSelectViagens();
+listarVeiculosSelectManutencao();
+setInterval(() => {
+  preencherTabelaViagens();
+}, 3000);
+setInterval(() => {
+  fetchTabelaVeiculos();
+}, 3000);
+setInterval(() => {
+  fetchTabelaMotorista();
+}, 3000);
+setInterval(() => {
+  fetchTabelaFuncionaios();
+}, 3000);
+setInterval(() => {
+  fetchTabelaManutencao();
+}, 3000);
+setInterval(() => {
+  listarFrotasSelectVeiculo();
+}, 3000);
+setInterval(() => {
+  listarMotoristasSelectVeiculo();
+}, 3000);
+setInterval(() => {
+  listarMotoristasSelectViagens();
+}, 3000);
+setInterval(() => {
+  listarVeiculosSelectViagens();
+}, 3000);
+setInterval(() => {
+  listarVeiculosSelectManutencao();
+}, 3000);
+setInterval(() => {
+  checkUser();
+}, 10000);

@@ -78,10 +78,22 @@ const vw_gastoNoMes = async (req, res) => {
     res.status(500).json(err).end();
   }
 };
+
 const vw_tableManutencao = async (req, res) => {
   try {
     let manutencao =
       await prisma.$queryRaw`select m.id_manutencao, v.id_veiculo, v.marca, v.placa,m.data_inicio, m.data_fim, m.valor_gasto, m.descricao from Manutencoes m inner join Veiculos v on m.id_veiculo = v.id_veiculo;`;
+
+    res.status(200).json(manutencao);
+  } catch (err) {
+    res.status(500).json(err).end();
+  }
+};
+
+const vw_manutencaoMobile = async (req, res) => {
+  try {
+    let manutencao =
+      await prisma.$queryRaw`SELECT ve.marca, ve.placa, ma.data_inicio, ma.valor_gasto, ma.descricao FROM Manutencoes ma INNER JOIN Veiculos ve on ma.id_veiculo = ve.id_veiculo WHERE ma.data_fim IS NULL`;
 
     res.status(200).json(manutencao);
   } catch (err) {
@@ -94,5 +106,6 @@ module.exports = {
   read,
   update,
   vw_gastoNoMes,
-  vw_tableManutencao
+  vw_tableManutencao,
+  vw_manutencaoMobile,
 };

@@ -7,8 +7,9 @@ const Middleware = require("../middleware/middleware");
 const manutencoes = require("../controllers/manutencoes");
 
 router.get("/read", manutencoes.read);
-router.get("/readvw", manutencoes.vw_gastoNoMes);
-router.get("/readvwManutencao", manutencoes.vw_tableManutencao);
+router.get("/readvwg", manutencoes.vw_gastoNoMes);
+router.get("/readvwmb", manutencoes.vw_manutencaoMobile);
+router.get("/readvwm", manutencoes.vw_tableManutencao);
 router.post("/create", Middleware.validaAcesso, manutencoes.create);
 router.put(
   "/update/:id_manutencao",

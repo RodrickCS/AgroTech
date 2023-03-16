@@ -37,11 +37,11 @@ export default function Login({ navigation }) {
           {dadosVeiculo.map((veiculo, index) => {
             return (
               <View style={styles.card} key={index}>
-                <Logo/>
-                <Text style={{color: "white"}}>{veiculo.id_veiculo}</Text>
-                <Text style={{color: "white"}}>{veiculo.marca}</Text>
-                <Text style={{color: "white"}}>{veiculo.placa}</Text>
-                <Text style={{color: "white"}}>
+                <Logo />
+                <Text style={{ color: "white" }}>{veiculo.id_veiculo}</Text>
+                <Text style={{ color: "white" }}>{veiculo.marca}</Text>
+                <Text style={{ color: "white" }}>{veiculo.placa}</Text>
+                <Text style={{ color: "white" }}>
                   {veiculo.disponivel === true
                     ? (veiculo.disponivel = "Disponível")
                     : (veiculo.disponivel = "Indisponível")}
@@ -60,14 +60,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#007f5f",
     alignItems: "center",
+    padding: "10px",
     gap: "40px",
   },
   veiculosContainer: {
     padding: "30px",
     borderRadius: "12px",
-    marginTop: "12px",
     width: "100%",
-    height: "595px",
+    height: "775px",
     backgroundColor: "#80b918",
   },
   card: {
@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     height: "60px",
-    marginBottom:"10px",
     borderRadius: "12px",
     backgroundColor: "#007f5f",
   },

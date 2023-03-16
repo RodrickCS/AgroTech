@@ -12,16 +12,23 @@ import Logo from "../../components/Logo/logo";
 
 export default function Login({ navigation }) {
   const [dadosVeiculo, setDadosVeiculo] = useState([]);
+  const [dadosManutencao, setDadosManutencao] = useState([]);
 
   useEffect(() => {
-    fetchManutencoes();
+    fetchOperacaoViagem();
     setInterval(() => {
-      fetchManutencoes();
+      fetchOperacaoViagem();
+    }, 15000);
+  }, []);
+  useEffect(() => {
+    fetchOperacaoManutencao();
+    setInterval(() => {
+      fetchOperacaoManutencao();
     }, 15000);
   }, []);
 
-  const fetchManutencoes = () => {
-    fetch("http://localhost:3000/manutencoes/read")
+  const fetchOperacaoViagem = () => {
+    fetch("http://localhost:3000/veiculos/readvw")
       .then((response) => {
         return response.json();
       })
@@ -29,10 +36,22 @@ export default function Login({ navigation }) {
         setDadosVeiculo(data);
       });
   };
+  const fetchOperacaoManutencao = () => {
+    fetch("http://localhost:3000/manutencoes/readvwmb")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setDadosManutencao(data);
+      });
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.veiculosContainer}>
+      <View style={styles.viagensContainer}>
+        <Text style={{ color: "white", marginLeft: "120px", fontSize: "20px" }}>
+          Viajando
+        </Text>
         <ScrollView>
           {dadosVeiculo.map((veiculo, index) => {
             return (
@@ -47,17 +66,57 @@ export default function Login({ navigation }) {
                   <Logo />
                 </View>
                 <View style={styles.cardBody}>
-                  <Text style={{color: "white"}} >id veiculo: {veiculo.id_veiculo}</Text>
-                  <Text style={{color: "white"}} >Descricao: {veiculo.descricao}</Text>
-                  <Text style={{color: "white"}} >Valor gasto: R${veiculo.valor_gasto}</Text>
-                  <Text style={{color: "white"}} >Data início: {veiculo.data_inicio.split("T")[1].split(".")[0]}</Text>
-                  <Text style={{color: "white"}} >
-                    Data fim:
-                    {veiculo.data_fim === null
-                      ? (veiculo.data_fim = " Em andamento")
-                      : " " + veiculo.data_fim.split("T")[1].split(".")[0]}
+                  <Text style={{ color: "white" }}>
+                    Veiculo: {veiculo.marca}
+                  </Text>
+                  <Text style={{ color: "white" }}>Placa: {veiculo.placa}</Text>
+                  <Text style={{ color: "white" }}>Nome: {veiculo.nome}</Text>
+                  <Text style={{ color: "white" }}>
+                    Descrição: {veiculo.descricao}
+                  </Text>
+                  <Text style={{ color: "white" }}>
+                    Hora saida:
+                    {veiculo.hora_saida.split("T")[1].split(".")[0]}
                   </Text>
                 </View>
+              </View>
+            );
+          })}
+        </ScrollView>
+      </View>
+      <View style={styles.manutencaoContainer}>
+        <Text style={{ color: "white", marginLeft: "90px", fontSize: "20px" }}>
+          Em manutenção
+        </Text>
+        <ScrollView>
+          {dadosManutencao.map((manutencao, index) => {
+            console.log(manutencao);
+            return (
+              <View style={styles.card} key={index}>
+                <ScrollView>
+                  <View
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Logo />
+                  </View>
+                  <View style={styles.cardBody}>
+                    <Text style={{ color: "white" }}>
+                      Veiculo: {manutencao.marca}
+                    </Text>
+                    <Text style={{ color: "white" }}>
+                      Placa: {manutencao.placa}
+                    </Text>
+                    <Text style={{ color: "white" }}>Nome: {manutencao.descricao}</Text>
+                    <Text style={{ color: "white" }}>
+                      Hora início:
+                      {manutencao.data_inicio.split("T")[1].split(".")[0]}
+                    </Text>
+                  </View>
+                </ScrollView>
               </View>
             );
           })}
@@ -72,14 +131,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#007f5f",
     alignItems: "center",
-    gap: "40px",
+    padding: "10px",
   },
-  veiculosContainer: {
+  viagensContainer: {
+    padding: "30px",
+    borderRadius: "12px",
+    width: "100%",
+    height: "50%",
+    gap: "10px",
+    backgroundColor: "#80b918",
+  },
+  manutencaoContainer: {
     padding: "30px",
     borderRadius: "12px",
     marginTop: "12px",
     width: "100%",
-    height: "595px",
+    gap: "10px",
+    height: "50%",
     backgroundColor: "#80b918",
   },
   card: {
