@@ -16,7 +16,7 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState("senha1234");
   const [escondeSenha, setEscondeSenha] = useState(true);
 
-  const uriLogin = "http://localhost:3000/funcionarios/login";
+  const uriLogin = "https://agrotech-cloud-production.up.railway.app/funcionarios/login";
 
   function login() {
     const form = {

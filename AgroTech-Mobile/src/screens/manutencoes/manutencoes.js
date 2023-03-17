@@ -28,7 +28,7 @@ export default function Login({ navigation }) {
   }, []);
 
   const fetchOperacaoViagem = () => {
-    fetch("http://localhost:3000/veiculos/readvw")
+    fetch("https://agrotech-cloud-production.up.railway.app/veiculos/readvw")
       .then((response) => {
         return response.json();
       })
@@ -37,7 +37,7 @@ export default function Login({ navigation }) {
       });
   };
   const fetchOperacaoManutencao = () => {
-    fetch("http://localhost:3000/manutencoes/readvwmb")
+    fetch("https://agrotech-cloud-production.up.railway.app/manutencoes/readvwmb")
       .then((response) => {
         return response.json();
       })
