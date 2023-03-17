@@ -21,7 +21,7 @@ export default function Login({ navigation }) {
   }, []);
 
   const fetchVeiculos = () => {
-    fetch("https://agrotech-cloud-production.up.railway.app/veiculos/read")
+    fetch("http://localhost:3000/veiculos/read")
       .then((response) => {
         return response.json();
       })

@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Veiculos from "../../screens/veiculos/veiculos";
-import Manutencoes from "../../screens/manutencoes/manutencoes";
+import Operacoes from "../../screens/operacoes/operacoes";
 
 import { Ionicons } from "@expo/vector-icons";
 
@@ -34,13 +34,13 @@ export default function GerenciamentoTab() {
       />
       <Tab.Screen
         options={{
-          tabBarLabel: "Manutençoes",
+          tabBarLabel: "Operações",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="hammer" color={color} size={size} />
+            <Ionicons name="cog" color={color} size={size} />
           ),
         }}
         name="Manutenções"
-        component={Manutencoes}
+        component={Operacoes}
       />
     </Tab.Navigator>
   );

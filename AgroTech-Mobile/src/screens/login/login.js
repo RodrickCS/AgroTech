@@ -12,11 +12,11 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState("admin@gmail.com");
+  const [email, setEmail] = useState("admin@agrotech.com");
   const [password, setPassword] = useState("senha1234");
   const [escondeSenha, setEscondeSenha] = useState(true);
 
-  const uriLogin = "https://agrotech-cloud-production.up.railway.app/funcionarios/login";
+  const uriLogin = "http://localhost:3000/funcionarios/login";
 
   function login() {
     const form = {
