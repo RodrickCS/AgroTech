@@ -16,8 +16,7 @@ const uriGetFuncionarios = "http://localhost:3000/funcionarios/read";
 const uriExcluirFuncionario = "http://localhost:3000/funcionarios/excluir/";
 const uriExcluirViagem = "http://localhost:3000/viagens/excluir/";
 const uriExcluirVeiculo = "http://localhost:3000/veiculos/excluir/";
-const uriVwTabelaManutencao =
-  "http://localhost:3000/manutencoes/readvwm";
+const uriVwTabelaManutencao = "http://localhost:3000/manutencoes/readvwm";
 
 var dadosVeiculo = [];
 var dadosChartManutencao = [];
@@ -603,10 +602,17 @@ const preencherTabelaFuncionarios = () => {
     button.style.background = "none";
     button.style.border = "none";
     button.style.cursor = "pointer";
-    button.setAttribute(
-      "onclick",
-      `excluirFunc('${dadosTabelaFuncionarios[i].id_funcionario}')`
-    );
+    if (dadosTabelaFuncionarios[i].email === "admin@agrotech.com") {
+      button.setAttribute(
+        "onclick",
+        `exibirMensagem('Este usuário é essencial')`
+      );
+    } else {
+      button.setAttribute(
+        "onclick",
+        `excluirFunc('${dadosTabelaFuncionarios[i].id_funcionario}')`
+      );
+    }
 
     tdIdFuncionario.innerHTML = dadosTabelaFuncionarios[i].id_funcionario;
     tdNomeFunc.innerHTML = dadosTabelaFuncionarios[i].nome;
